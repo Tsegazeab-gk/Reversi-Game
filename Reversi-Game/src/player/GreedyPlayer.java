@@ -1,10 +1,10 @@
 package player;
 
 import game.*;
+import util.BoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GreedyPlayer extends GamePlayer {
 

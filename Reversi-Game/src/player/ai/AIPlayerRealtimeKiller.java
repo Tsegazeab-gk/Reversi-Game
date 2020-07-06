@@ -1,6 +1,10 @@
 package player.ai;
 
-import game.BoardHelper;
+import logic.Evaluator;
+import logic.Minimax;
+import logic.OpeningBook;
+import logic.RealtimeEvaluator;
+import util.BoardHelper;
 import game.GamePlayer;
 
 import java.awt.*;

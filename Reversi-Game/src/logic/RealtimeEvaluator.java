@@ -1,11 +1,11 @@
-package player.ai;
+package logic;
 
-import game.BoardHelper;
+import util.BoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-import static game.BoardHelper.getAllPossibleMoves;
+import static util.BoardHelper.getAllPossibleMoves;
 
 public class RealtimeEvaluator implements Evaluator {
 
