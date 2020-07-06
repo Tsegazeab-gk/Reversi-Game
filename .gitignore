@@ -41,3 +41,15 @@ Thumbs.db
 
 
 node_modules/
+
+
+/bin/Application.class
+/bin/controller/
+/bin/game/
+/bin/model/
+/bin/player/
+/bin/service/
+/bin/ui/
+/bin/util/
+
+/bin/logic/
