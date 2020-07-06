@@ -1,6 +1,7 @@
 package player;
 
 import game.*;
+import util.BoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;

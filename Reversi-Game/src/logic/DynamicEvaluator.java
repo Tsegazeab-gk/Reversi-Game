@@ -1,8 +1,8 @@
-package player.ai;
+package logic;
 
-import game.BoardHelper;
+import util.BoardHelper;
 
-import static player.ai.StaticEvaluator.*;
+import static logic.StaticEvaluator.*;
 
 public class DynamicEvaluator implements Evaluator {
 

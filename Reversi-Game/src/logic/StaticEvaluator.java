@@ -1,6 +1,6 @@
-package player.ai;
+package logic;
 
-import game.BoardHelper;
+import util.BoardHelper;
 
 public class StaticEvaluator implements Evaluator {
 

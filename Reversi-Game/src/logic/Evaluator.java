@@ -1,4 +1,4 @@
-package player.ai;
+package logic;
 
 public interface Evaluator {
 

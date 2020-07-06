@@ -1,6 +1,9 @@
 package player.ai;
 
 import game.GamePlayer;
+import logic.DynamicEvaluator;
+import logic.Evaluator;
+import logic.Minimax;
 
 import java.awt.*;
 

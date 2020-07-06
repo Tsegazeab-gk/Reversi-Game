@@ -1,4 +1,4 @@
-package player.ai;
+package logic;
 
 import java.awt.*;
 import java.util.ArrayList;
