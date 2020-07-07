@@ -1,9 +1,12 @@
 package player.ai;
 
+
 import player.GamePlayer;
 import logic.DynamicEvaluator;
 import logic.Evaluator;
 import logic.Minimax;
+import logic.StatePattern.DynamicEvaluator;
+import logic.StatePattern.Evaluator;
 
 import java.awt.*;
 
