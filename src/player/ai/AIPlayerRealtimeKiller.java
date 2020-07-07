@@ -7,6 +7,8 @@ import logic.RealtimeEvaluator;
 import logic.StatePattern.Evaluator;
 import util.BoardHelper;
 
+import player.GamePlayer;
+
 import java.awt.*;
 import java.util.ArrayList;
 
