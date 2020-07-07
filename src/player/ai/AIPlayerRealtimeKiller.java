@@ -5,7 +5,7 @@ import logic.Minimax;
 import logic.OpeningBook;
 import logic.RealtimeEvaluator;
 import util.BoardHelper;
-import game.GamePlayer;
+import player.GamePlayer;
 
 import java.awt.*;
 import java.util.ArrayList;
