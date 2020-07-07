@@ -1,9 +1,9 @@
 package player.ai;
 
 import game.GamePlayer;
-import logic.Evaluator;
 import logic.Minimax;
 import logic.RealtimeEvaluator;
+import logic.StatePattern.Evaluator;
 
 import java.awt.*;
 

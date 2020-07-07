@@ -1,11 +1,11 @@
 package player.ai;
 
-import logic.Evaluator;
+import game.GamePlayer;
 import logic.Minimax;
 import logic.OpeningBook;
 import logic.RealtimeEvaluator;
+import logic.StatePattern.Evaluator;
 import util.BoardHelper;
-import game.GamePlayer;
 
 import java.awt.*;
 import java.util.ArrayList;
