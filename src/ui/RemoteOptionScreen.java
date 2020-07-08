@@ -42,6 +42,10 @@ public class RemoteOptionScreen extends JPanel {
 		btnNewButton_2.setBounds(136, 5, 81, 25);
 		panel.add(btnNewButton_2);
 
+		JButton btnBack = new JButton("Back");
+		btnBack.setBounds(12, 13, 97, 25);
+		add(btnBack);
+
 	}
 
 }
