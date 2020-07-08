@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Observer {
     private JLabel tscore1;
     private JLabel tscore2;
     private JPanel reversiBoard;
+    private GamePanelController gamePanelController;
 
     public GamePanel(){
 
@@ -82,5 +83,9 @@ public class GamePanel extends JPanel implements Observer {
 //           this.getScore1().setText(s1);
 //        this.getScore2().setText(s2);
 //    }
+    public GamePanelController getController(){
+        return gamePanelController;
+    }
+
 
 }

@@ -1,15 +1,13 @@
 package player;
 
+
+
 import java.awt.*;
 
-public class HumanPlayer extends GamePlayer {
-    private String name = "User";
-    public HumanPlayer(int mark) {
-        super(mark);
-    }
+public class RemotePlayer extends GamePlayer {
 
-    public void setName(String name){
-        this.name = name;
+    public RemotePlayer(int mark) {
+        super(mark);
     }
 
     @Override
@@ -19,7 +17,7 @@ public class HumanPlayer extends GamePlayer {
 
     @Override
     public String playerName() {
-        return this.name ;
+        return "Remote" ;
     }
 
     @Override
