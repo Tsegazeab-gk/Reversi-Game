@@ -37,8 +37,11 @@ public class GameWindowController {
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         gameWindow.pack();
         gameWindow.setVisible(true);
-        gameWindow.setSize(new Dimension(500, 350));
+        gameWindow.setSize(new Dimension(600, 400));
         gameWindow.getContentPane().add(new StartScreen(this));
+        gameWindow.setResizable(false);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        gameWindow.setLocation(dim.width / 2 - gameWindow.getSize().width / 2, dim.height / 2 - gameWindow.getSize().height / 2);
         this.gameWindow = gameWindow;
     }
 

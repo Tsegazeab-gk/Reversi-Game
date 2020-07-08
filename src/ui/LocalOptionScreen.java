@@ -3,9 +3,12 @@ package ui;
 import controller.GameWindowController;
 import models.GameOption;
 import models.Screen;
+import ui.widgets.DefaultButton;
+import util.Utils;
 
 import javax.swing.JPanel;
 import javax.swing.JButton;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 public class LocalOptionScreen extends JPanel {
@@ -15,21 +18,20 @@ public class LocalOptionScreen extends JPanel {
 	 */
 	public LocalOptionScreen(GameWindowController gameWindowController) {
 		setLayout(null);
-		
-		JButton btnNewButton = new JButton("AI vs AI");
-		btnNewButton.setBounds(155, 124, 154, 25);
-		add(btnNewButton);
-		
-		JButton btnNewButton_1 = new JButton("Human vs AI");
-		btnNewButton_1.setBounds(155, 181, 154, 25);
-		add(btnNewButton_1);
-		
-		JButton btnNewButton_2 = new JButton("Human vs Human");
-		btnNewButton_2.setBounds(155, 66, 154, 25);
+
+		JButton btnNewButton_2 = new DefaultButton("Human vs Human", 220, 40);
+		btnNewButton_2.setBounds(200, 100, 154, 25);
 		add(btnNewButton_2);
 
-		JButton btnBack = new JButton("Back");
-		btnBack.setBounds(12, 13, 97, 25);
+		JButton btnNewButton = new DefaultButton("AI vs AI", 220, 40);
+		btnNewButton.setBounds(200, 150, 154, 25);
+		add(btnNewButton);
+		
+		JButton btnNewButton_1 = new DefaultButton("Human vs AI", 220, 40);
+		btnNewButton_1.setBounds(200, 200, 154, 25);
+		add(btnNewButton_1);
+
+		JButton btnBack = FactoryUI.getBackButton();
 		add(btnBack);
 
 		btnNewButton.addActionListener((ActionEvent event)->{
@@ -51,6 +53,12 @@ public class LocalOptionScreen extends JPanel {
 			gameWindowController.changePage(Screen.LOCATION_SETTING);
 		});
 
+	}
+
+	@Override
+	protected void paintComponent(Graphics g) {
+		Image img = Toolkit.getDefaultToolkit().getImage(Utils.getResoursePath("Board.jpg"));
+		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 
 }
