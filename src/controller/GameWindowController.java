@@ -41,7 +41,7 @@ public class GameWindowController {
         gameWindow.pack();
         gameWindow.setVisible(true);
         gameWindow.setSize(new Dimension(600, 400));
-        gameWindow.getContentPane().add(remoteOptionScreen);
+        gameWindow.getContentPane().add(startScreen);
         gameWindow.setResizable(false);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         gameWindow.setLocation(dim.width / 2 - gameWindow.getSize().width / 2, dim.height / 2 - gameWindow.getSize().height / 2);
