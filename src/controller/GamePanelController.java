@@ -4,6 +4,7 @@ import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
 import game.GamePlayer;
+import logic.factory.LevelFactoryImpl;
 import player.HumanPlayer;
 import player.ai.AIPlayerDynamic;
 import player.ai.AIPlayerRealtimeKiller;
@@ -19,8 +20,11 @@ public class GamePanelController implements GameEngine {
     private    BoardCell[][] cells;
     private int turn = 1;
     private int[][] board;
-    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
-    private GamePlayer player2 = new AIPlayerDynamic(2,6);
+
+    private GamePlayer player1 = LevelFactoryImpl.getFactory().createPlayer(1,6,true,"superhard");
+            //new AIPlayerRealtimeKiller(1,6,true);
+    private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
+                    //new AIPlayerDynamic(2,6);
 //    private GamePlayer player1 = new HumanPlayer(1);
 //    private GamePlayer player2 = new HumanPlayer(2);
     private boolean awaitForClick = false;
@@ -195,3 +199,8 @@ public class GamePanelController implements GameEngine {
         board[i][j] = value;
     }
 }
+/*
+  private GamePlayer player1 = LevelFactoryImpl.getFactory().createPlayer(1,6,true,"hard");
+            //new AIPlayerRealtimeKiller(1,6,true);
+    private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
+ */

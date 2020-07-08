@@ -4,9 +4,9 @@ import game.GamePlayer;
 
 import java.awt.*;
 
-public class HumanPlayer extends GamePlayer {
+public class RemotePlayer extends GamePlayer {
 
-    public HumanPlayer(int mark) {
+    public RemotePlayer(int mark) {
         super(mark);
     }
 
@@ -17,7 +17,7 @@ public class HumanPlayer extends GamePlayer {
 
     @Override
     public String playerName() {
-        return "User" ;
+        return "Remote" ;
     }
 
     @Override

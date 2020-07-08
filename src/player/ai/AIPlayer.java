@@ -3,22 +3,22 @@ package player.ai;
 import game.GamePlayer;
 import logic.DynamicEvaluator;
 import logic.Evaluator;
-import logic.Minimax;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
 
 import java.awt.*;
 
-public class AIPlayerDynamic extends GamePlayer {
+public class AIPlayer extends GamePlayer {
 
     private int searchDepth;
     private Evaluator evaluator;
 
     private MoveStrategyImpl strategy;
 
-    public AIPlayerDynamic(int mark, int depth) {
+    public AIPlayer(int mark, int depth) {
         super(mark);
         searchDepth = depth;
+
         evaluator = new DynamicEvaluator();
 
         strategy=new MoveStrategyImpl();

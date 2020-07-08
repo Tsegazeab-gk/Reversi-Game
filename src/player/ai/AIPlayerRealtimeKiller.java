@@ -4,6 +4,10 @@ import logic.Evaluator;
 import logic.Minimax;
 import logic.OpeningBook;
 import logic.RealtimeEvaluator;
+import logic.factory.EvaluatorFactory;
+import logic.factory.EvaluatorFactoryImpl;
+import logic.strategy.MinimaxAlgorithm;
+import logic.strategy.MoveStrategyImpl;
 import util.BoardHelper;
 import game.GamePlayer;
 
@@ -23,8 +27,15 @@ public class AIPlayerRealtimeKiller extends GamePlayer {
     OpeningBook OB;
     private boolean isOpeningActive = true;
 
+    private MoveStrategyImpl strategy;
+
+String level;
     public AIPlayerRealtimeKiller(int mark, int depth, boolean firstplayer) {
         super(mark);
+//creating move strategy
+        strategy=new MoveStrategyImpl();
+        //attaching minimax algorithm
+        strategy.setMoveStrategy(new MinimaxAlgorithm());
 
         //init OpeningBook
         OB = new OpeningBook();
@@ -34,7 +45,8 @@ public class AIPlayerRealtimeKiller extends GamePlayer {
 
         searchDepth = depth;
         isFirstPlayer = firstplayer;
-
+evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
+/*
         if(mark==1) {
             evaluator = new RealtimeEvaluator(new int[][] {
                     {8, 85, -40, 10, 210, 520},
@@ -62,6 +74,7 @@ public class AIPlayerRealtimeKiller extends GamePlayer {
                     {8, 500, 77, 0, 36, 299}},
                     new int[] {0, 55, 56, 57, 58, 59, 60, 61, 62, 63});
         }
+        */
     }
 
     @Override
@@ -166,6 +179,8 @@ public class AIPlayerRealtimeKiller extends GamePlayer {
         }
 
         //if no killer moves availiable do a minimax search
-        return Minimax.solve(board,myMark,searchDepth,evaluator);
+       // return Minimax.solve(board,myMark,searchDepth,evaluator);
+
+        return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }
 }
