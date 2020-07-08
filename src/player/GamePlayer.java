@@ -1,5 +1,7 @@
 package player;
 
+import game.GamePanel;
+
 import java.awt.*;
 
 public abstract class GamePlayer {
@@ -8,8 +10,17 @@ public abstract class GamePlayer {
     public GamePlayer(int mark){
         myMark = mark;
     }
+    public void  steps(int[][] board, GamePlayer player, int turn, controller.GamePanelController gamePanelController, GamePanel gamePanel) {
+        Point aiPlayPoint = player.play(board);
+        int i = aiPlayPoint.x;
+        int j = aiPlayPoint.y;
 
-    abstract public boolean isUserPlayer();
+        gamePanelController.board =util.BoardHelper.getNewBoardAfterMove(board, aiPlayPoint, turn);
+        gamePanelController.turn= (turn == 1) ? 2 : 1;
+        gamePanel.repaint();
+    }
+
+        abstract public boolean isUserPlayer();
 
     abstract public String playerName();
 

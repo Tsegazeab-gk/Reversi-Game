@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements Observer {
         this.add(sidebar,BorderLayout.WEST);
         this.add(reversiBoard);
 
-        new GamePanelController(this,this);
+        gamePanelController = new GamePanelController(this,this);
     }
 
     public JPanel getReversiBoard(){
