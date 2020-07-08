@@ -24,7 +24,7 @@ public class LocationSettingScreen extends JPanel {
 		add(btnNewButton_1);
 
 		btnNewButton.addActionListener((ActionEvent event)->{
-			gameWindowController.changePage(Screen.GAME_PANEL);
+			gameWindowController.changePage(Screen.LOCAL_OPTION);
 		});
 
 		btnNewButton_1.addActionListener((ActionEvent event)->{
