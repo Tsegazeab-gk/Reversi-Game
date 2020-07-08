@@ -12,6 +12,7 @@ public class GamePanel extends JPanel {
     private JLabel tscore1;
     private JLabel tscore2;
     private JPanel reversiBoard;
+    private GamePanelController gamePanelController;
 
     public GamePanel(){
 
@@ -44,7 +45,7 @@ public class GamePanel extends JPanel {
         this.add(sidebar,BorderLayout.WEST);
         this.add(reversiBoard);
 
-        new GamePanelController(this);
+        gamePanelController = new GamePanelController(this);
     }
 
     public JPanel getReversiBoard(){
@@ -65,6 +66,10 @@ public class GamePanel extends JPanel {
 
     public JLabel getTscore2(){
         return  this.tscore2;
+    }
+
+    public GamePanelController getController(){
+        return gamePanelController;
     }
 
 
