@@ -4,6 +4,8 @@ package player.ai;
 import player.GamePlayer;
 import logic.Minimax;
 import logic.RealtimeEvaluator;
+import logic.strategy.MinimaxAlgorithm;
+import logic.strategy.MoveStrategyImpl;
 import logic.StatePattern.Evaluator;
 
 import java.awt.*;
@@ -12,10 +14,15 @@ public class AIPlayerRealtime extends GamePlayer {
 
     private int searchDepth;
     private Evaluator evaluator;
+    private MoveStrategyImpl strategy;
 
     public AIPlayerRealtime(int mark, int depth) {
         super(mark);
         searchDepth = depth;
+
+        strategy=new MoveStrategyImpl();
+        strategy.setMoveStrategy(new MinimaxAlgorithm());
+
 
         if(mark==1) {
             evaluator = new RealtimeEvaluator(new int[][] {
@@ -58,6 +65,7 @@ public class AIPlayerRealtime extends GamePlayer {
 
     @Override
     public Point play(int[][] board) {
-        return Minimax.solve(board,myMark,searchDepth,evaluator);
+        return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
+       // return Minimax.solve(board,myMark,searchDepth,evaluator);
     }
 }

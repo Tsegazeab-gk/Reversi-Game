@@ -1,28 +1,27 @@
 package player.ai;
 
 
-import player.GamePlayer;
-import logic.Minimax;
-import logic.factory.EvaluatorFactoryImpl;
-import logic.strategy.MinimaxAlgorithm;
-import logic.strategy.MoveStrategyImpl;
 import logic.StatePattern.DynamicEvaluator;
 import logic.StatePattern.Evaluator;
+import logic.strategy.MinimaxAlgorithm;
+import logic.strategy.MoveStrategyImpl;
+import player.GamePlayer;
 
 import java.awt.*;
 
-public class AIPlayerDynamic extends GamePlayer {
+public class AIPlayer extends GamePlayer {
 
     private int searchDepth;
     private Evaluator evaluator;
 
     private MoveStrategyImpl strategy;
 
-    public AIPlayerDynamic(int mark, int depth) {
+    public AIPlayer(int mark, int depth) {
         super(mark);
         searchDepth = depth;
-        evaluator = EvaluatorFactoryImpl.getFactory().createEvaluator("Dynamic",0);
-        //new DynamicEvaluator();
+
+        evaluator = new DynamicEvaluator();
+
         strategy=new MoveStrategyImpl();
         strategy.setMoveStrategy(new MinimaxAlgorithm());
 

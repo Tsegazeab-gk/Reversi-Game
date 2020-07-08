@@ -3,6 +3,7 @@ package controller;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
+import logic.factory.LevelFactoryImpl;
 import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayerDynamic;
@@ -20,11 +21,11 @@ public class GamePanelController implements GameEngine {
     private int turn = 1;
     private int[][] board;
 
-    //implimenting the command pattern
-    private Invoker invoker=new Invoker();
-
-    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
-    private GamePlayer player2 = new AIPlayerDynamic(2,6);
+    private GamePlayer player1 = LevelFactoryImpl.getFactory().createPlayer(1,6,true,"superhard");
+            //new AIPlayerRealtimeKiller(1,6,true);
+    private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
+                    //new AIPlayerDynamic(2,6);
+                        private Invoker invoker=new Invoker();
 //    private GamePlayer player1 = new HumanPlayer(1);
 //    private GamePlayer player2 = new HumanPlayer(2);
     private boolean awaitForClick = false;
@@ -201,3 +202,8 @@ public class GamePanelController implements GameEngine {
         board[i][j] = value;
     }
 }
+/*
+  private GamePlayer player1 = LevelFactoryImpl.getFactory().createPlayer(1,6,true,"hard");
+            //new AIPlayerRealtimeKiller(1,6,true);
+    private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
+ */
