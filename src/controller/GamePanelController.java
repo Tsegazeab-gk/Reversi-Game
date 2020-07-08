@@ -1,5 +1,7 @@
 package controller;
 
+import controller.observer.Observer;
+import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
@@ -13,7 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class GamePanelController implements GameEngine {
+public class GamePanelController implements GameEngine, Subject {
 
     private GamePanel gamePanel;
     private    BoardCell[][] cells;
@@ -33,9 +35,14 @@ public class GamePanelController implements GameEngine {
     private int totalscore1 = 0;
     private int totalscore2 = 0;
 
-    public GamePanelController(GamePanel gamePanel){
+    private int p1score = 0;
+    private int p2score = 0;
+    private Observer observer;
+
+    public GamePanelController(GamePanel gamePanel,Observer observer){
         this.gamePanel = gamePanel;
 
+        this.observer=observer;
         resetBoard();
 
         cells = new BoardCell[8][8];
@@ -115,8 +122,8 @@ public class GamePanelController implements GameEngine {
 
     public void updateBoardInfo(){
 
-        int p1score = 0;
-        int p2score = 0;
+        this.p1score = 0;
+        this.p2score = 0;
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -131,8 +138,14 @@ public class GamePanelController implements GameEngine {
             }
         }
 
-       this.gamePanel.getScore1().setText(player1.playerName() + " : " + p1score);
-        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
+        notifyObservers();
+//        this.gamePanel.getScore1().setText(player1.playerName() + " : " + p1score);
+//        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
+    }
+
+    @Override
+    public void notifyObservers() {
+        observer.update(player1.playerName() + " : " + p1score,player2.playerName() + " : " + p2score);
     }
 
     public void updateTotalScore(){
@@ -181,7 +194,7 @@ public class GamePanelController implements GameEngine {
         if(!BoardHelper.canPlay(board,ai.myMark,i,j)) System.err.println("FATAL : AI Invalid Move !");
         System.out.println(ai.playerName() + " Played in : "+ i + " , " + j);
 
-        //update board
+        //update board using the invoker of the command pattern
         board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
 //        board = BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
 
@@ -200,4 +213,6 @@ public class GamePanelController implements GameEngine {
     public void setBoardValue(int i,int j,int value){
         board[i][j] = value;
     }
+
+
 }

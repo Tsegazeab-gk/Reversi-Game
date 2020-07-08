@@ -14,7 +14,7 @@ public class GameWindow extends JFrame {
         this.pack();
         this.setVisible(true);
 
-        //this.setSize(500,500);
+        this.setSize(500,500);
     }
 
     public static void main(String[] args) {
