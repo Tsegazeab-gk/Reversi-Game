@@ -36,12 +36,12 @@ public class LocalOptionScreen extends JPanel {
 
 		btnNewButton.addActionListener((ActionEvent event)->{
 			gameWindowController.setOption(Screen.LOCAL_OPTION, GameOption.AI_VS_AI);
-			gameWindowController.changePage(Screen.GAME_PANEL);
+			gameWindowController.changePage(Screen.LEVEL_OPTION);
 		});
 
 		btnNewButton_1.addActionListener((ActionEvent event)->{
 			gameWindowController.setOption(Screen.LOCAL_OPTION, GameOption.HUMAN_VS_AI);
-			gameWindowController.changePage(Screen.GAME_PANEL);
+			gameWindowController.changePage(Screen.USER_FORM);
 		});
 
 		btnNewButton_2.addActionListener((ActionEvent event)->{
@@ -49,8 +49,8 @@ public class LocalOptionScreen extends JPanel {
 			gameWindowController.changePage(Screen.USER_FORM);
 		});
 
-		btnBack.addActionListener((ActionEvent event)->{
-			gameWindowController.changePage(Screen.LOCATION_SETTING);
+		btnBack.addActionListener((ActionEvent event) -> {
+			gameWindowController.goBack();
 		});
 
 	}
