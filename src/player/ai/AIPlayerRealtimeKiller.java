@@ -1,6 +1,6 @@
 package player.ai;
 
-import logic.Evaluator;
+import game.GamePlayer;
 import logic.Minimax;
 import logic.OpeningBook;
 import logic.RealtimeEvaluator;
@@ -8,8 +8,10 @@ import logic.factory.EvaluatorFactory;
 import logic.factory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
+import logic.StatePattern.Evaluator;
 import util.BoardHelper;
-import game.GamePlayer;
+
+import player.GamePlayer;
 
 import java.awt.*;
 import java.util.ArrayList;

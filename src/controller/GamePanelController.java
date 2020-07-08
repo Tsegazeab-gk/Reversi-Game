@@ -5,6 +5,7 @@ import game.GameEngine;
 import game.GamePanel;
 import game.GamePlayer;
 import logic.factory.LevelFactoryImpl;
+import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayerDynamic;
 import player.ai.AIPlayerRealtimeKiller;
@@ -25,6 +26,7 @@ public class GamePanelController implements GameEngine {
             //new AIPlayerRealtimeKiller(1,6,true);
     private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
                     //new AIPlayerDynamic(2,6);
+                        private Invoker invoker=new Invoker();
 //    private GamePlayer player1 = new HumanPlayer(1);
 //    private GamePlayer player2 = new HumanPlayer(2);
     private boolean awaitForClick = false;
@@ -174,6 +176,7 @@ public class GamePanelController implements GameEngine {
     }
 
     public void handleAI(GamePlayer ai){
+
         Point aiPlayPoint = ai.play(board);
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
@@ -181,7 +184,8 @@ public class GamePanelController implements GameEngine {
         System.out.println(ai.playerName() + " Played in : "+ i + " , " + j);
 
         //update board
-        board = BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
+        board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
+//        board = BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
 
         //advance turn
         turn = (turn == 1) ? 2 : 1;

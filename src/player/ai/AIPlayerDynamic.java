@@ -1,12 +1,15 @@
 package player.ai;
 
-import game.GamePlayer;
+
+import player.GamePlayer;
 import logic.DynamicEvaluator;
 import logic.Evaluator;
 import logic.Minimax;
 import logic.factory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
+import logic.StatePattern.DynamicEvaluator;
+import logic.StatePattern.Evaluator;
 
 import java.awt.*;
 

@@ -1,6 +1,5 @@
 package player;
 
-import game.*;
 import util.BoardHelper;
 
 import java.awt.*;
