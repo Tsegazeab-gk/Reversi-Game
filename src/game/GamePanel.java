@@ -1,17 +1,20 @@
 package game;
 
 import controller.GamePanelController;
+import controller.observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Observer {
 
     private JLabel score1;
     private JLabel score2;
     private JLabel tscore1;
     private JLabel tscore2;
     private JPanel reversiBoard;
+    private GamePanelController gamePanelController;
 
     public GamePanel(){
 
@@ -44,7 +47,7 @@ public class GamePanel extends JPanel {
         this.add(sidebar,BorderLayout.WEST);
         this.add(reversiBoard);
 
-        new GamePanelController(this);
+        new GamePanelController(this,this);
     }
 
     public JPanel getReversiBoard(){
@@ -65,6 +68,23 @@ public class GamePanel extends JPanel {
 
     public JLabel getTscore2(){
         return  this.tscore2;
+    }
+
+    @Override
+    public void update(String p1score, String p2score) {
+        this.getScore1().setText(p1score);
+        this.getScore2().setText(p2score);
+
+    }
+
+//    @Override
+//    public void update(String s1,String s2) {
+//        name.setItems(FXCollections.observableArrayList(names));
+//           this.getScore1().setText(s1);
+//        this.getScore2().setText(s2);
+//    }
+    public GamePanelController getController(){
+        return gamePanelController;
     }
 
 

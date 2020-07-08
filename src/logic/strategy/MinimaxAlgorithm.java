@@ -1,16 +1,17 @@
-package logic;
+package logic.strategy;
+
 
 import logic.StatePattern.Evaluator;
 import util.BoardHelper;
 
 import java.awt.*;
 
-public class Minimax {
+public class MinimaxAlgorithm implements IMoveStrategy{
 
     static int nodesExplored = 0;
 
     //returns max score move
-    public static Point solve(int[][] board, int player, int depth, Evaluator e){
+    public  Point solve(int[][] board, int player, int depth, Evaluator e){
         nodesExplored = 0;
         int bestScore = Integer.MIN_VALUE;
         Point bestMove = null;
@@ -30,7 +31,7 @@ public class Minimax {
 
 
     //returns minimax value for a given node with A/B pruning
-    private static int MMAB(int[][] node,int player,int depth,boolean max,int alpha,int beta,Evaluator e){
+    private  int MMAB(int[][] node,int player,int depth,boolean max,int alpha,int beta,Evaluator e){
         nodesExplored++;
         //if terminal reached or depth limit reached evaluate
         if(depth == 0 || BoardHelper.isGameFinished(node)){

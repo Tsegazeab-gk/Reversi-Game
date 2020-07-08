@@ -1,11 +1,11 @@
 package player;
 
-import game.*;
 import util.BoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
 
+// to be removed
 public class GreedyPlayer extends GamePlayer {
 
     public GreedyPlayer(int mark) {

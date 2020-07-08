@@ -1,5 +1,6 @@
 package logic;
 
+import logic.StatePattern.Evaluator;
 import util.BoardHelper;
 
 public class StaticEvaluator implements Evaluator {
