@@ -1,6 +1,6 @@
 package player;
 
-import game.GamePlayer;
+
 
 import java.awt.*;
 

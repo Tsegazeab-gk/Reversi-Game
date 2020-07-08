@@ -1,6 +1,7 @@
 package logic.factory;
 
-import game.GamePlayer;
+
+import player.GamePlayer;
 import player.HumanPlayer;
 import player.RandomPlayer;
 import player.ai.AIPlayerDynamic;
@@ -19,7 +20,7 @@ public class LevelFactoryImpl implements LevelFactory{
     }
 
     @Override
-    public GamePlayer createPlayer(int mark, int depth, boolean isFirstUser,String option) {
+    public GamePlayer createPlayer(int mark, int depth, boolean isFirstUser, String option) {
 
         GamePlayer player=null;
 if(option.equals("easy")){

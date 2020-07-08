@@ -1,6 +1,8 @@
 package logic.strategy;
 
-import logic.Evaluator;
+
+
+import logic.StatePattern.Evaluator;
 
 import java.awt.*;
 

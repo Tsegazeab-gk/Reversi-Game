@@ -1,6 +1,7 @@
 package logic.strategy;
 
-import logic.Evaluator;
+
+import logic.StatePattern.Evaluator;
 import util.BoardHelper;
 
 import java.awt.*;

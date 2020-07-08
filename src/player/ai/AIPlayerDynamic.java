@@ -2,8 +2,6 @@ package player.ai;
 
 
 import player.GamePlayer;
-import logic.DynamicEvaluator;
-import logic.Evaluator;
 import logic.Minimax;
 import logic.factory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;

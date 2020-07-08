@@ -1,8 +1,8 @@
 package logic.factory;
 
-import logic.DynamicEvaluator;
-import logic.Evaluator;
 import logic.RealtimeEvaluator;
+import logic.StatePattern.DynamicEvaluator;
+import logic.StatePattern.Evaluator;
 import player.ai.AIPlayerRealtimeKiller;
 
 public class EvaluatorFactoryImpl implements EvaluatorFactory{
@@ -17,7 +17,7 @@ public class EvaluatorFactoryImpl implements EvaluatorFactory{
     }
 
     @Override
-    public Evaluator createEvaluator(String name,int mark) {
+    public Evaluator createEvaluator(String name, int mark) {
 
         Evaluator evaluator=null;
 

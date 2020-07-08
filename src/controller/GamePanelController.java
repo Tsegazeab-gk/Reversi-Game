@@ -3,7 +3,6 @@ package controller;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
-import game.GamePlayer;
 import logic.factory.LevelFactoryImpl;
 import player.GamePlayer;
 import player.HumanPlayer;

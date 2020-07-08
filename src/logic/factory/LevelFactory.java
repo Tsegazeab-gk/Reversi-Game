@@ -1,8 +1,9 @@
 package logic.factory;
 
-import game.GamePlayer;
+
+import player.GamePlayer;
 
 public interface LevelFactory {
 
-    GamePlayer  createPlayer(int mark, int depth, boolean isFirstUser, String option);
+    GamePlayer createPlayer(int mark, int depth, boolean isFirstUser, String option);
 }

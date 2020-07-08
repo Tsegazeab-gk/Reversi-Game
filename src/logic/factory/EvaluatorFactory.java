@@ -1,8 +1,9 @@
 package logic.factory;
 
-import logic.Evaluator;
+
+import logic.StatePattern.Evaluator;
 
 public interface EvaluatorFactory {
 
-    Evaluator createEvaluator(String name,int mark);
+    Evaluator createEvaluator(String name, int mark);
 }

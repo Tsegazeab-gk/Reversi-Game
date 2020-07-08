@@ -1,6 +1,6 @@
 package player.ai;
 
-import game.GamePlayer;
+//import game.GamePlayer;
 import logic.Minimax;
 import logic.OpeningBook;
 import logic.RealtimeEvaluator;
