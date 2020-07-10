@@ -1,22 +1,20 @@
 package controller;
 
+import controller.command.Invoker;
 import controller.observer.Observer;
-import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
 import logic.factory.LevelFactoryImpl;
 import player.GamePlayer;
-import player.HumanPlayer;
-import player.ai.AIPlayerDynamic;
-import player.ai.AIPlayerRealtimeKiller;
 import util.BoardHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
-public class GamePanelController implements GameEngine, Subject {
+public class GamePanelController implements GameEngine {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
@@ -26,7 +24,7 @@ public class GamePanelController implements GameEngine, Subject {
     //new AIPlayerRealtimeKiller(1,6,true);
     private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
     //new AIPlayerDynamic(2,6);
-    private Invoker invoker=new Invoker();
+    private Invoker invoker=Invoker.INSTANCE; //new Invoker();
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
     private boolean awaitForClick = false;
@@ -37,12 +35,14 @@ public class GamePanelController implements GameEngine, Subject {
 
     private int p1score = 0;
     private int p2score = 0;
-    private Observer observer;
+    private java.util.List<Observer> observers;
 
-    public GamePanelController(GamePanel gamePanel,Observer observer){
+    public GamePanelController(GamePanel gamePanel){
         this.gamePanel = gamePanel;
 
-        this.observer=observer;
+        observers=new ArrayList<Observer>();
+        this.attach(gamePanel);
+//        this.observer=observer;
         resetBoard();
 
         cells = new BoardCell[8][8];
@@ -145,9 +145,24 @@ public class GamePanelController implements GameEngine, Subject {
 //        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
     }
 
+    //implimenting Observers
     @Override
     public void notifyObservers() {
-        observer.update(player1.playerName() + " : " + p1score,player2.playerName() + " : " + p2score);
+        for(Observer o:observers)
+            o.update(player1.playerName() + " : " + p1score,player2.playerName() + " : " + p2score);
+    }
+
+    @Override
+    public void attach(Observer observer) {
+        if(!observers.contains(observer))
+            observers.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        int i=observers.indexOf(observer);
+        if(i>=0)
+            observers.remove(i);
     }
 
     public void updateTotalScore() {

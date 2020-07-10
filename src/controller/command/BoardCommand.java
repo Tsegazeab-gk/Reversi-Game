@@ -1,17 +1,17 @@
-package controller;
+package controller.command;
 
 
 import util.BoardHelper;
 
 import java.awt.*;
 
-public class GetBoardCommand implements Command{
+public class BoardCommand implements Command{
 
     private int[][] board;
     private Point aiPlayPoint;
     private int turn;
 
-    public GetBoardCommand(int[][] board, Point aiPlayPoint, int turn){
+    public BoardCommand(int[][] board, Point aiPlayPoint, int turn){
         this.board=board;
         this.aiPlayPoint=aiPlayPoint;
         this.turn=turn;
