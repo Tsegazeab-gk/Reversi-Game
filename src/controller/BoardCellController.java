@@ -1,5 +1,7 @@
 package controller;
 
+import controller.COR.HighlightHandler;
+import controller.COR.HighlightHandlerFactory;
 import game.BoardCell;
 import game.GameEngine;
 
@@ -19,6 +21,8 @@ public class BoardCellController{
     public int highlight = 0;
     public String text = "";
 
+    private HighlightHandler highlightHandler = HighlightHandlerFactory.getHighlightHandler();
+    
     public BoardCellController(BoardCell boardCell, GameEngine ge ,JPanel parent,int i,int j){
         this.ge = ge;
         this.parent = parent;
@@ -32,20 +36,23 @@ public class BoardCellController{
         int margin_top = this.boardCell.getHeight() / 10;
 
         //draw highlight
-        if(highlight == 1) {
-            g.setColor(new Color(138, 177, 62));
-            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
-            g.setColor(parent.getBackground());
-            g.fillRect(4,4,this.boardCell.getWidth()-8,this.boardCell.getHeight()-8);
-        }else if(highlight == 2){
-            g.setColor(new Color(177, 158, 70));
-            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
-            g.setColor(parent.getBackground());
-            g.fillRect(4,4,this.boardCell.getWidth()-8,this.boardCell.getHeight()-8);
-        }else if(highlight == 10){
-            g.setColor(new Color(177, 43, 71));
-            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
-        }
+        highlightHandler.handle(highlight, boardCell, parent, g);
+
+
+//        if(highlight == 1) {
+//            g.setColor(new Color(138, 177, 62));
+//            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
+//            g.setColor(parent.getBackground());
+//            g.fillRect(4,4,this.boardCell.getWidth()-8,this.boardCell.getHeight()-8);
+//        }else if(highlight == 2){
+//            g.setColor(new Color(177, 158, 70));
+//            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
+//            g.setColor(parent.getBackground());
+//            g.fillRect(4,4,this.boardCell.getWidth()-8,this.boardCell.getHeight()-8);
+//        }else if(highlight == 10){
+//            g.setColor(new Color(177, 43, 71));
+//            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
+//        }
 
         //draw border
         g.setColor(Color.BLACK);
