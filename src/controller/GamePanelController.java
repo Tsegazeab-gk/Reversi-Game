@@ -2,29 +2,30 @@ package controller;
 
 import controller.command.Invoker;
 import controller.observer.Observer;
+import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
+import logic.factory.LevelFactoryImpl;
 import player.GamePlayer;
+import player.HumanPlayer;
+import player.ai.AIPlayerDynamic;
+import player.ai.AIPlayerRealtimeKiller;
 import util.BoardHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
-public class GamePanelController implements GameEngine {
+public class GamePanelController implements GameEngine, GameConnection{
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
     private int turn = 1;
     private int[][] board;
     private GamePlayer player1;
-    //    private GamePlayer player1 = LevelFactoryImpl.getFactory().createPlayer(1,6,true,"superhard");
-    //new AIPlayerRealtimeKiller(1,6,true);
-    private GamePlayer player2;//LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
-    //new AIPlayerDynamic(2,6);
-    private Invoker invoker=Invoker.INSTANCE; //new Invoker();
+    private GamePlayer player2;    //new AIPlayerDynamic(2,6);
+    private Invoker invoker=Invoker.INSTANCE;
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
     private boolean awaitForClick = false;
@@ -36,13 +37,13 @@ public class GamePanelController implements GameEngine {
     private int p1score = 0;
     private int p2score = 0;
     private java.util.List<Observer> observers;
+    private ConnectedUser connectedUser;
 
     public GamePanelController(GamePanel gamePanel){
         this.gamePanel = gamePanel;
 
         observers=new ArrayList<Observer>();
         this.attach(gamePanel);
-//        this.observer=observer;
         resetBoard();
 
         cells = new BoardCell[8][8];
@@ -53,9 +54,8 @@ public class GamePanelController implements GameEngine {
             }
         }
 
-        //
-        updateBoardInfo();
-        updateTotalScore();
+//        updateBoardInfo();
+//        updateTotalScore();
 
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(1000, (ActionEvent e) -> {
@@ -72,6 +72,8 @@ public class GamePanelController implements GameEngine {
     }
 
     public void start() {
+        updateBoardInfo();
+        updateTotalScore();
         manageTurn();
     }
 
@@ -185,6 +187,16 @@ public class GamePanelController implements GameEngine {
     }
 
     public void handleClick(int i, int j) {
+        if (connectedUser != null) {
+            if (!connectedUser.isYourTurn())
+                return;
+            else
+                connectedUser.sendMove(i, j);
+        }
+        handleMove(i, j);
+    }
+
+    private void handleMove(int i, int j) {
         if (awaitForClick && BoardHelper.canPlay(board, turn, i, j)) {
             System.out.println("User Played in : " + i + " , " + j);
 
@@ -228,6 +240,10 @@ public class GamePanelController implements GameEngine {
         this.player2 = player;
     }
 
+    public void setConnectedUser(ConnectedUser connectedUser) {
+        this.connectedUser = connectedUser;
+    }
+
     @Override
     public int getBoardValue(int i, int j) {
         return board[i][j];
@@ -237,6 +253,10 @@ public class GamePanelController implements GameEngine {
     public void setBoardValue(int i, int j, int value) {
         board[i][j] = value;
     }
+    @Override
+    public void receivedMove(int i, int j) {
+        this.handleMove(i, j);
+    }
 
     public GamePlayer getPlayer1() {
         return player1;
@@ -245,5 +265,4 @@ public class GamePanelController implements GameEngine {
     public GamePlayer getPlayer2() {
         return player2;
     }
-
 }
