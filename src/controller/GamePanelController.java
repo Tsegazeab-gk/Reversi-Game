@@ -2,7 +2,6 @@ package controller;
 
 import controller.command.Invoker;
 import controller.observer.Observer;
-import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
@@ -11,13 +10,16 @@ import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayerDynamic;
 import player.ai.AIPlayerRealtimeKiller;
+import services.network.ConnectedUser;
+import services.network.GameConnection;
 import util.BoardHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
-public class GamePanelController implements GameEngine, GameConnection{
+public class GamePanelController implements GameEngine, GameConnection {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;

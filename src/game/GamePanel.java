@@ -167,7 +167,7 @@ public class GamePanel extends JPanel implements Observer {
         reversiBoard.setBackground(new Color(41, 100, 59));
         add(reversiBoard, BorderLayout.CENTER);
 
-        gamePanelController = new GamePanelController(this, this);
+        gamePanelController = new GamePanelController(this);
     }
 
     public JPanel getReversiBoard() {

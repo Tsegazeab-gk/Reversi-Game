@@ -4,6 +4,7 @@ import controller.builder.GamePanelBuilder;
 import game.GamePanel;
 import game.GameWindow;
 import logic.factory.LevelFactoryImpl;
+import logic.levels.LevelFactory;
 import models.GameOption;
 import models.Screen;
 import player.GamePlayer;
