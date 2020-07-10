@@ -1,30 +1,30 @@
 package controller;
 
+import controller.command.Invoker;
 import controller.observer.Observer;
-import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
+import logic.factory.LevelFactoryImpl;
 import player.GamePlayer;
 import util.BoardHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
-public class GamePanelController implements GameEngine, Subject {
+public class GamePanelController implements GameEngine {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
     private int turn = 1;
     private int[][] board;
-    private GamePlayer player1;
-    //= LevelFactoryImpl.getFactory().createPlayer(1,6,true,"superhard");
+    private GamePlayer player1 = LevelFactoryImpl.getFactory().createPlayer(1,6,true,"superhard");
     //new AIPlayerRealtimeKiller(1,6,true);
-    private GamePlayer player2 ;
-    //= LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
+    private GamePlayer player2 = LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
     //new AIPlayerDynamic(2,6);
-    private Invoker invoker=new Invoker();
+    private Invoker invoker=Invoker.INSTANCE; //new Invoker();
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
     private boolean awaitForClick = false;
@@ -35,13 +35,14 @@ public class GamePanelController implements GameEngine, Subject {
 
     private int p1score = 0;
     private int p2score = 0;
-    private Observer observer;
+    private java.util.List<Observer> observers;
 
-    //,Observer observer
     public GamePanelController(GamePanel gamePanel){
         this.gamePanel = gamePanel;
 
-        this.observer=gamePanel;
+        observers=new ArrayList<Observer>();
+        this.attach(gamePanel);
+//        this.observer=observer;
         resetBoard();
 
         cells = new BoardCell[8][8];
@@ -144,17 +145,29 @@ public class GamePanelController implements GameEngine, Subject {
 //        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
     }
 
+    //implimenting Observers
     @Override
     public void notifyObservers() {
-        if(getPlayer1()!=null)
-        observer.update(getPlayer1().getPlayerName() + " : " + p1score,getPlayer2().getPlayerName() + " : " + p2score);
+        for(Observer o:observers)
+            o.update(player1.playerName() + " : " + p1score,player2.playerName() + " : " + p2score);
+    }
+
+    @Override
+    public void attach(Observer observer) {
+        if(!observers.contains(observer))
+            observers.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        int i=observers.indexOf(observer);
+        if(i>=0)
+            observers.remove(i);
     }
 
     public void updateTotalScore() {
-        if(getPlayer1()!=null) {
-            this.gamePanel.getTscore1().setText(getPlayer1().getPlayerName() + " : " + totalscore1);
-            this.gamePanel.getTscore2().setText(getPlayer2().getPlayerName() + " : " + totalscore2);
-        }
+        this.gamePanel.getTscore1().setText(player1.playerName() + " : " + totalscore1);
+        this.gamePanel.getTscore2().setText(player2.playerName() + " : " + totalscore2);
     }
 
     public void resetBoard() {
@@ -195,7 +208,7 @@ public class GamePanelController implements GameEngine, Subject {
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
         if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
-        System.out.println(ai.getPlayerName() + " Played in : " + i + " , " + j);
+        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
 
         //update board using the invoker of the command pattern
         board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
@@ -213,14 +226,6 @@ public class GamePanelController implements GameEngine, Subject {
 
     public void setPlayer2(GamePlayer player) {
         this.player2 = player;
-    }
-
-    public GamePlayer getPlayer1() {
-        return player1;
-    }
-
-    public GamePlayer getPlayer2() {
-        return player2;
     }
 
     @Override

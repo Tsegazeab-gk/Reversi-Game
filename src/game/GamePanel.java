@@ -5,7 +5,6 @@ import controller.observer.Observer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class GamePanel extends JPanel implements Observer {
 
@@ -77,12 +76,6 @@ public class GamePanel extends JPanel implements Observer {
 
     }
 
-//    @Override
-//    public void update(String s1,String s2) {
-//        name.setItems(FXCollections.observableArrayList(names));
-//           this.getScore1().setText(s1);
-//        this.getScore2().setText(s2);
-//    }
     public GamePanelController getController(){
         return gamePanelController;
     }
