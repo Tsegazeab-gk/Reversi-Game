@@ -59,8 +59,13 @@ public class AIPlayerRealtime extends GamePlayer {
     }
 
     @Override
-    public String playerName() {
+    public String getPlayerName() {
         return "Realtime AI (Depth " + searchDepth + ")";
+    }
+
+    @Override
+    public void setPlayerName(String playerName) {
+
     }
 
     @Override

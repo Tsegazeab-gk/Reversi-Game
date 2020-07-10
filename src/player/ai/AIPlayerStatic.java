@@ -36,8 +36,13 @@ public class AIPlayerStatic extends GamePlayer {
     }
 
     @Override
-    public String playerName() {
+    public String getPlayerName() {
         return "Static AI (Depth " + searchDepth + ")";
+    }
+
+    @Override
+    public void setPlayerName(String playerName) {
+
     }
 
     @Override

@@ -4,7 +4,9 @@ import game.GamePanel;
 import game.GameWindow;
 import models.GameOption;
 import models.Screen;
+import player.GamePlayer;
 import player.HumanPlayer;
+import player.ai.AIPlayer;
 import player.ai.AIPlayerDynamic;
 import player.ai.AIPlayerRealtimeKiller;
 import ui.*;
@@ -89,16 +91,24 @@ public class GameWindowController {
         GamePanel gamePanel = new GamePanel();
         //GamePanelBuilder().setLevel(...).setPlayer1(...).setPlayer1(...)
         if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.HUMAN_VS_HUMAN)) {
-            HumanPlayer p1 = new HumanPlayer(1);
-            p1.setName(userFormScreen.getPlay1Name());
-            HumanPlayer p2 = new HumanPlayer(2);
-            p2.setName(userFormScreen.getPlay2Name());
+            GamePlayer p1 = new HumanPlayer(1);
+            p1.setPlayerName(userFormScreen.getPlay1Name());
+            GamePlayer p2 = new HumanPlayer(2);
+            p2.setPlayerName(userFormScreen.getPlay2Name());
             //
             gamePanel.getController().setPlayer1(p1);
             gamePanel.getController().setPlayer2(p2);
         } else if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.AI_VS_AI)) {
-            gamePanel.getController().setPlayer1(new AIPlayerRealtimeKiller(1, 6, true));
-            gamePanel.getController().setPlayer2(new AIPlayerDynamic(2, 6));
+
+            GamePlayer p1=new AIPlayer(1,6,true,"easy");
+            p1.setPlayerName("Player1: AI");
+            GamePlayer p2=new AIPlayer(2,6,false,"medium");
+            p2.setPlayerName("Player2 AI");
+            gamePanel.getController().setPlayer1(p1);
+            gamePanel.getController().setPlayer2(p2);
+
+         //   gamePanel.getController().setPlayer1(new AIPlayerRealtimeKiller(1, 6, true));
+          //  gamePanel.getController().setPlayer2(new AIPlayerDynamic(2, 6));
         } else if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.HUMAN_VS_AI)) {
             gamePanel.getController().setPlayer1(new HumanPlayer(1));
             gamePanel.getController().setPlayer2(new AIPlayerDynamic(2, 6));
