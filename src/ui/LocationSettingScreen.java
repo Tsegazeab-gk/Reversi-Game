@@ -1,6 +1,7 @@
 package ui;
 
 import controller.GameWindowController;
+import models.GameOption;
 import models.Screen;
 import ui.widgets.DefaultButton;
 import util.Utils;
@@ -32,10 +33,12 @@ public class LocationSettingScreen extends JPanel {
         add(btnBack);
 
         btnNewButton.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.LOCATION_SETTING, GameOption.LOCAL);
             gameWindowController.changePage(Screen.LOCAL_OPTION);
         });
 
         btnNewButton_1.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.LOCATION_SETTING, GameOption.REMOTE);
             gameWindowController.changePage(Screen.REMOTE_OPTION);
         });
 
