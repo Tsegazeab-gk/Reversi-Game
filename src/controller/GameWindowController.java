@@ -1,7 +1,9 @@
 package controller;
 
+import controller.builder.GamePanelBuilder;
 import game.GamePanel;
 import game.GameWindow;
+import logic.factory.LevelFactoryImpl;
 import models.GameOption;
 import models.Screen;
 import player.GamePlayer;
