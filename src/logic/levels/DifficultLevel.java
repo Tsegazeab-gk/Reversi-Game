@@ -1,22 +1,16 @@
-package player.ai;
+package logic.levels;
 
-//import game.GamePlayer;
-import logic.Minimax;
 import logic.OpeningBook;
-import logic.RealtimeEvaluator;
-import logic.factory.EvaluatorFactory;
+import logic.StatePattern.Evaluator;
 import logic.factory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
-import logic.StatePattern.Evaluator;
 import util.BoardHelper;
-
-import player.GamePlayer;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class AIPlayerRealtimeKiller extends GamePlayer {
+public class DifficultLevel implements ILevelStrategy{
 
     private int searchDepth;
     private Evaluator evaluator;
@@ -31,9 +25,12 @@ public class AIPlayerRealtimeKiller extends GamePlayer {
 
     private MoveStrategyImpl strategy;
 
-String level;
-    public AIPlayerRealtimeKiller(int mark, int depth, boolean firstplayer) {
-        super(mark);
+    String level;
+
+    int myMark;
+    public DifficultLevel(int mark, int depth, boolean firstplayer) {
+        myMark=mark;
+      //  super(mark);
 //creating move strategy
         strategy=new MoveStrategyImpl();
         //attaching minimax algorithm
@@ -47,55 +44,12 @@ String level;
 
         searchDepth = depth;
         isFirstPlayer = firstplayer;
-evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
-/*
-        if(mark==1) {
-            evaluator = new RealtimeEvaluator(new int[][] {
-                    {8, 85, -40, 10, 210, 520},
-                    {8, 85, -40, 10, 210, 520},
-                    {33, -50, -15, 4, 416, 2153},
-                    {46, -50, -1, 3, 612, 4141},
-                    {51, -50, 62, 3, 595, 3184},
-                    {33, -5,  66, 2, 384, 2777},
-                    {44, 50, 163, 0, 443, 2568},
-                    {13, 50, 66, 0, 121, 986},
-                    {4, 50, 31, 0, 27, 192},
-                    {8, 500, 77, 0, 36, 299}},
-                    new int[] {0, 55, 56, 57, 58, 59, 60, 61, 62, 63});
-        }else{
-            evaluator = new RealtimeEvaluator(new int[][] {
-                    {8, 85, -40, 10, 210, 520},
-                    {8, 85, -40, 10, 210, 520},
-                    {33, -50, -15, 4, 416, 2153},
-                    {46, -50, -1, 3, 612, 4141},
-                    {51, -50, 62, 3, 595, 3184},
-                    {33, -5,  66, 2, 384, 2777},
-                    {44, 50, 163, 0, 443, 2568},
-                    {13, 50, 66, 0, 121, 986},
-                    {4, 50, 31, 0, 27, 192},
-                    {8, 500, 77, 0, 36, 299}},
-                    new int[] {0, 55, 56, 57, 58, 59, 60, 61, 62, 63});
-        }
-        */
+        evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
     }
 
-    @Override
-    public boolean isUserPlayer() {
-        return false;
-    }
 
     @Override
-    public String getPlayerName() {
-        return "Realtime Killer (Depth " + searchDepth + ")";
-    }
-
-    @Override
-    public void setPlayerName(String playerName) {
-
-    }
-
-    @Override
-    public Point play(int[][] board) {
+    public Point getNextMove(int[][] board, int player, int depth){
 
         //Add Opponents Move to History (null means opponent was not able to play)
         //Opening loses effect when Move Sequence is out of 1-1 sync
@@ -186,7 +140,7 @@ evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
         }
 
         //if no killer moves availiable do a minimax search
-       // return Minimax.solve(board,myMark,searchDepth,evaluator);
+        // return Minimax.solve(board,myMark,searchDepth,evaluator);
 
         return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }

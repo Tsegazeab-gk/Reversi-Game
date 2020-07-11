@@ -1,12 +1,17 @@
 package controller;
 
+import controller.builder.GamePanelBuilder;
 import game.GamePanel;
 import game.GameWindow;
+import logic.factory.LevelFactoryImpl;
+import logic.levels.LevelFactory;
 import models.GameOption;
 import models.Screen;
+import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayerDynamic;
 import player.ai.AIPlayerRealtimeKiller;
+import services.network.ConnectedUser;
 import ui.*;
 
 import javax.swing.*;
@@ -16,18 +21,18 @@ import java.util.Map;
 import java.util.Stack;
 
 public class GameWindowController {
-    private GameWindow gameWindow;
+    private JFrame gameWindow;
     private JPanel startScreen,
             localOptionScreen,
-            remoteOptionScreen,
             locationSettingScreen,
             levelOptionScreen;
     private UserFormScreen userFormScreen;
+    private RemoteOptionScreen remoteOptionScreen;
 
     private Map<Screen, GameOption> optionMap = new HashMap<Screen, GameOption>();
     private Stack<JPanel> screenStack = new Stack<JPanel>();
 
-    public GameWindowController(GameWindow gameWindow) {
+    public GameWindowController(JFrame gameWindow) {
 
         startScreen = new StartScreen(this);
         userFormScreen = new UserFormScreen(this);
@@ -73,6 +78,11 @@ public class GameWindowController {
                 panel = buildGame();
                 break;
         }
+        if (screen == Screen.GAME_PANEL) {
+            gameWindow.setSize(new Dimension(700, 550));
+        } else {
+            gameWindow.setSize(new Dimension(600, 400));
+        }
         setPanel(panel);
         screenStack.add(panel);
     }
@@ -85,24 +95,43 @@ public class GameWindowController {
         }
     }
 
-    public JPanel buildGame() {
-        GamePanel gamePanel = new GamePanel();
-        //GamePanelBuilder().setLevel(...).setPlayer1(...).setPlayer1(...)
-        if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.HUMAN_VS_HUMAN)) {
-            HumanPlayer p1 = new HumanPlayer(1);
-            p1.setName(userFormScreen.getPlay1Name());
-            HumanPlayer p2 = new HumanPlayer(2);
-            p2.setName(userFormScreen.getPlay2Name());
-            //
-            gamePanel.getController().setPlayer1(p1);
-            gamePanel.getController().setPlayer2(p2);
-        } else if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.AI_VS_AI)) {
-            gamePanel.getController().setPlayer1(new AIPlayerRealtimeKiller(1, 6, true));
-            gamePanel.getController().setPlayer2(new AIPlayerDynamic(2, 6));
-        } else if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.HUMAN_VS_AI)) {
-            gamePanel.getController().setPlayer1(new HumanPlayer(1));
-            gamePanel.getController().setPlayer2(new AIPlayerDynamic(2, 6));
+    public GamePanel buildGame() {
+        GamePlayer p1 = null, p2 = null;
+        ConnectedUser connectedUser = null;
+
+        if (optionMap.get(Screen.LOCATION_SETTING).equals(GameOption.LOCAL)) {
+            GameOption levelOption = optionMap.get(Screen.LEVEL_OPTION);
+
+            if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.HUMAN_VS_HUMAN)) {
+                p1 = new HumanPlayer(1);
+                p2 = new HumanPlayer(2);
+            } else if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.AI_VS_AI)) {
+                p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
+                p2 = LevelFactoryImpl.getFactory().createPlayer(2, 6, false, levelOption);
+            } else if (optionMap.get(Screen.LOCAL_OPTION).equals(GameOption.HUMAN_VS_AI)) {
+                p1 = new HumanPlayer(1);
+                p2 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
+            }
+
+        } else {
+            GameOption levelOption = optionMap.get(Screen.REMOTE_OPTION);
+
+            if (optionMap.get(Screen.REMOTE_OPTION).equals(GameOption.HUMAN)) {
+                p1 = new HumanPlayer(1);
+                p2 = new HumanPlayer(2);
+            } else if (optionMap.get(Screen.REMOTE_OPTION).equals(GameOption.AI)) {
+                p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
+                p2 = new HumanPlayer(2);
+            }
+
+            connectedUser = remoteOptionScreen.getController().getConnectedUser();
         }
+
+        GamePanel gamePanel = new GamePanelBuilder.Builder()
+                .setPlayerOne(p1)
+                .setPlayerTwo(p2)
+                .setConnectedUser(connectedUser)
+                .build();
         gamePanel.getController().start();
         return gamePanel;
     }

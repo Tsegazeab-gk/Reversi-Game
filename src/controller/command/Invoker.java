@@ -1,11 +1,10 @@
-package controller;
-
-import player.ai.AIPlayerDynamic;
+package controller.command;
 
 import java.awt.*;
 import java.util.Stack;
 
-public class Invoker {
+public enum  Invoker {
+    INSTANCE;
     private Command currentCommand=null;
     private Stack<Command> commandsExcuted=new Stack<>();
 
@@ -16,9 +15,9 @@ public class Invoker {
 //    }
 
     public int[][] getNewBoardAfterMove(int[][] board, Point aiPlayPoint ,int turn){
-        this.currentCommand=new GetBoardCommand(board, aiPlayPoint, turn);
+        this.currentCommand=new BoardCommand(board, aiPlayPoint, turn);
         commandsExcuted.push(currentCommand);
         currentCommand.execute();
-        return ((GetBoardCommand) currentCommand).getBoard();
+        return ((BoardCommand) currentCommand).getBoard();
     }
 }

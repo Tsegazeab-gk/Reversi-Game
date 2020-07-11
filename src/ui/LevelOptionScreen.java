@@ -35,14 +35,17 @@ public class LevelOptionScreen extends JPanel {
         add(btnBack);
 
         btnNewButton.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.LEVEL_OPTION, GameOption.EASY_LEVEL);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
         btnNewButton_1.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.LEVEL_OPTION, GameOption.MEDIUM_LEVEL);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
         btnNewButton_2.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.LEVEL_OPTION, GameOption.HARD_LEVEL);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 

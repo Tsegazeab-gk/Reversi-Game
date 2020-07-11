@@ -1,10 +1,9 @@
-package controller;
+package controller.command;
 
+import controller.command.Command;
 import player.ai.AIPlayerDynamic;
 
-import java.awt.*;
-
-public class PlayDynamicCommand implements Command{
+public class PlayDynamicCommand implements Command {
     private int[][] board;
     private AIPlayerDynamic playerDynamic;
 

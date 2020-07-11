@@ -3,13 +3,11 @@ package player;
 import java.awt.*;
 
 public class HumanPlayer extends GamePlayer {
-    private String name = "User";
+
+    String name;
+
     public HumanPlayer(int mark) {
         super(mark);
-    }
-
-    public void setName(String name){
-        this.name = name;
     }
 
     @Override
@@ -18,8 +16,13 @@ public class HumanPlayer extends GamePlayer {
     }
 
     @Override
-    public String playerName() {
+    public String getPlayerName() {
         return this.name ;
+    }
+
+    @Override
+    public void setPlayerName(String playerName) {
+        this.name=playerName;
     }
 
     @Override

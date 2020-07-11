@@ -1,25 +1,24 @@
-package player.ai;
+package logic.levels;
 
-
-import player.GamePlayer;
-import logic.Minimax;
+import logic.StatePattern.Evaluator;
 import logic.factory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
-import logic.StatePattern.DynamicEvaluator;
-import logic.StatePattern.Evaluator;
 
 import java.awt.*;
 
-public class AIPlayerDynamic extends GamePlayer {
+public class MediumLevel implements ILevelStrategy{
 
     private int searchDepth;
     private Evaluator evaluator;
 
     private MoveStrategyImpl strategy;
+    private int myMark;
 
-    public AIPlayerDynamic(int mark, int depth) {
-        super(mark);
+    public MediumLevel(int mark, int depth) {
+        //super(mark);
+        myMark=mark;
+
         searchDepth = depth;
         evaluator = EvaluatorFactoryImpl.getFactory().createEvaluator("Dynamic",0);
         //new DynamicEvaluator();
@@ -29,29 +28,8 @@ public class AIPlayerDynamic extends GamePlayer {
         System.out.println("Strategy created");
 
     }
-
     @Override
-    public boolean isUserPlayer() {
-        return false;
-    }
-
-
-
-    @Override
-    public void setPlayerName(String playerName) {
-
-    }
-
-    @Override
-    public String getPlayerName() {
-        return "Dynamic AI (Depth " + searchDepth + ")";
-    }
-
-    @Override
-    public Point play(int[][] board)
-    {
-       // return Minimax.solve(board,myMark,searchDepth,evaluator);
-
+    public Point getNextMove(int[][] board, int player, int depth) {
         return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }
 }
