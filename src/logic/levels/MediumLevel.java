@@ -10,9 +10,12 @@ import java.awt.*;
 public class MediumLevel implements ILevelStrategy{
 
     private int searchDepth;
+
     private Evaluator evaluator;
 
     private MoveStrategyImpl strategy;
+
+
     private int myMark;
 
     public MediumLevel(int mark, int depth) {

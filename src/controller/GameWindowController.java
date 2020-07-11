@@ -102,7 +102,7 @@ public class GameWindowController {
 
             GamePlayer p1=new AIPlayer(1,6,true,"easy");
             p1.setPlayerName("Player1: AI");
-            GamePlayer p2=new AIPlayer(2,6,false,"medium");
+            GamePlayer p2=new AIPlayer(2,6,false,"easy");
             p2.setPlayerName("Player2 AI");
             gamePanel.getController().setPlayer1(p1);
             gamePanel.getController().setPlayer2(p2);

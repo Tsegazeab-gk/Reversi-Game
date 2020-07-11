@@ -58,13 +58,13 @@ public class GamePanelController implements GameEngine, Subject {
 
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(1000, (ActionEvent e) -> {
-            handleAI(player1);
+            handleAI(getPlayer1());
             player1HandlerTimer.stop();
             manageTurn();
         });
 
         player2HandlerTimer = new Timer(1000, (ActionEvent e) -> {
-            handleAI(player2);
+            handleAI(getPlayer2());
             player2HandlerTimer.stop();
             manageTurn();
         });

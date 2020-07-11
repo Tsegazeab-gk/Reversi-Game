@@ -27,14 +27,14 @@ public class ScoreService implements IScoreService {
     public List<Score> getByShortMoves() {
         return iScore.getByShortMoves();
     }
-
+/*
     public static void main(String[] args) {
         IScoreService ser=new ScoreService();
-        ser.saveWinner("Player1",55,582);
+        ser.saveWinner("tsega",70,45);
 
-        ser.saveWinner("Player2",10,600);
+        ser.saveWinner("berhr",23,46);
         System.out.println(ser.getByBestScore().get(0).getScore());
         System.out.println(ser.getByShortMoves().get(0).getNumberOfMove());
     }
-
+*/
 }
