@@ -2,6 +2,7 @@ package ui;
 
 import controller.GameWindowController;
 import controller.RemoteOptionController;
+import models.GameOption;
 import models.Screen;
 import ui.widgets.DefaultButton;
 import ui.widgets.RoundJTextField;
@@ -24,13 +25,15 @@ public class RemoteOptionScreen extends JPanel {
     private GameWindowController gameWindowController;
     private JPanel playerOptionPanel;
     private JButton btnCancel;
+    private JLabel lblErrorMsg;
+    private RemoteOptionController controller;
 
     public RemoteOptionScreen(GameWindowController gameWindowController) {
         setLayout(null);
         this.gameWindowController = gameWindowController;
 
         JPanel panel_1 = new JPanel();
-        panel_1.setBounds(150, 71, 300, 132);
+        panel_1.setBounds(150, 71, 300, 150);
         panel_1.setBackground(new Color(0, 0, 0, 100));
         add(panel_1);
         panel_1.setLayout(null);
@@ -41,9 +44,38 @@ public class RemoteOptionScreen extends JPanel {
         lblNewLabel.setBounds(90, 13, 275, 16);
         panel_1.add(lblNewLabel);
 
+        // Connection Panel
+        iPAddressTextField = new RoundJTextField(40);
+        iPAddressTextField.setBounds(80, 42, 116, 29);
+        panel_1.add(iPAddressTextField);
+        iPAddressTextField.setColumns(10);
+
+        btnSendRequest = new DefaultButton("Send");
+        btnSendRequest.setBounds(5, 100, 116, 25);
+        panel_1.add(btnSendRequest);
+
+        btnAcceptRequest = new DefaultButton("Accept");
+        btnAcceptRequest.setBounds(153, 100, 116, 25);
+        panel_1.add(btnAcceptRequest);
+
+        lblErrorMsg = new JLabel();
+        lblErrorMsg.setForeground(Color.RED);
+        lblErrorMsg.setBounds(70, 80, 200, 15);
+        panel_1.add(lblErrorMsg);
+
+        loading = new JLabel(new ImageIcon(Utils.getResoursePath("ajax-loader.gif")), JLabel.CENTER);
+        loading.setBounds(80, 95, 116, 25);
+        loading.setVisible(false);
+        panel_1.add(loading);
+
+        btnCancel = new DefaultButton("X", 45, 40);
+        btnCancel.setBounds(210, 85, 97, 25);
+        btnCancel.setVisible(false);
+        panel_1.add(btnCancel);
+
         // Player Option Panel
         playerOptionPanel = new JPanel();
-        playerOptionPanel.setBounds(150, 216, 300, 55);
+        playerOptionPanel.setBounds(150, 230, 300, 55);
         playerOptionPanel.setBackground(new Color(0, 0, 0, 100));
         playerOptionPanel.setLayout(null);
         playerOptionPanel.setVisible(false);
@@ -57,29 +89,6 @@ public class RemoteOptionScreen extends JPanel {
         btnAIOption.setBounds(150, 10, 81, 25);
         playerOptionPanel.add(btnAIOption);
 
-        // ====================================
-        iPAddressTextField = new RoundJTextField(40);
-        iPAddressTextField.setBounds(80, 42, 116, 29);
-        panel_1.add(iPAddressTextField);
-        iPAddressTextField.setColumns(10);
-
-        btnSendRequest = new DefaultButton("Send");
-        btnSendRequest.setBounds(5, 85, 116, 25);
-        panel_1.add(btnSendRequest);
-
-        btnAcceptRequest = new DefaultButton("Accept");
-        btnAcceptRequest.setBounds(153, 85, 116, 25);
-        panel_1.add(btnAcceptRequest);
-
-        loading = new JLabel(new ImageIcon(Utils.getResoursePath("ajax-loader.gif")), JLabel.CENTER);
-        loading.setBounds(80, 95, 116, 25);
-        loading.setVisible(false);
-        panel_1.add(loading);
-
-        btnCancel = new DefaultButton("X", 45, 40);
-        btnCancel.setBounds(210, 85, 97, 25);
-        btnCancel.setVisible(false);
-        panel_1.add(btnCancel);
 
         JButton btnBack = FactoryUI.getBackButton();
         add(btnBack);
@@ -89,14 +98,16 @@ public class RemoteOptionScreen extends JPanel {
         });
 
         btnHumanOption.addActionListener((ActionEvent event) -> {
-            gameWindowController.changePage(Screen.USER_FORM);
-        });
-
-        btnAIOption.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.REMOTE_OPTION, GameOption.HUMAN);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
-        new RemoteOptionController(this);
+        btnAIOption.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.REMOTE_OPTION, GameOption.AI);
+            gameWindowController.changePage(Screen.GAME_PANEL);
+        });
+
+        controller = new RemoteOptionController(this);
     }
 
     @Override
@@ -125,8 +136,16 @@ public class RemoteOptionScreen extends JPanel {
         return btnCancel;
     }
 
-    public JTextField getiPAddressTextField(){
+    public JTextField getiPAddressTextField() {
         return iPAddressTextField;
+    }
+
+    public JLabel getLblErrorMsg() {
+        return lblErrorMsg;
+    }
+
+    public RemoteOptionController getController() {
+        return this.controller;
     }
 
 }

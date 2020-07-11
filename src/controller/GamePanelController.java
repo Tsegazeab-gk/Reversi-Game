@@ -1,30 +1,33 @@
 package controller;
 
+import controller.command.Invoker;
 import controller.observer.Observer;
-import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
+import logic.factory.LevelFactoryImpl;
 import player.GamePlayer;
+import player.HumanPlayer;
+import player.ai.AIPlayerDynamic;
+import player.ai.AIPlayerRealtimeKiller;
+import services.network.ConnectedUser;
+import services.network.GameConnection;
 import util.BoardHelper;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
-public class GamePanelController implements GameEngine, Subject {
+public class GamePanelController implements GameEngine, GameConnection {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
     private int turn = 1;
     private int[][] board;
     private GamePlayer player1;
-    //= LevelFactoryImpl.getFactory().createPlayer(1,6,true,"superhard");
-    //new AIPlayerRealtimeKiller(1,6,true);
-    private GamePlayer player2 ;
-    //= LevelFactoryImpl.getFactory().createPlayer(2,6,false,"superhard");
-    //new AIPlayerDynamic(2,6);
-    private Invoker invoker=new Invoker();
+    private GamePlayer player2;    //new AIPlayerDynamic(2,6);
+    private Invoker invoker=Invoker.INSTANCE;
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
     private boolean awaitForClick = false;
@@ -35,13 +38,14 @@ public class GamePanelController implements GameEngine, Subject {
 
     private int p1score = 0;
     private int p2score = 0;
-    private Observer observer;
+    private java.util.List<Observer> observers;
+    private ConnectedUser connectedUser;
 
-    //,Observer observer
     public GamePanelController(GamePanel gamePanel){
         this.gamePanel = gamePanel;
 
-        this.observer=gamePanel;
+        observers=new ArrayList<Observer>();
+        this.attach(gamePanel);
         resetBoard();
 
         cells = new BoardCell[8][8];
@@ -52,9 +56,8 @@ public class GamePanelController implements GameEngine, Subject {
             }
         }
 
-        //
-        updateBoardInfo();
-        updateTotalScore();
+//        updateBoardInfo();
+//        updateTotalScore();
 
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(1000, (ActionEvent e) -> {
@@ -71,6 +74,8 @@ public class GamePanelController implements GameEngine, Subject {
     }
 
     public void start() {
+        updateBoardInfo();
+        updateTotalScore();
         manageTurn();
     }
 
@@ -144,17 +149,29 @@ public class GamePanelController implements GameEngine, Subject {
 //        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
     }
 
+    //implimenting Observers
     @Override
     public void notifyObservers() {
-        if(getPlayer1()!=null)
-        observer.update(getPlayer1().getPlayerName() + " : " + p1score,getPlayer2().getPlayerName() + " : " + p2score);
+        for(Observer o:observers)
+            o.update("" + p1score,"" + p2score);
+    }
+
+    @Override
+    public void attach(Observer observer) {
+        if(!observers.contains(observer))
+            observers.add(observer);
+    }
+
+    @Override
+    public void detach(Observer observer) {
+        int i=observers.indexOf(observer);
+        if(i>=0)
+            observers.remove(i);
     }
 
     public void updateTotalScore() {
-        if(getPlayer1()!=null) {
-            this.gamePanel.getTscore1().setText(getPlayer1().getPlayerName() + " : " + totalscore1);
-            this.gamePanel.getTscore2().setText(getPlayer2().getPlayerName() + " : " + totalscore2);
-        }
+        this.gamePanel.getTscore1().setText(""+totalscore1);
+        this.gamePanel.getTscore2().setText(""+totalscore2);
     }
 
     public void resetBoard() {
@@ -172,6 +189,16 @@ public class GamePanelController implements GameEngine, Subject {
     }
 
     public void handleClick(int i, int j) {
+        if (connectedUser != null) {
+            if (!connectedUser.isYourTurn())
+                return;
+            else
+                connectedUser.sendMove(i, j);
+        }
+        handleMove(i, j);
+    }
+
+    private void handleMove(int i, int j) {
         if (awaitForClick && BoardHelper.canPlay(board, turn, i, j)) {
             System.out.println("User Played in : " + i + " , " + j);
 
@@ -195,7 +222,7 @@ public class GamePanelController implements GameEngine, Subject {
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
         if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
-        System.out.println(ai.getPlayerName() + " Played in : " + i + " , " + j);
+//        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
 
         //update board using the invoker of the command pattern
         board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
@@ -215,12 +242,8 @@ public class GamePanelController implements GameEngine, Subject {
         this.player2 = player;
     }
 
-    public GamePlayer getPlayer1() {
-        return player1;
-    }
-
-    public GamePlayer getPlayer2() {
-        return player2;
+    public void setConnectedUser(ConnectedUser connectedUser) {
+        this.connectedUser = connectedUser;
     }
 
     @Override
@@ -232,6 +255,16 @@ public class GamePanelController implements GameEngine, Subject {
     public void setBoardValue(int i, int j, int value) {
         board[i][j] = value;
     }
+    @Override
+    public void receivedMove(int i, int j) {
+        this.handleMove(i, j);
+    }
 
+    public GamePlayer getPlayer1() {
+        return player1;
+    }
 
+    public GamePlayer getPlayer2() {
+        return player2;
+    }
 }

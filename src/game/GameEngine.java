@@ -1,5 +1,7 @@
 package game;
 
+import controller.observer.Observer;
+
 //interface that gui speaks to
 public interface GameEngine {
 
@@ -8,5 +10,9 @@ public interface GameEngine {
     public void setBoardValue(int i,int j,int value);
 
     public void handleClick(int i,int j);
+
+    public void notifyObservers();
+    void attach(Observer observer);
+    void detach(Observer observer);
 
 }
