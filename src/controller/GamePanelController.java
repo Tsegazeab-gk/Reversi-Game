@@ -23,8 +23,8 @@ public class GamePanelController implements GameEngine, GameConnection {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
-    private int turn = 1;
-    private int[][] board;
+    public int turn = 1;
+    public int[][] board;
     private GamePlayer player1;
     private GamePlayer player2;    //new AIPlayerDynamic(2,6);
     private Invoker invoker=Invoker.INSTANCE;
@@ -61,13 +61,15 @@ public class GamePanelController implements GameEngine, GameConnection {
 
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(1000, (ActionEvent e) -> {
-            handleAI(player1);
+            //handleAI(player1);
+            player1.handleAITemplate(board,player1,turn,this,gamePanel,invoker);
             player1HandlerTimer.stop();
             manageTurn();
         });
 
         player2HandlerTimer = new Timer(1000, (ActionEvent e) -> {
-            handleAI(player2);
+            //handleAI(player2);
+            player2.handleAITemplate(board,player2,turn,this,gamePanel,invoker);
             player2HandlerTimer.stop();
             manageTurn();
         });
@@ -217,22 +219,23 @@ public class GamePanelController implements GameEngine, GameConnection {
         }
     }
 
-    public void handleAI(GamePlayer ai) {
-        Point aiPlayPoint = ai.play(board);
-        int i = aiPlayPoint.x;
-        int j = aiPlayPoint.y;
-        if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
-//        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
-
-        //update board using the invoker of the command pattern
-        board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
-//        board = BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
-
-        //advance turn
-        turn = (turn == 1) ? 2 : 1;
-
-        this.gamePanel.repaint();
-    }
+//    public void handleAI(GamePlayer ai) {
+//
+//        Point aiPlayPoint = ai.play(board);
+//        int i = aiPlayPoint.x;
+//        int j = aiPlayPoint.y;
+//        if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
+////        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
+//
+//        //update board using the invoker of the command pattern
+//        board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
+////        board = BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
+//
+//        //advance turn
+//        turn = (turn == 1) ? 2 : 1;
+//
+//        this.gamePanel.repaint();
+//    }
 
     public void setPlayer1(GamePlayer player) {
         this.player1 = player;
