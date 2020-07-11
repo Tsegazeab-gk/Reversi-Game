@@ -75,7 +75,7 @@ public class GamePanelController implements GameEngine, GameConnection {
 
     public void start() {
         updateBoardInfo();
-        updateTotalScore();
+//        updateTotalScore();
         manageTurn();
     }
 
@@ -114,11 +114,18 @@ public class GamePanelController implements GameEngine, GameConnection {
             }
         } else {
             //game finished
+            updateBoardInfo();
             System.out.println("Game Finished !");
             int winner = BoardHelper.getWinner(board);
-            if (winner == 1) totalscore1++;
-            else if (winner == 2) totalscore2++;
-            updateTotalScore();
+            if (winner == 2) {
+//                totalscore1++;
+                this.gamePanel.getWinner().setText("winner is: player 1");
+            }
+            else if (winner == 1) {
+                this.gamePanel.getWinner().setText("winner is: player 2");
+//                totalscore2++;
+            }
+//            updateTotalScore();
             //restart
             //resetBoard();
             //turn=1;
@@ -170,8 +177,12 @@ public class GamePanelController implements GameEngine, GameConnection {
     }
 
     public void updateTotalScore() {
-        this.gamePanel.getTscore1().setText(""+totalscore1);
-        this.gamePanel.getTscore2().setText(""+totalscore2);
+        if (totalscore1==1)
+            this.gamePanel.getWinner().setText("winner is: player 2");
+        else
+            this.gamePanel.getWinner().setText("winner is: player 1");
+//        this.gamePanel.getTscore1().setText(""+totalscore1);
+//        this.gamePanel.getTscore2().setText(""+totalscore2);
     }
 
     public void resetBoard() {

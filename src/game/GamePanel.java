@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Observer {
     private JLabel score2;
     private JLabel tscore1;
     private JLabel tscore2;
+    private JLabel winner;
     private JPanel reversiBoard;
     private GamePanelController gamePanelController;
 
@@ -131,6 +132,14 @@ public class GamePanel extends JPanel implements Observer {
         gbc_tscore2.gridy = 3;
         topPanel.add(tscore2, gbc_tscore2);
 
+        winner=new JLabel("");
+        GridBagConstraints gbc_winner=new GridBagConstraints();
+        gbc_tscore2.insets = new Insets(0, 0, 5, 0);
+        gbc_tscore2.gridx = 8;
+        gbc_tscore2.gridy = 1;
+        topPanel.add(winner, gbc_winner);
+
+
         JPanel bottomPanel = new JPanel();
         bottomPanel.setPreferredSize(new Dimension(10, 50));
         add(bottomPanel, BorderLayout.SOUTH);
@@ -190,11 +199,20 @@ public class GamePanel extends JPanel implements Observer {
         return this.tscore2;
     }
 
+    public JLabel getWinner() {
+        return winner;
+    }
+
+    public void setWinner(JLabel winner) {
+        this.winner = winner;
+    }
+
     @Override
     public void update(String p1score, String p2score) {
-        this.getScore1().setText(p1score);
-        this.getScore2().setText(p2score);
-
+        this.getScore2().setText(p1score);
+        this.getScore1().setText(p2score);
+        this.getTscore1().setText(p2score);
+        this.getTscore2().setText(p1score);
     }
 
     //    @Override
