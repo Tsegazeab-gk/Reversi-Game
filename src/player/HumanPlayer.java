@@ -6,8 +6,9 @@ public class HumanPlayer extends GamePlayer {
 
     String name;
 
-    public HumanPlayer(int mark) {
+    public HumanPlayer(int mark, String name) {
         super(mark);
+        this.name=name;
     }
 
     @Override
