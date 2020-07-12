@@ -2,7 +2,6 @@ package controller;
 
 import controller.command.Invoker;
 import controller.observer.Observer;
-import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
