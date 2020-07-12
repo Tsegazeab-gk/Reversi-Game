@@ -2,14 +2,11 @@ package controller;
 
 import controller.builder.GamePanelBuilder;
 import game.GamePanel;
-import game.GameWindow;
 import logic.factory.LevelFactoryImpl;
 import models.GameOption;
 import models.Screen;
 import player.GamePlayer;
 import player.HumanPlayer;
-import player.ai.AIPlayerDynamic;
-import player.ai.AIPlayerRealtimeKiller;
 import services.network.ConnectedUser;
 import ui.*;
 
@@ -24,9 +21,11 @@ public class GameWindowController {
     private JPanel startScreen,
             localOptionScreen,
             locationSettingScreen,
-            levelOptionScreen;
+            levelOptionScreen,
+            remoteLocationSettingScreen;
     private UserFormScreen userFormScreen;
-    private RemoteOptionScreen remoteOptionScreen;
+    private RemoteTCPOptionScreen remoteTCPOptionScreen;
+    private RemoteUDPOptionScreen remoteUDPOptionScreen;
 
     private Map<Screen, GameOption> optionMap = new HashMap<Screen, GameOption>();
     private Stack<JPanel> screenStack = new Stack<JPanel>();
@@ -36,7 +35,9 @@ public class GameWindowController {
         startScreen = new StartScreen(this);
         userFormScreen = new UserFormScreen(this);
         localOptionScreen = new LocalOptionScreen(this);
-        remoteOptionScreen = new RemoteOptionScreen(this);
+        remoteLocationSettingScreen = new RemoteLocationSettingScreen(this);
+        remoteTCPOptionScreen = new RemoteTCPOptionScreen(this);
+        remoteUDPOptionScreen = new RemoteUDPOptionScreen(this);
         locationSettingScreen = new LocationSettingScreen(this);
         levelOptionScreen = new LevelOptionScreen(this);
 
@@ -64,8 +65,14 @@ public class GameWindowController {
             case LOCAL_OPTION:
                 panel = localOptionScreen;
                 break;
-            case REMOTE_OPTION:
-                panel = remoteOptionScreen;
+            case REMOTE_TCP_OPTION:
+                panel = remoteTCPOptionScreen;
+                break;
+            case REMOTE_UDP_OPTION:
+                panel = remoteUDPOptionScreen;
+                break;
+            case REMOTE_LOCATION_SETTING:
+                panel = remoteLocationSettingScreen;
                 break;
             case LOCATION_SETTING:
                 panel = locationSettingScreen;
@@ -113,17 +120,33 @@ public class GameWindowController {
             }
 
         } else {
-            GameOption levelOption = optionMap.get(Screen.REMOTE_OPTION);
 
-            if (optionMap.get(Screen.REMOTE_OPTION).equals(GameOption.HUMAN)) {
-                p1 = new HumanPlayer(1);
-                p2 = new HumanPlayer(2);
-            } else if (optionMap.get(Screen.REMOTE_OPTION).equals(GameOption.AI)) {
-                p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
-                p2 = new HumanPlayer(2);
+            if (optionMap.get(Screen.REMOTE_LOCATION_SETTING).equals(GameOption.TCP_CONNECTION)) {
+                GameOption levelOption = optionMap.get(Screen.REMOTE_TCP_OPTION);
+
+                if (optionMap.get(Screen.REMOTE_TCP_OPTION).equals(GameOption.HUMAN)) {
+                    p1 = new HumanPlayer(1);
+                    p2 = new HumanPlayer(2);
+                } else if (optionMap.get(Screen.REMOTE_TCP_OPTION).equals(GameOption.AI)) {
+                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
+                    p2 = new HumanPlayer(2);
+                }
+                connectedUser = remoteTCPOptionScreen.getController().getConnectedUser();
+
+            } else if (optionMap.get(Screen.REMOTE_LOCATION_SETTING).equals(GameOption.UDP_CONNECTION)) {
+                GameOption levelOption = optionMap.get(Screen.REMOTE_UDP_OPTION);
+
+                if (optionMap.get(Screen.REMOTE_UDP_OPTION).equals(GameOption.HUMAN)) {
+                    p1 = new HumanPlayer(1);
+                    p2 = new HumanPlayer(2);
+                } else if (optionMap.get(Screen.REMOTE_UDP_OPTION).equals(GameOption.AI)) {
+                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
+                    p2 = new HumanPlayer(2);
+                }
+                connectedUser = remoteUDPOptionScreen.getController().getConnectedUser();
+
             }
 
-            connectedUser = remoteOptionScreen.getController().getConnectedUser();
         }
 
         GamePanel gamePanel = new GamePanelBuilder.Builder()

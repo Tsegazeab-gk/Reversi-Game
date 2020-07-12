@@ -7,6 +7,9 @@ public enum GameOption {
     // Location Option
     LOCAL,
     REMOTE,
+    // Remote Option
+    TCP_CONNECTION,
+    UDP_CONNECTION,
     // User Option
     HUMAN_VS_HUMAN,
     HUMAN_VS_AI,

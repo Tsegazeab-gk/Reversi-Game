@@ -141,7 +141,7 @@ public class GamePanelController implements GameEngine, Subject, GameConnection 
 
     @Override
     public void notifyObservers() {
-        observer.update(player1.playerName() + " : " + p1score, player2.playerName() + " : " + p2score);
+        observer.update( p1score + "",  p2score + "");
     }
 
     public void updateTotalScore() {

@@ -1,26 +1,34 @@
 package services.network;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 
 public abstract class ConnectedUser {
     protected Socket socket = null;
-    protected ObjectInputStream in = null;
-    protected ObjectOutputStream out = null;
+
+    // IO String
+    protected DataInputStream in;
+    protected DataOutputStream out;
 
     protected String address;
     protected int port;
+    protected InetSocketAddress inetSocketAddress;
 
     protected String userId;
     protected boolean isYourTurn = true;
     protected boolean running = true;
     protected GameConnection gc;
+    protected String httpUrl;
 
     public ConnectedUser(String address, int port) {
         this.address = address;
         this.port = port;
+    }
+
+    public ConnectedUser(String url){
+        this.httpUrl = url;
     }
 
     public String getUserId() {
@@ -31,19 +39,6 @@ public abstract class ConnectedUser {
         this.userId = userId;
     }
 
-    public void sendMove(int i, int j) {
-        try {
-            Message msg = new Message(i, j);
-            msg.setUser(userId + "");
-            System.out.println("Send -> " + msg);
-            System.out.println(out);
-            out.writeObject(msg);
-            isYourTurn = false;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public boolean isYourTurn() {
         return isYourTurn;
     }
@@ -51,14 +46,17 @@ public abstract class ConnectedUser {
     public void endConnection() {
         try {
             Message msg = new Message();
-            msg.setRunning(false);
-            out.writeObject(msg);
+            out.writeUTF(msg.toString());
             out.flush();
             running = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public abstract void sendMove(int x, int y);
+
+    public abstract void receivedMove(int x, int y);
 
     public void setGameConnection(GameConnection gameConnection) {
         this.gc = gameConnection;

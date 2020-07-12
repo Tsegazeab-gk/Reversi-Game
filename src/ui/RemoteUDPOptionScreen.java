@@ -1,7 +1,7 @@
 package ui;
 
 import controller.GameWindowController;
-import controller.RemoteOptionController;
+import controller.RemoteUDPOptionController;
 import models.GameOption;
 import models.Screen;
 import ui.widgets.DefaultButton;
@@ -12,66 +12,74 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class RemoteOptionScreen extends JPanel {
+public class RemoteUDPOptionScreen extends JPanel {
 
     /**
      * Create the panel.
      */
 
-    private JTextField iPAddressTextField;
+    private JTextField addressTextField;
     private JLabel loading;
-    private JButton btnSendRequest;
-    private JButton btnAcceptRequest;
+    private JButton btnConnection;
     private GameWindowController gameWindowController;
-    private JPanel playerOptionPanel;
+    private JPanel playerOptionPanel, formOptionPanel;
     private JButton btnCancel;
     private JLabel lblErrorMsg;
-    private RemoteOptionController controller;
+    private RemoteUDPOptionController controller;
+    private JTextField portTextField;
 
-    public RemoteOptionScreen(GameWindowController gameWindowController) {
+    public RemoteUDPOptionScreen(GameWindowController gameWindowController) {
         setLayout(null);
         this.gameWindowController = gameWindowController;
 
-        JPanel panel_1 = new JPanel();
-        panel_1.setBounds(150, 71, 300, 150);
-        panel_1.setBackground(new Color(0, 0, 0, 100));
-        add(panel_1);
-        panel_1.setLayout(null);
+        formOptionPanel = new JPanel();
+        formOptionPanel.setBounds(150, 24, 300, 200);
+        formOptionPanel.setBackground(new Color(0, 0, 0, 100));
+        add(formOptionPanel);
+        formOptionPanel.setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("IP Address");
+        JLabel lblNewLabel = new JLabel("URL Server Address");
         lblNewLabel.setFont(new Font("Calibri", Font.PLAIN, 22));
         lblNewLabel.setForeground(Color.WHITE);
-        lblNewLabel.setBounds(90, 13, 275, 16);
-        panel_1.add(lblNewLabel);
+        lblNewLabel.setBounds(12, 13, 200, 16);
+        formOptionPanel.add(lblNewLabel);
+
+        JLabel lblNewLabel_1 = new JLabel("Port");
+        lblNewLabel_1.setFont(new Font("Calibri", Font.PLAIN, 22));
+        lblNewLabel_1.setForeground(Color.WHITE);
+        lblNewLabel_1.setBounds(12, 77, 200, 16);
+        formOptionPanel.add(lblNewLabel_1);
+
+        portTextField = new RoundJTextField(40);
+        portTextField.setBounds(12, 106, 276, 22);
+        formOptionPanel.add(portTextField);
 
         // Connection Panel
-        iPAddressTextField = new RoundJTextField(40);
-        iPAddressTextField.setBounds(80, 42, 116, 29);
-        panel_1.add(iPAddressTextField);
-        iPAddressTextField.setColumns(10);
-
-        btnSendRequest = new DefaultButton("Send");
-        btnSendRequest.setBounds(5, 100, 116, 25);
-        panel_1.add(btnSendRequest);
-
-        btnAcceptRequest = new DefaultButton("Accept");
-        btnAcceptRequest.setBounds(153, 100, 116, 25);
-        panel_1.add(btnAcceptRequest);
+        addressTextField = new RoundJTextField(40);
+        addressTextField.setBounds(12, 42, 276, 22);
+        formOptionPanel.add(addressTextField);
+        addressTextField.setColumns(10);
 
         lblErrorMsg = new JLabel();
         lblErrorMsg.setForeground(Color.RED);
-        lblErrorMsg.setBounds(70, 80, 200, 15);
-        panel_1.add(lblErrorMsg);
+        lblErrorMsg.setBounds(12, 133, 300, 16);
+        lblErrorMsg.setHorizontalAlignment(SwingConstants.CENTER);
+        formOptionPanel.add(lblErrorMsg);
+
+        btnConnection = new DefaultButton("Connect");
+        btnConnection.setBounds(88, 155, 116, 25);
+        formOptionPanel.add(btnConnection);
+
 
         loading = new JLabel(new ImageIcon(Utils.getResoursePath("ajax-loader.gif")), JLabel.CENTER);
         loading.setBounds(80, 95, 116, 25);
         loading.setVisible(false);
-        panel_1.add(loading);
+        formOptionPanel.add(loading);
 
         btnCancel = new DefaultButton("X", 45, 40);
         btnCancel.setBounds(210, 85, 97, 25);
         btnCancel.setVisible(false);
-        panel_1.add(btnCancel);
+        formOptionPanel.add(btnCancel);
 
         // Player Option Panel
         playerOptionPanel = new JPanel();
@@ -98,16 +106,16 @@ public class RemoteOptionScreen extends JPanel {
         });
 
         btnHumanOption.addActionListener((ActionEvent event) -> {
-            gameWindowController.setOption(Screen.REMOTE_OPTION, GameOption.HUMAN);
+            gameWindowController.setOption(Screen.REMOTE_UDP_OPTION, GameOption.HUMAN);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
         btnAIOption.addActionListener((ActionEvent event) -> {
-            gameWindowController.setOption(Screen.REMOTE_OPTION, GameOption.AI);
+            gameWindowController.setOption(Screen.REMOTE_UDP_OPTION, GameOption.AI);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
-        controller = new RemoteOptionController(this);
+        controller = new RemoteUDPOptionController(this);
     }
 
     @Override
@@ -120,31 +128,29 @@ public class RemoteOptionScreen extends JPanel {
         return loading;
     }
 
-    public JButton getBtnSendRequest() {
-        return btnSendRequest;
-    }
-
-    public JButton getBtnAcceptRequest() {
-        return btnAcceptRequest;
-    }
+    public JButton getBtnConnection(){return btnConnection;}
 
     public JPanel getPlayerOptionPanel() {
         return playerOptionPanel;
     }
 
+    public JPanel getFormOptionPanel(){return formOptionPanel;}
+
     public JButton getBtnCancel() {
         return btnCancel;
     }
 
-    public JTextField getiPAddressTextField() {
-        return iPAddressTextField;
+    public JTextField getAddressTextField() {
+        return addressTextField;
     }
+
+    public JTextField getPortTextField(){return  portTextField;}
 
     public JLabel getLblErrorMsg() {
         return lblErrorMsg;
     }
 
-    public RemoteOptionController getController() {
+    public RemoteUDPOptionController getController() {
         return this.controller;
     }
 
