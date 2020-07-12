@@ -17,6 +17,9 @@ public class GamePanel extends JPanel implements Observer {
     private JLabel tscore2;
     private JPanel reversiBoard;
     private GamePanelController gamePanelController;
+    private JLabel arrowLeft, arrowRight;
+
+    private    JLabel labelPlayer1, labelPlayer2;
 
     public GamePanel() {
 
@@ -42,11 +45,12 @@ public class GamePanel extends JPanel implements Observer {
         gbc_score1.gridy = 2;
         leftPanel.add(score1, gbc_score1);
 
+
         JPanel panel = new JPanel() {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                g.setColor(Color.WHITE);
+                g.setColor(Color.BLACK);
                 g.fillOval(35, 50, 80, 80);
                 g.drawOval(35, 50, 80, 80);
             }
@@ -58,6 +62,14 @@ public class GamePanel extends JPanel implements Observer {
         gbc_panel.gridx = 1;
         gbc_panel.gridy = 3;
         leftPanel.add(panel, gbc_panel);
+
+        arrowLeft = new JLabel("Your Turn");
+        arrowLeft.setForeground(Color.BLACK);
+        GridBagConstraints gbcArrowLeft = new GridBagConstraints();
+        gbcArrowLeft.fill = GridBagConstraints.BOTH;
+        gbcArrowLeft.gridx = 1;
+        gbcArrowLeft.gridy = 4;
+        leftPanel.add(arrowLeft, gbcArrowLeft);
 
         JPanel rightPanel = new JPanel();
         rightPanel.setPreferredSize(new Dimension(150, 10));
@@ -81,7 +93,7 @@ public class GamePanel extends JPanel implements Observer {
             @Override
             public void paint(Graphics g) {
                 super.paint(g);
-                g.setColor(Color.BLACK);
+                g.setColor(Color.WHITE);
                 g.fillOval(35, 50, 80, 80);
                 g.drawOval(35, 50, 80, 80);
             }
@@ -93,6 +105,15 @@ public class GamePanel extends JPanel implements Observer {
         gbc_panel_1.gridy = 3;
         rightPanel.add(panel_1, gbc_panel_1);
 
+        arrowRight = new JLabel("Your Turn");
+        arrowRight.setForeground(Color.BLACK);
+        GridBagConstraints gbcArrowRight = new GridBagConstraints();
+        gbcArrowRight.fill = GridBagConstraints.BOTH;
+        gbcArrowRight.gridx = 1;
+        gbcArrowRight.gridy = 4;
+        rightPanel.add(arrowRight, gbcArrowRight);
+
+
         JPanel topPanel = new JPanel();
         topPanel.setPreferredSize(new Dimension(10, 60));
         add(topPanel, BorderLayout.NORTH);
@@ -103,19 +124,19 @@ public class GamePanel extends JPanel implements Observer {
         gbl_topPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
         topPanel.setLayout(gbl_topPanel);
 
-        JLabel lblNewLabel_3 = new JLabel("Player 2");
+        labelPlayer2 = new JLabel("Player 2");
         GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
         gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 0);
         gbc_lblNewLabel_3.gridx = 9;
         gbc_lblNewLabel_3.gridy = 2;
-        topPanel.add(lblNewLabel_3, gbc_lblNewLabel_3);
+        topPanel.add(labelPlayer2, gbc_lblNewLabel_3);
 
-        JLabel lblNewLabel_2 = new JLabel("Palyer 1");
+          labelPlayer1 = new JLabel("Palyer 1");
         GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
         gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
         gbc_lblNewLabel_2.gridx = 7;
         gbc_lblNewLabel_2.gridy = 2;
-        topPanel.add(lblNewLabel_2, gbc_lblNewLabel_2);
+        topPanel.add(labelPlayer1, gbc_lblNewLabel_2);
 
         tscore1 = new JLabel("0");
         GridBagConstraints gbc_tscore1 = new GridBagConstraints();
@@ -141,11 +162,13 @@ public class GamePanel extends JPanel implements Observer {
         gbl_bottomPanel.rowWeights = new double[]{0.0, 0.0};
         bottomPanel.setLayout(gbl_bottomPanel);
 
+
         JButton btnNewButton = new DefaultButton("Start");
         GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
         gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
         gbc_btnNewButton.gridx = 2;
         gbc_btnNewButton.gridy = 1;
+
         bottomPanel.add(btnNewButton, gbc_btnNewButton);
 
         JButton btnNewButton_1 = new DefaultButton("Pause");
@@ -188,6 +211,22 @@ public class GamePanel extends JPanel implements Observer {
 
     public JLabel getTscore2() {
         return this.tscore2;
+    }
+
+    public JLabel getLabelPlayer1() {
+        return this.labelPlayer1;
+    }
+
+    public JLabel getLabelPlayer2() {
+        return this.labelPlayer2;
+    }
+
+    public JLabel getArrowLeft(){
+        return this.arrowLeft;
+    }
+
+    public JLabel getArrowRight(){
+        return this.arrowRight;
     }
 
     @Override
