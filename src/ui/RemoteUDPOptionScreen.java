@@ -26,7 +26,7 @@ public class RemoteUDPOptionScreen extends JPanel {
     private JButton btnCancel;
     private JLabel lblErrorMsg;
     private RemoteUDPOptionController controller;
-    private JTextField portTextField;
+    private JTextField sourcePortTextField,destPortTextField;
 
     public RemoteUDPOptionScreen(GameWindowController gameWindowController) {
         setLayout(null);
@@ -44,15 +44,27 @@ public class RemoteUDPOptionScreen extends JPanel {
         lblNewLabel.setBounds(12, 13, 200, 16);
         formOptionPanel.add(lblNewLabel);
 
-        JLabel lblNewLabel_1 = new JLabel("Port");
+        // Source Port
+        JLabel lblNewLabel_1 = new JLabel("Source Port");
         lblNewLabel_1.setFont(new Font("Calibri", Font.PLAIN, 22));
         lblNewLabel_1.setForeground(Color.WHITE);
-        lblNewLabel_1.setBounds(12, 77, 200, 16);
+        lblNewLabel_1.setBounds(12, 77, 130, 16);
         formOptionPanel.add(lblNewLabel_1);
 
-        portTextField = new RoundJTextField(40);
-        portTextField.setBounds(12, 106, 276, 22);
-        formOptionPanel.add(portTextField);
+        sourcePortTextField = new RoundJTextField(40);
+        sourcePortTextField.setBounds(12, 106, 120, 22);
+        formOptionPanel.add(sourcePortTextField);
+
+        // Destination Port
+        JLabel lblNewLabel_2 = new JLabel("Dest. Port");
+        lblNewLabel_2.setFont(new Font("Calibri", Font.PLAIN, 22));
+        lblNewLabel_2.setForeground(Color.WHITE);
+        lblNewLabel_2.setBounds(150, 77, 120, 16);
+        formOptionPanel.add(lblNewLabel_2);
+
+        destPortTextField = new RoundJTextField(40);
+        destPortTextField.setBounds(150, 106, 130, 22);
+        formOptionPanel.add(destPortTextField);
 
         // Connection Panel
         addressTextField = new RoundJTextField(40);
@@ -144,7 +156,9 @@ public class RemoteUDPOptionScreen extends JPanel {
         return addressTextField;
     }
 
-    public JTextField getPortTextField(){return  portTextField;}
+    public JTextField getSourcePortTextField(){return  sourcePortTextField;}
+
+    public JTextField getDestPortTextField(){return destPortTextField;}
 
     public JLabel getLblErrorMsg() {
         return lblErrorMsg;

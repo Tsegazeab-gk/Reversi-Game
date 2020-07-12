@@ -234,6 +234,7 @@ public class GamePanelController implements GameEngine, Subject, GameConnection 
 
     @Override
     public void receivedMove(int i, int j) {
+        System.out.println("Received Move -> i: " + i + " j: " + j);
         this.handleMove(i, j);
     }
 }

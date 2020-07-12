@@ -9,27 +9,15 @@ public class UDPConnection extends ConnectedUser {
     private Thread listiningThread;
     private IConnection connectionState;
 
-    public static enum ConnectionType {
-        CLIENT,
-        SERVER
-    }
+    private int destPort;
 
-    private ConnectionType connectionType;
-
-    public UDPConnection(String address, int port) {
-        super(address, port);
-        inetSocketAddress = new InetSocketAddress(address, port);
-    }
-
-    public UDPConnection(String address, int port, IConnection connectionState) {
-        this(address, port);
+    public UDPConnection(String address, int sourcePort, int destPort, IConnection connectionState) {
+        super(address, sourcePort);
+        inetSocketAddress = new InetSocketAddress(address, destPort);
         this.connectionState = connectionState;
+        this.destPort = destPort;
     }
 
-    public UDPConnection(String address, int port, IConnection connectionState, ConnectionType connectionType) {
-        this(address, port, connectionState);
-        this.connectionType = connectionType;
-    }
 
     @Override
     public void sendMove(int i, int j) {
@@ -41,26 +29,23 @@ public class UDPConnection extends ConnectedUser {
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
             packet.setSocketAddress(inetSocketAddress);
             socket.send(packet);
+            isYourTurn = false;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void receivedMove(int x, int y) {
-        this.gc.receivedMove(x, y);
+    public void receivedMove(int i, int j) {
+        this.gc.receivedMove(i, j);
     }
 
     @Override
     public void startConnection() {
         try {
 
-            if (connectionType.equals(ConnectionType.SERVER)) {
-                socket = new DatagramSocket(port);
-            } else {
-                socket = new DatagramSocket(port);
-            }
-            System.out.println(String.format("Address: %s - Port: %s", address, port));
+            socket = new DatagramSocket(port);
+            System.out.println(String.format("Address: %s - SourcePort: %s - DestPort: %s", address, port, destPort));
 
             if (socket.isBound()) {
                 this.connectionState.connected(true, "");
@@ -95,12 +80,14 @@ public class UDPConnection extends ConnectedUser {
                     System.out.println("Received ->" + msg);
                     Message message = new Message(msg);
                     receivedMove(message.getI(), message.getJ());
+                    this.isYourTurn = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                     break;
                 }
             }
         });
+        listiningThread.start();
     }
 
     @Override

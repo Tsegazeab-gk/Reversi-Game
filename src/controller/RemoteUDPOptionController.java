@@ -19,11 +19,7 @@ public class RemoteUDPOptionController implements IConnection {
     public RemoteUDPOptionController(RemoteUDPOptionScreen remoteUDPOptionScreen) {
         this.remoteUDPOptionScreen = remoteUDPOptionScreen;
 
-        try {
-            this.remoteUDPOptionScreen.getAddressTextField().setText(InetAddress.getByName("120.0.0.1").getHostAddress());
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
+        this.remoteUDPOptionScreen.getAddressTextField().setText("localhost");
 
         this.remoteUDPOptionScreen.getBtnConnection().addActionListener((ActionEvent event) -> {
             if (!canChangeUIState()) {
@@ -32,15 +28,17 @@ public class RemoteUDPOptionController implements IConnection {
             }
 
             String addr = remoteUDPOptionScreen.getAddressTextField().getText();
-            String port = remoteUDPOptionScreen.getPortTextField().getText();
-            int portInt = 0;
+            String sourcePort = remoteUDPOptionScreen.getSourcePortTextField().getText();
+            String destPort = remoteUDPOptionScreen.getDestPortTextField().getText();
+            int sourcePortInt = 0, destPortInt = 0;
             try {
-                portInt = Integer.parseInt(port);
+                sourcePortInt = Integer.parseInt(sourcePort);
+                destPortInt = Integer.parseInt(destPort);
             } catch (NumberFormatException e) {
                 remoteUDPOptionScreen.getLblErrorMsg().setText("Invalid Port Format");
                 return;
             }
-            connectedUser = new UDPConnection(addr, portInt, this);
+            connectedUser = new UDPConnection(addr, sourcePortInt, destPortInt, this);
             connectedUser.startConnection();
 
         });
@@ -52,8 +50,9 @@ public class RemoteUDPOptionController implements IConnection {
 
     private boolean canChangeUIState() {
         String ipAddr = remoteUDPOptionScreen.getAddressTextField().getText();
-        String port = remoteUDPOptionScreen.getPortTextField().getText();
-        int portInt = 0;
+        String sourcePort = remoteUDPOptionScreen.getSourcePortTextField().getText();
+        String destPort = remoteUDPOptionScreen.getDestPortTextField().getText();
+        int sourcePortInt = 0, destPortInt = 0;
 
         if (!Utils.validateIPAddress(ipAddr)) {
             remoteUDPOptionScreen.getLblErrorMsg().setText("IP Address is not valid");
@@ -61,16 +60,17 @@ public class RemoteUDPOptionController implements IConnection {
         }
 
         try {
-            portInt = Integer.parseInt(port);
+            sourcePortInt = Integer.parseInt(sourcePort);
+            destPortInt = Integer.parseInt(destPort);
         } catch (NumberFormatException e) {
             remoteUDPOptionScreen.getLblErrorMsg().setText("Invalid Port Format");
             return false;
         }
 
-        if (portInt <= 0 || portInt > 65535) {
-            remoteUDPOptionScreen.getLblErrorMsg().setText("Port Number is not valid");
-            return false;
-        }
+//        if (portInt <= 0 || portInt > 65535) {
+//            remoteUDPOptionScreen.getLblErrorMsg().setText("Port Number is not valid");
+//            return false;
+//        }
 
         remoteUDPOptionScreen.getLblErrorMsg().setText("");
         Utils.setEnabledJPanel(remoteUDPOptionScreen.getFormOptionPanel(), false);
