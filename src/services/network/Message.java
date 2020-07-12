@@ -1,74 +1,64 @@
 package services.network;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 
 public class Message implements Serializable {
-	private static final long serialVersionUID = -5399605122490343339L;
+    private static final long serialVersionUID = -5399605122490343339L;
 
-	private String user;
-	private int i;
-	private int j;
-	private boolean running = true;
+    private int i;
+    private int j;
+    private boolean running = true;
+    private JSONObject jsonObject;
 
-	public Message() {
-	}
+    public Message() {
+    }
 
-	public Message(int i, int j) {
-		this.i = i;
-		this.j = j;
-	}
+    public Message(int i, int j) {
+        this.i = i;
+        this.j = j;
+    }
 
-	public void parsePoint(String point) {
-		if (point == null) {
-			return;
-		}
-		String[] pt = point.split(",");
-		if (pt.length < 2) {
-			return;
-		}
-		this.i = Integer.parseInt(pt[0]);
-		this.j = Integer.parseInt(pt[1]);
-	}
+    public Message(String jsonString) {
+        try {
+            jsonObject = new JSONObject(jsonString);
+            i = (int) jsonObject.get("x");
+            j = (int) jsonObject.get("y");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-	public String convertPoint(int i, int j) {
-		return i + "," + j;
-	}
+    }
 
-	public String getUser() {
-		return user;
-	}
+    public int getI() {
+        return i;
+    }
 
-	public void setUser(String user) {
-		this.user = user;
-	}
+    public void setI(int i) {
+        this.i = i;
+    }
 
-	public int getI() {
-		return i;
-	}
+    public int getJ() {
+        return j;
+    }
 
-	public void setI(int i) {
-		this.i = i;
-	}
+    public void setJ(int j) {
+        this.j = j;
+    }
 
-	public int getJ() {
-		return j;
-	}
+    public boolean isRunning() {
+        return running;
+    }
 
-	public void setJ(int j) {
-		this.j = j;
-	}
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
 
-	public boolean isRunning() {
-		return running;
-	}
-
-	public void setRunning(boolean running) {
-		this.running = running;
-	}
-
-	@Override
-	public String toString() {
-		return "Message [User " + user + ": i=" + i + ", j=" + j + "]";
-	}
+    @Override
+    public String toString() {
+        return String.format("{\"x\": %s, \"y\": %s}", i, j);
+    }
 
 }

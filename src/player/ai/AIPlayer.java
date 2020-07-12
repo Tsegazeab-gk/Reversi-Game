@@ -29,10 +29,12 @@ public class AIPlayer extends GamePlayer {
 
         if(option.equals("easy")){
             level= LevelFactory.getFactory().createEasyLevel(mark);
-        }else if(option.equals("medium")){
-            level=LevelFactory.getFactory().createMediumLevel(mark, depth);
-        }else {
+        }else if(option.equals("hard")){
+//            level=LevelFactory.getFactory().createMediumLevel(mark, depth);
             level=LevelFactory.getFactory().createDifficultLevel(mark,depth,firstplayer);
+        }else {
+//            level=LevelFactory.getFactory().createDifficultLevel(mark,depth,firstplayer);
+            level=LevelFactory.getFactory().createMediumLevel(mark, depth);
         }
         levelStrategy.setLevelStrategy(level);
 

@@ -67,8 +67,6 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             }
         }
 
-//        updateBoardInfo();
-//        updateTotalScore();
 
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(1000, (ActionEvent e) -> {
@@ -186,7 +184,6 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 //        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
     }
 
-    //implimenting Observers
     @Override
     public void notifyObservers() {
         for (Observer o : observers)
@@ -259,6 +256,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     // added for proxy pattern to count moves
     public void moveStone(int playerNumber, int i, int j) {
 
+        if (connectedUser != null) {
+            connectedUser.sendMove(i, j);
+        }
         // update board
 //        board = BoardHelper.getNewBoardAfterMove(board, new Point(i, j), playerNumber);
         board = invoker.getNewBoardAfterMove(board, new Point(i, j), turn);
@@ -276,11 +276,27 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     }
 
     public void handleAI(GamePlayer ai) {
+
+        if (connectedUser != null) {
+            if (!connectedUser.isYourTurn()){
+                System.out.println("returning.....");
+                return;
+            }
+        }
+
         Point aiPlayPoint = ai.play(board);
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
+
         if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
 //        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
+
+        // if (connectedUser != null) {
+        //     connectedUser.sendMove(i, j);
+        // }
+
+        // //update board using the invoker of the command pattern
+        // board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
 /*
         // update board using the invoker of the command pattern
         board = invoker.getNewBoardAfterMove(board, aiPlayPoint, turn);
@@ -341,9 +357,13 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     public void setBoardValue(int i, int j, int value) {
         board[i][j] = value;
     }
+
+
     @Override
     public void receivedMove(int i, int j) {
-        this.handleMove(i, j);
+//        this.handleClick(i,j);
+        this.handleMove(i,j);
+
     }
 
     public GamePlayer getPlayer1() {
