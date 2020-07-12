@@ -229,11 +229,24 @@ public class GamePanelController implements GameEngine, GameConnection {
     }
 
     public void handleAI(GamePlayer ai) {
+
+        if (connectedUser != null) {
+            if (!connectedUser.isYourTurn()){
+                System.out.println("returning.....");
+                return;
+            }
+        }
+
         Point aiPlayPoint = ai.play(board);
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
+
         if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
 //        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
+
+        if (connectedUser != null) {
+            connectedUser.sendMove(i, j);
+        }
 
         //update board using the invoker of the command pattern
         board=invoker.getNewBoardAfterMove(board,aiPlayPoint,turn);
@@ -243,6 +256,8 @@ public class GamePanelController implements GameEngine, GameConnection {
         turn = (turn == 1) ? 2 : 1;
 
         this.gamePanel.repaint();
+
+
     }
 
     public void setPlayer1(GamePlayer player) {
@@ -268,7 +283,9 @@ public class GamePanelController implements GameEngine, GameConnection {
     }
     @Override
     public void receivedMove(int i, int j) {
-        this.handleMove(i, j);
+//        this.handleClick(i,j);
+        this.handleMove(i,j);
+
     }
 
     public GamePlayer getPlayer1() {

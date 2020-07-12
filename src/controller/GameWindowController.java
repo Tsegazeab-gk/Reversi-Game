@@ -121,7 +121,8 @@ public class GameWindowController {
                 p2 = new HumanPlayer(2);
             } else if (optionMap.get(Screen.REMOTE_OPTION).equals(GameOption.AI)) {
                 p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
-                p2 = new HumanPlayer(2);
+                p2=LevelFactoryImpl.getFactory().createPlayer(2, 6, false, levelOption);
+//                p2 = new HumanPlayer(2);
             }
 
             connectedUser = remoteOptionScreen.getController().getConnectedUser();

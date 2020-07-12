@@ -22,6 +22,7 @@ public class DifficultLevel implements ILevelStrategy{
 
     OpeningBook OB;
     private boolean isOpeningActive = true;
+//    private boolean isOpeningActive = false;
 
     private MoveStrategyImpl strategy;
 
