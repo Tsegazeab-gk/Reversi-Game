@@ -1,7 +1,7 @@
 package ui;
 
 import controller.GameWindowController;
-import controller.RemoteOptionController;
+import controller.RemoteTCPOptionController;
 import models.GameOption;
 import models.Screen;
 import ui.widgets.DefaultButton;
@@ -12,7 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class RemoteOptionScreen extends JPanel {
+public class RemoteTCPOptionScreen extends JPanel {
 
     /**
      * Create the panel.
@@ -26,9 +26,9 @@ public class RemoteOptionScreen extends JPanel {
     private JPanel playerOptionPanel;
     private JButton btnCancel;
     private JLabel lblErrorMsg;
-    private RemoteOptionController controller;
+    private RemoteTCPOptionController controller;
 
-    public RemoteOptionScreen(GameWindowController gameWindowController) {
+    public RemoteTCPOptionScreen(GameWindowController gameWindowController) {
         setLayout(null);
         this.gameWindowController = gameWindowController;
 
@@ -61,6 +61,7 @@ public class RemoteOptionScreen extends JPanel {
         lblErrorMsg = new JLabel();
         lblErrorMsg.setForeground(Color.RED);
         lblErrorMsg.setBounds(70, 80, 200, 15);
+        lblErrorMsg.setHorizontalAlignment(SwingConstants.CENTER);
         panel_1.add(lblErrorMsg);
 
         loading = new JLabel(new ImageIcon(Utils.getResoursePath("ajax-loader.gif")), JLabel.CENTER);
@@ -98,16 +99,16 @@ public class RemoteOptionScreen extends JPanel {
         });
 
         btnHumanOption.addActionListener((ActionEvent event) -> {
-            gameWindowController.setOption(Screen.REMOTE_OPTION, GameOption.HUMAN);
+            gameWindowController.setOption(Screen.REMOTE_TCP_OPTION, GameOption.HUMAN);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
         btnAIOption.addActionListener((ActionEvent event) -> {
-            gameWindowController.setOption(Screen.REMOTE_OPTION, GameOption.AI);
+            gameWindowController.setOption(Screen.REMOTE_TCP_OPTION, GameOption.AI);
             gameWindowController.changePage(Screen.GAME_PANEL);
         });
 
-        controller = new RemoteOptionController(this);
+        controller = new RemoteTCPOptionController(this);
     }
 
     @Override
@@ -144,7 +145,7 @@ public class RemoteOptionScreen extends JPanel {
         return lblErrorMsg;
     }
 
-    public RemoteOptionController getController() {
+    public RemoteTCPOptionController getController() {
         return this.controller;
     }
 

@@ -10,6 +10,7 @@ public class RoundJTextField extends JTextField {
     public RoundJTextField(int size) {
         super(size);
         setOpaque(false);
+        this.setFont(new Font("Calibri", Font.PLAIN, 22));
     }
 
     protected void paintComponent(Graphics g) {

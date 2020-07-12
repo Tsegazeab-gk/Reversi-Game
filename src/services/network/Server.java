@@ -1,10 +1,6 @@
 package services.network;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.io.*;
 import java.net.ServerSocket;
 
 public class Server extends ConnectedUser {
@@ -28,13 +24,10 @@ public class Server extends ConnectedUser {
         connectionThread = new Thread(() -> {
             try {
                 System.out.println(String.format("Start Server Connection on port %s", port));
-                //InetAddress addr = InetAddress.getByName(address);
                 server = new ServerSocket(port);
-                //server.bind(new InetSocketAddress(address, port));
-                System.out.println(server.getInetAddress());
                 socket = server.accept();
-                out = new ObjectOutputStream(socket.getOutputStream());
-                in = new ObjectInputStream(socket.getInputStream());
+                in = new DataInputStream(socket.getInputStream());
+                out = new DataOutputStream(socket.getOutputStream());
                 System.out.println("Connection Done!!!");
                 this.connectionState.connected(true, "");
             } catch (Exception e) {
@@ -43,6 +36,23 @@ public class Server extends ConnectedUser {
             }
         });
         connectionThread.start();
+    }
+
+    @Override
+    public void sendMove(int i, int j) {
+        try {
+            Message msg = new Message(i, j);
+            System.out.println("Send -> " + msg);
+            out.writeUTF(msg.toString());
+            isYourTurn = false;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void receivedMove(int x, int y) {
+        this.gc.receivedMove(x, y);
     }
 
     @Override
@@ -62,21 +72,22 @@ public class Server extends ConnectedUser {
         listiningThread = new Thread(() -> {
             try {
                 while (running) {
-                    Message msg = (Message) in.readObject();
+                    int i = 0, j = 0;
+                    Message msg = new Message(in.readUTF());
                     System.out.println("Received -> " + msg);
+                    i = msg.getI();
+                    j = msg.getJ();
                     this.running = msg.isRunning();
                     if (!this.running) {
                         break;
                     }
-                    this.gc.receivedMove(msg.getI(), msg.getJ());
+                    this.receivedMove(i, j);
                     this.isYourTurn = true;
                 }
                 System.out.println("Closing connection");
                 socket.close();
                 in.close();
             } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
         });

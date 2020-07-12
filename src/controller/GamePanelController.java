@@ -2,6 +2,7 @@ package controller;
 
 import controller.command.Invoker;
 import controller.observer.Observer;
+import controller.observer.Subject;
 import game.BoardCell;
 import game.GameEngine;
 import game.GamePanel;
@@ -67,8 +68,6 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             }
         }
 
-//        updateBoardInfo();
-//        updateTotalScore();
 
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(1000, (ActionEvent e) -> {
@@ -186,7 +185,6 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 //        this.gamePanel.getScore2().setText(player2.playerName() + " : " + p2score);
     }
 
-    //implimenting Observers
     @Override
     public void notifyObservers() {
         for (Observer o : observers)
@@ -360,6 +358,8 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     public void setBoardValue(int i, int j, int value) {
         board[i][j] = value;
     }
+
+
     @Override
     public void receivedMove(int i, int j) {
 //        this.handleClick(i,j);
