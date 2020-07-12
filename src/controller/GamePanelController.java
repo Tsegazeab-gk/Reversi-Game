@@ -129,12 +129,12 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             System.out.println("Game Finished !");
               winner = BoardHelper.getWinner(board);
             if (winner == 1) {
-//                totalscore1++;
+                 totalscore1++;
                 this.gamePanel.getWinner().setText("winner is: player 1");
             }
             else if (winner == 2) {
                 this.gamePanel.getWinner().setText("winner is: player 2");
-//                totalscore2++;
+                 totalscore2++;
             }
 //            updateTotalScore();
             //restart
