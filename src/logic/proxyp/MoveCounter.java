@@ -35,8 +35,9 @@ numberOfMoves.put(p, moves);
 
 	@Override
 	public int getNumberOfMoves(int p) {
-	
+	if(numberOfMoves.size()>0)
 		return numberOfMoves.get(p);
+	return 0;
 	}
 
 }
