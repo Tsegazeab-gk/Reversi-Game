@@ -208,9 +208,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 
     public void updateTotalScore() {
         if (totalscore1==1)
-            this.gamePanel.getWinner().setText("winner is: player 2");
-        else
             this.gamePanel.getWinner().setText("winner is: player 1");
+        else
+            this.gamePanel.getWinner().setText("winner is: player 2");
 //        this.gamePanel.getTscore1().setText(""+totalscore1);
 //        this.gamePanel.getTscore2().setText(""+totalscore2);
         this.gamePanel.getTscore1().setText("" + totalscore1);
