@@ -6,10 +6,8 @@ import ui.widgets.DefaultButton;
 import util.Utils;
 
 import javax.swing.JPanel;
-import javax.swing.JLabel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.nio.file.Paths;
 
 public class StartScreen extends JPanel {
 

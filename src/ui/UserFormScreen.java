@@ -13,11 +13,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.JButton;
 
-public class UserFormScreen extends JPanel {
+public class UserFormScreen extends ScreenPanel {
     private JTextField textField;
     private JTextField textField_1;
     private JPanel formPanel1;
     private JPanel formPanel2;
+    private Screen nextScreen;
 
     /**
      * Create the panel.
@@ -68,7 +69,7 @@ public class UserFormScreen extends JPanel {
         add(btnBack);
 
         btnNewButton.addActionListener((ActionEvent event) -> {
-            gameWindowController.changePage(Screen.GAME_PANEL);
+            gameWindowController.changeWithNextPage(Screen.PLAYER_OPTION, Screen.GAME_PANEL);
         });
 
         btnBack.addActionListener((ActionEvent event) -> {
@@ -96,5 +97,10 @@ public class UserFormScreen extends JPanel {
     protected void paintComponent(Graphics g) {
         Image img = Toolkit.getDefaultToolkit().getImage(Utils.getResoursePath("Board.jpg"));
         g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+    }
+
+    @Override
+    public void setNextScreen(Screen nextScreen) {
+        this.nextScreen = nextScreen;
     }
 }

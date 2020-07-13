@@ -31,6 +31,9 @@ public class GameWindowController {
     private UserFormScreen userFormScreen;
     private RemoteTCPOptionScreen remoteTCPOptionScreen;
     private RemoteUDPOptionScreen remoteUDPOptionScreen;
+    private RemoteHTTPOptionScreen remoteHTTPOptionScreen;
+    private FormatOptionScreen formatOptionScreen;
+    private PlayerOptionScreen playerOptionScreen;
 
     private Map<Screen, GameOption> optionMap = new HashMap<Screen, GameOption>();
     private Stack<JPanel> screenStack = new Stack<JPanel>();
@@ -43,8 +46,11 @@ public class GameWindowController {
         remoteLocationSettingScreen = new RemoteLocationSettingScreen(this);
         remoteTCPOptionScreen = new RemoteTCPOptionScreen(this);
         remoteUDPOptionScreen = new RemoteUDPOptionScreen(this);
+        remoteHTTPOptionScreen = new RemoteHTTPOptionScreen(this);
         locationSettingScreen = new LocationSettingScreen(this);
         levelOptionScreen = new LevelOptionScreen(this);
+        formatOptionScreen = new FormatOptionScreen(this);
+        playerOptionScreen = new PlayerOptionScreen(this);
 
         gameWindow.setTitle("Reversi Game");
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -58,8 +64,9 @@ public class GameWindowController {
         this.gameWindow = gameWindow;
     }
 
-    public void changePage(Screen screen) {
+    private JPanel routingScreen(Screen screen) {
         JPanel panel = null;
+
         switch (screen) {
             case START:
                 panel = startScreen;
@@ -76,6 +83,9 @@ public class GameWindowController {
             case REMOTE_UDP_OPTION:
                 panel = remoteUDPOptionScreen;
                 break;
+            case REMOTE_HTTP_OPTION:
+                panel = remoteHTTPOptionScreen;
+                break;
             case REMOTE_LOCATION_SETTING:
                 panel = remoteLocationSettingScreen;
                 break;
@@ -85,15 +95,37 @@ public class GameWindowController {
             case LEVEL_OPTION:
                 panel = levelOptionScreen;
                 break;
+            case FORMAT_OPTION:
+                panel = formatOptionScreen;
+                break;
+            case PLAYER_OPTION:
+                panel= playerOptionScreen;
+                break;
             case GAME_PANEL:
                 panel = buildGame();
                 break;
         }
+
         if (screen == Screen.GAME_PANEL) {
             gameWindow.setSize(new Dimension(700, 550));
         } else {
             gameWindow.setSize(new Dimension(600, 400));
         }
+
+        return panel;
+    }
+
+    public void changePage(Screen screen) {
+        JPanel panel = routingScreen(screen);
+
+        setPanel(panel);
+        screenStack.add(panel);
+    }
+
+    public void changeWithNextPage(Screen screen, Screen nextScreen) {
+        ScreenPanel panel = (ScreenPanel) routingScreen(screen);
+        panel.setNextScreen(nextScreen);
+
         setPanel(panel);
         screenStack.add(panel);
     }
@@ -151,6 +183,18 @@ public class GameWindowController {
                     p2=LevelFactoryImpl.getFactory().createPlayer(2, 6, false, levelOption);
                 }
                 connectedUser = remoteUDPOptionScreen.getController().getConnectedUser();
+
+            } else if (optionMap.get(Screen.REMOTE_LOCATION_SETTING).equals(GameOption.HTTP_CONNECTION)) {
+                GameOption levelOption = optionMap.get(Screen.REMOTE_HTTP_OPTION);
+
+                if (optionMap.get(Screen.REMOTE_HTTP_OPTION).equals(GameOption.HUMAN)) {
+                    p1 = new HumanPlayer(1);
+                    p2 = new HumanPlayer(2);
+                } else if (optionMap.get(Screen.REMOTE_HTTP_OPTION).equals(GameOption.AI)) {
+                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
+                    p2 = new HumanPlayer(2);
+                }
+                connectedUser = remoteHTTPOptionScreen.getController().getConnectedUser();
 
             }
 

@@ -17,7 +17,6 @@ public class Client extends ConnectedUser {
 
     public Client(String address, int port, IConnection connectionState) {
         this(address, port);
-        this.isYourTurn = false;
         this.connectionState = connectionState;
     }
 

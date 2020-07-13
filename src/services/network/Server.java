@@ -16,7 +16,6 @@ public class Server extends ConnectedUser {
 
     public Server(String address, int port, IConnection connectionState) {
         this(address, port);
-        this.isYourTurn = true;
         this.connectionState = connectionState;
     }
 

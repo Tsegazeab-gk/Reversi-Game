@@ -26,6 +26,10 @@ public class RemoteLocationSettingScreen extends JPanel {
         btnNewButton_1.setBounds(200, 200, 200, 25);
         add(btnNewButton_1);
 
+        JButton btnNewButton_2 = new DefaultButton("HTTP Connection", 180, 40);
+        btnNewButton_2.setBounds(200, 250, 200, 25);
+        add(btnNewButton_2);
+
         JButton btnBack = new DefaultButton("<", 45, 40);
         btnBack.setBounds(12, 13, 97, 25);
         add(btnBack);
@@ -38,6 +42,11 @@ public class RemoteLocationSettingScreen extends JPanel {
         btnNewButton_1.addActionListener((ActionEvent event) -> {
             gameWindowController.setOption(Screen.REMOTE_LOCATION_SETTING, GameOption.UDP_CONNECTION);
             gameWindowController.changePage(Screen.REMOTE_UDP_OPTION);
+        });
+
+        btnNewButton_2.addActionListener((ActionEvent event) -> {
+            gameWindowController.setOption(Screen.REMOTE_LOCATION_SETTING, GameOption.HTTP_CONNECTION);
+            gameWindowController.changePage(Screen.REMOTE_HTTP_OPTION);
         });
 
         btnBack.addActionListener((ActionEvent event) -> {
