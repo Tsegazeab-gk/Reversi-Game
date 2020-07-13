@@ -11,5 +11,6 @@ public enum Screen {
     USER_FORM,
     GAME_PANEL,
     LEVEL_OPTION,
-    FORMAT_OPTION
+    FORMAT_OPTION,
+    PLAYER_OPTION
 }

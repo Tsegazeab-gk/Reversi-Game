@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.geom.Rectangle2D;
 
 public class LocationSettingScreen extends JPanel {
 

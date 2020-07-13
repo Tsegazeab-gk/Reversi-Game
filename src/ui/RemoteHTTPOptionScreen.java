@@ -2,7 +2,6 @@ package ui;
 
 import controller.GameWindowController;
 import controller.RemoteHTTPOptionController;
-import controller.RemoteTCPOptionController;
 import models.GameOption;
 import models.Screen;
 import ui.widgets.DefaultButton;
@@ -83,12 +82,12 @@ public class RemoteHTTPOptionScreen extends JPanel {
 
         btnHumanOption.addActionListener((ActionEvent event) -> {
             gameWindowController.setOption(Screen.REMOTE_HTTP_OPTION, GameOption.HUMAN);
-            gameWindowController.changePage(Screen.FORMAT_OPTION, Screen.GAME_PANEL);
+            gameWindowController.changeWithNextPage(Screen.FORMAT_OPTION, Screen.GAME_PANEL);
         });
 
         btnAIOption.addActionListener((ActionEvent event) -> {
             gameWindowController.setOption(Screen.REMOTE_HTTP_OPTION, GameOption.AI);
-            gameWindowController.changePage(Screen.FORMAT_OPTION, Screen.GAME_PANEL);
+            gameWindowController.changeWithNextPage(Screen.FORMAT_OPTION, Screen.GAME_PANEL);
         });
 
         controller = new RemoteHTTPOptionController(this);

@@ -28,6 +28,7 @@ public class GameWindowController {
     private RemoteUDPOptionScreen remoteUDPOptionScreen;
     private RemoteHTTPOptionScreen remoteHTTPOptionScreen;
     private FormatOptionScreen formatOptionScreen;
+    private PlayerOptionScreen playerOptionScreen;
 
     private Map<Screen, GameOption> optionMap = new HashMap<Screen, GameOption>();
     private Stack<JPanel> screenStack = new Stack<JPanel>();
@@ -44,6 +45,7 @@ public class GameWindowController {
         locationSettingScreen = new LocationSettingScreen(this);
         levelOptionScreen = new LevelOptionScreen(this);
         formatOptionScreen = new FormatOptionScreen(this);
+        playerOptionScreen = new PlayerOptionScreen(this);
 
         gameWindow.setTitle("Reversi Game");
         gameWindow.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -91,6 +93,9 @@ public class GameWindowController {
             case FORMAT_OPTION:
                 panel = formatOptionScreen;
                 break;
+            case PLAYER_OPTION:
+                panel= playerOptionScreen;
+                break;
             case GAME_PANEL:
                 panel = buildGame();
                 break;
@@ -112,7 +117,7 @@ public class GameWindowController {
         screenStack.add(panel);
     }
 
-    public void changePage(Screen screen, Screen nextScreen) {
+    public void changeWithNextPage(Screen screen, Screen nextScreen) {
         ScreenPanel panel = (ScreenPanel) routingScreen(screen);
         panel.setNextScreen(nextScreen);
 

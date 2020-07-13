@@ -2,8 +2,6 @@ package ui;
 
 import controller.FormatOptionController;
 import controller.GameWindowController;
-import controller.RemoteUDPOptionController;
-import models.GameOption;
 import models.Screen;
 import ui.widgets.DefaultButton;
 import ui.widgets.RoundJTextField;
@@ -78,8 +76,9 @@ public class FormatOptionScreen extends ScreenPanel {
         formOptionPanel.add(btnValidate);
 
         btnValidate.addActionListener((ActionEvent event) -> {
-            System.out.println(nextScreen);
-            if (nextScreen != null){
+            if (nextScreen != null) {
+                gameWindowController.changePage(nextScreen);
+            }else{
                 gameWindowController.changePage(Screen.GAME_PANEL);
             }
         });

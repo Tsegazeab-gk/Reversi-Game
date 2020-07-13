@@ -69,7 +69,7 @@ public class UserFormScreen extends ScreenPanel {
         add(btnBack);
 
         btnNewButton.addActionListener((ActionEvent event) -> {
-            gameWindowController.changePage(Screen.GAME_PANEL);
+            gameWindowController.changeWithNextPage(Screen.PLAYER_OPTION, Screen.GAME_PANEL);
         });
 
         btnBack.addActionListener((ActionEvent event) -> {
