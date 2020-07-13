@@ -19,6 +19,7 @@ public class GamePanel extends JPanel implements Observer {
     private JPanel reversiBoard;
     private GamePanelController gamePanelController;
     private JLabel arrowLeft, arrowRight;
+    private JButton startButton;
 
     private    JLabel labelPlayer1, labelPlayer2;
 
@@ -171,12 +172,12 @@ public class GamePanel extends JPanel implements Observer {
         bottomPanel.setLayout(gbl_bottomPanel);
 
 
-        JButton btnNewButton = new DefaultButton("Start");
+        startButton = new DefaultButton("Start");
         GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
         gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
         gbc_btnNewButton.gridx = 2;
         gbc_btnNewButton.gridy = 1;
-        bottomPanel.add(btnNewButton, gbc_btnNewButton);
+        bottomPanel.add(startButton, gbc_btnNewButton);
 
         JButton btnNewButton_1 = new DefaultButton("Pause");
         GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -243,6 +244,8 @@ public class GamePanel extends JPanel implements Observer {
     public JLabel getArrowRight(){
         return this.arrowRight;
     }
+
+    public JButton getStartButton(){return startButton;}
 
     @Override
     public void update(String p1score, String p2score) {

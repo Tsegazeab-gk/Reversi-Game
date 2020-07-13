@@ -9,6 +9,8 @@ import game.GamePanel;
 
 import logic.proxyp.IMoveStone;
 import logic.proxyp.MoveCounterProxy;
+import models.GameOption;
+import models.Screen;
 import player.GamePlayer;
 
 import services.dao.IScoreService;
@@ -30,7 +32,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     private int[][] board;
     private GamePlayer player1;
     private GamePlayer player2;    //new AIPlayerDynamic(2,6);
-    private Invoker invoker=Invoker.INSTANCE;
+    private Invoker invoker = Invoker.INSTANCE;
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
     private boolean awaitForClick = false;
@@ -80,6 +82,10 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             player2HandlerTimer.stop();
             manageTurn();
         });
+
+        gamePanel.getStartButton().addActionListener((ActionEvent event) -> {
+            start();
+        });
     }
 
     public void start() {
@@ -125,14 +131,13 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             //game finished
             updateBoardInfo();
             System.out.println("Game Finished !");
-              winner = BoardHelper.getWinner(board);
+            winner = BoardHelper.getWinner(board);
             if (winner == 1) {
-                 totalscore1++;
+                totalscore1++;
                 this.gamePanel.getWinner().setText("winner is: player 1");
-            }
-            else if (winner == 2) {
+            } else if (winner == 2) {
                 this.gamePanel.getWinner().setText("winner is: player 2");
-                 totalscore2++;
+                totalscore2++;
             }
 //            updateTotalScore();
             //restart
@@ -192,19 +197,19 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 
     @Override
     public void attach(Observer observer) {
-        if(!observers.contains(observer))
+        if (!observers.contains(observer))
             observers.add(observer);
     }
 
     @Override
     public void detach(Observer observer) {
-        int i=observers.indexOf(observer);
-        if(i>=0)
+        int i = observers.indexOf(observer);
+        if (i >= 0)
             observers.remove(i);
     }
 
     public void updateTotalScore() {
-        if (totalscore1==1)
+        if (totalscore1 == 1)
             this.gamePanel.getWinner().setText("winner is: player 2");
         else
             this.gamePanel.getWinner().setText("winner is: player 1");
@@ -256,18 +261,16 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     // added for proxy pattern to count moves
     public void moveStone(int playerNumber, int i, int j) {
 
-        if (connectedUser != null) {
-            connectedUser.sendMove(i, j);
-        }
+
         // update board
 //        board = BoardHelper.getNewBoardAfterMove(board, new Point(i, j), playerNumber);
         board = invoker.getNewBoardAfterMove(board, new Point(i, j), turn);
         // advance turn
         turn = (playerNumber == 1) ? 2 : 1;
 
-            this.gamePanel.repaint();
+        this.gamePanel.repaint();
 
-            awaitForClick = false;
+        awaitForClick = false;
 
         // callback
         //   manageTurn();
@@ -278,7 +281,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     public void handleAI(GamePlayer ai) {
 
         if (connectedUser != null) {
-            if (!connectedUser.isYourTurn()){
+            if (!connectedUser.isYourTurn()) {
                 System.out.println("returning.....");
                 return;
             }
@@ -313,6 +316,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
         */
         System.out.println("Calling proxy turn Number: " + turn);
         moveStoneProxy.moveStone(turn, i, j);
+        if (connectedUser != null) {
+            connectedUser.sendMove(i, j);
+        }
     }
 
     void manageArrowTurns() {
@@ -362,7 +368,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     @Override
     public void receivedMove(int i, int j) {
 //        this.handleClick(i,j);
-        this.handleMove(i,j);
+        this.handleMove(i, j);
 
     }
 

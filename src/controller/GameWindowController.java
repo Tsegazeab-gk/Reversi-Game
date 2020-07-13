@@ -167,7 +167,8 @@ public class GameWindowController {
                     p2 = new HumanPlayer(2,userFormScreen.getPlay2Name());
                 } else if (optionMap.get(Screen.REMOTE_TCP_OPTION).equals(GameOption.AI)) {
                     p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
-                    p2=LevelFactoryImpl.getFactory().createPlayer(2, 6, false, levelOption);
+                  //  p2=LevelFactoryImpl.getFactory().createPlayer(2, 6, false, levelOption);
+                    p2 = new HumanPlayer(2,"Remote player");
                 }
                 connectedUser = remoteTCPOptionScreen.getController().getConnectedUser();
 
@@ -205,7 +206,7 @@ public class GameWindowController {
                 .setPlayerTwo(p2)
                 .setConnectedUser(connectedUser)
                 .build();
-        gamePanel.getController().start();
+        //gamePanel.getController().start();
         return gamePanel;
     }
 
