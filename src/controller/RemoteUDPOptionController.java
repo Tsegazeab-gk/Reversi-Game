@@ -1,7 +1,6 @@
 package controller;
 
 import services.network.ConnectedUser;
-import services.network.HttpClient;
 import services.network.IConnection;
 import services.network.UDPConnection;
 import ui.RemoteUDPOptionScreen;
@@ -9,8 +8,6 @@ import util.Utils;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class RemoteUDPOptionController implements IConnection {
     private RemoteUDPOptionScreen remoteUDPOptionScreen;

@@ -12,6 +12,8 @@ public class Message implements Serializable {
     private int j;
     private boolean running = true;
     private JSONObject jsonObject;
+    private static String ROW_FORMAT = "x";
+    private static String COLUMN_FORMAT = "y";
 
     public Message() {
     }
@@ -24,8 +26,8 @@ public class Message implements Serializable {
     public Message(String jsonString) {
         try {
             jsonObject = new JSONObject(jsonString);
-            i = (int) jsonObject.get("x");
-            j = (int) jsonObject.get("y");
+            i = (int) jsonObject.get(ROW_FORMAT);
+            j = (int) jsonObject.get(COLUMN_FORMAT);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -56,9 +58,14 @@ public class Message implements Serializable {
         this.running = running;
     }
 
+    public static void setMessageFormat(String row, String column) {
+        Message.ROW_FORMAT = row;
+        Message.COLUMN_FORMAT = column;
+    }
+
     @Override
     public String toString() {
-        return String.format("{\"x\": %s, \"y\": %s}", i, j);
+        return String.format("{\"%s\": %s, \"%s\": %s}", ROW_FORMAT, i, COLUMN_FORMAT, j);
     }
 
 }

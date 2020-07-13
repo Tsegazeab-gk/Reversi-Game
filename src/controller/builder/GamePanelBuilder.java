@@ -3,6 +3,7 @@ package controller.builder;
 import game.GamePanel;
 import player.GamePlayer;
 import services.network.ConnectedUser;
+import services.network.Message;
 
 public class GamePanelBuilder {
     public static class Builder {
@@ -26,6 +27,11 @@ public class GamePanelBuilder {
 
         public Builder setConnectedUser(ConnectedUser connectedUser) {
             this.connectedUser = connectedUser;
+            return this;
+        }
+
+        public Builder setFormat(String row, String column){
+            Message.setMessageFormat(row, column);
             return this;
         }
 

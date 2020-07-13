@@ -10,6 +10,7 @@ public enum GameOption {
     // Remote Option
     TCP_CONNECTION,
     UDP_CONNECTION,
+    HTTP_CONNECTION,
     // User Option
     HUMAN_VS_HUMAN,
     HUMAN_VS_AI,
