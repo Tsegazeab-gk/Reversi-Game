@@ -25,8 +25,9 @@ public class HttpConnection extends ConnectedUser {
         try (DataOutputStream out = new DataOutputStream(con.getOutputStream())) {
             byte[] output = jsonInputString.getBytes("utf-8");
             out.write(output, 0, output.length);
-            out.flush();
+            //out.flush();
             this.isYourTurn = false;
+            System.out.println("Send -> " + jsonInputString);
         }
 
         int code = con.getResponseCode();

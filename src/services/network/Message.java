@@ -12,8 +12,8 @@ public class Message implements Serializable {
     private int j;
     private boolean running = true;
     private JSONObject jsonObject;
-    private static String ROW_FORMAT = "x";
-    private static String COLUMN_FORMAT = "y";
+    private static String ROW_FORMAT = "row";
+    private static String COLUMN_FORMAT = "col";
 
     public Message() {
     }
