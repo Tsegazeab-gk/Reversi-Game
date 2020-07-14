@@ -66,7 +66,7 @@ public class BoardCellController{
         }
         else if(value == 2) {
             g.setColor(Color.WHITE);
-            g.fillOval(margin_left,margin_top,this.boardCell.getWidth()-2*margin_left,this.boardCell.getHeight()-2*margin_top);
+            g.fillOval(margin_left,margin_top,this.boardCell.getWidth()-2 * margin_left,this.boardCell.getHeight()-2*margin_top);
         }
 
         if(!text.isEmpty()){

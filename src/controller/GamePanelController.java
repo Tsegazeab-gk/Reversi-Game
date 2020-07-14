@@ -30,7 +30,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     private int[][] board;
     private GamePlayer player1;
     private GamePlayer player2;    //new AIPlayerDynamic(2,6);
-    private Invoker invoker=Invoker.INSTANCE;
+    private Invoker invoker = Invoker.INSTANCE;
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
     private boolean awaitForClick = false;
@@ -187,6 +187,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     }
 
     //implimenting Observers
+
+
+
     @Override
     public void notifyObservers() {
         for (Observer o : observers)

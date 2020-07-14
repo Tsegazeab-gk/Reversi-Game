@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class MoveCounter implements ICounter{
 	
-	HashMap<Integer, Integer> numberOfMoves=new HashMap<Integer, Integer>();
+	HashMap<Integer, Integer> numberOfMoves = new HashMap<>();
 	
-	 static MoveCounter instance=new MoveCounter();
+	 static MoveCounter instance = new MoveCounter();
 	
 	
 	private MoveCounter() {
