@@ -58,7 +58,7 @@ public class GameWindowController {
         gameWindow.setVisible(true);
         gameWindow.setSize(new Dimension(600, 400));
         gameWindow.getContentPane().add(startScreen);
-        gameWindow.setResizable(false);
+        gameWindow.setResizable(true);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         gameWindow.setLocation(dim.width / 2 - gameWindow.getSize().width / 2, dim.height / 2 - gameWindow.getSize().height / 2);
         this.gameWindow = gameWindow;
@@ -166,9 +166,8 @@ public class GameWindowController {
                     p1 = new HumanPlayer(1, userFormScreen.getPlay1Name());
                     p2 = new HumanPlayer(2, userFormScreen.getPlay2Name());
                 } else if (optionMap.get(Screen.REMOTE_TCP_OPTION).equals(GameOption.AI)) {
-                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
-                    p2 = new HumanPlayer(2, "Player 2");
-                    //p2 = new HumanPlayer(2, userFormScreen.getPlay2Name());
+                    p2 = LevelFactoryImpl.getFactory().createPlayer(2, 6, true, levelOption);
+                    p1 = new HumanPlayer(1, "Player 2");
                 }
                 connectedUser = remoteTCPOptionScreen.getController().getConnectedUser();
 
@@ -180,8 +179,8 @@ public class GameWindowController {
                     p2 = new HumanPlayer(2, userFormScreen.getPlay2Name());
 
                 } else if (optionMap.get(Screen.REMOTE_UDP_OPTION).equals(GameOption.AI)) {
-                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
-                    p2 = new HumanPlayer(2, "Player 2");
+                    p2 = LevelFactoryImpl.getFactory().createPlayer(2, 6, true, levelOption);
+                    p1 = new HumanPlayer(1, "Player 2");
                 }
                 connectedUser = remoteUDPOptionScreen.getController().getConnectedUser();
 

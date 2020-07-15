@@ -1,6 +1,8 @@
 package player.ai;
 
 
+import logic.Minimax;
+import logic.StatePattern.DynamicEvaluator;
 import logic.StatePattern.Evaluator;
 
 import logic.levels.ILevelStrategy;
@@ -21,6 +23,10 @@ public class AIPlayer extends GamePlayer {
 
     private LevelStrategyImpl levelStrategy;
 
+    Minimax minimax;
+
+    Evaluator evaluator;
+
     public AIPlayer(int mark, int depth, boolean firstplayer, String option) {
         super(mark);
         searchDepth = depth;
@@ -38,9 +44,10 @@ public class AIPlayer extends GamePlayer {
         }
         levelStrategy.setLevelStrategy(level);
 
+minimax=new Minimax();
 
         //System.out.println("Strategy created");
-
+evaluator= evaluator=new DynamicEvaluator();
     }
 
     @Override
@@ -61,8 +68,8 @@ public class AIPlayer extends GamePlayer {
 
     @Override
     public Point play(int[][] board) {
-        // return Minimax.solve(board,myMark,searchDepth,evaluator);
-        return levelStrategy.getLevelStrategy().getNextMove(board, myMark, searchDepth);
+       return minimax.solve(board,myMark,searchDepth,evaluator);
+       // return levelStrategy.getLevelStrategy().getNextMove(board, myMark, searchDepth);
 
         // return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }

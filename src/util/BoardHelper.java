@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class BoardHelper {
 
     public static boolean isGameFinished(int[][] board){
-       return !(hasAnyMoves(board,1) || hasAnyMoves(board,2));
+        return !(hasAnyMoves(board,1) || hasAnyMoves(board,2));
     }
 
 
@@ -201,7 +201,11 @@ public class BoardHelper {
         if(mi<=7 && mj<=7 && board[mi][mj] == player && mdrpts.size()>0){
             allReversePoints.addAll(mdrpts);
         }
-
+/*
+        System.out.println("allReversePoints for Player Numeber: "+player+" Opponent Player"+oplayer);
+for (int t=0;t<allReversePoints.size();t++){
+    System.out.println(" i="+allReversePoints.get(t).x+" j="+allReversePoints.get(t).y);
+}*/
         return allReversePoints;
     }
 

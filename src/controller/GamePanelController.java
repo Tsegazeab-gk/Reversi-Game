@@ -19,22 +19,25 @@ import services.network.ConnectedUser;
 import services.network.GameConnection;
 import util.BoardHelper;
 
-import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class GamePanelController implements GameEngine, GameConnection, IMoveStone {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
-    private int turn = 1;
+    private int turn;
     private int[][] board;
     private GamePlayer player1;
     private GamePlayer player2;
     private Invoker invoker = Invoker.INSTANCE;
     private boolean awaitForClick = false;
-    private Timer player1HandlerTimer;
+
+    private TimerTask player1HandlerTimer;
     private Timer player2HandlerTimer;
     private int totalscore1 = 0;
     private int totalscore2 = 0;
@@ -43,10 +46,21 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     private int p2score = 0;
     int winner;
 
+    public static int PLAYER_ONE;
+    public static int PLAYER_TWO;
+
     private java.util.List<Observer> observers;
     private ConnectedUser connectedUser;
 
     IMoveStone moveStoneProxy;
+
+    static int INSTANCE_COUNT = 0;
+
+    Timer timer;
+
+    boolean isFirstPlayer=false;
+
+    boolean isPlayerCreated=false;
 
     public GamePanelController(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -67,58 +81,145 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             }
         }
 
-
+/*
         //AI Handler Timer (to unfreeze gui)
         player1HandlerTimer = new Timer(2000, (ActionEvent e) -> {
-            handleAI(getPlayer1());
+            System.out.println("player1HandlerTimer started");
+            handleAI(player1);
             player1HandlerTimer.stop();
+            System.out.println("player1HandlerTimer Stopped");
             //manageTurn();
         });
+*/
+        timer = new Timer();
 
-        player2HandlerTimer = new Timer(2000, (ActionEvent e) -> {
-            handleAI(getPlayer2());
-            player2HandlerTimer.stop();
-            //manageTurn();
-        });
+        player1HandlerTimer = new TimerTask() {
+            @Override
+            public void run() {
+                handleAI(player1);
+                timer.cancel();
+            }
+        };
 
+
+
+/*
+       // if(!player2.isUserPlayer()) {
+            player2HandlerTimer = new Timer(2000, (ActionEvent e) -> {
+                handleAI(getPlayer2());
+                player2HandlerTimer.stop();
+            });
+        //}
+*/
         gamePanel.getStartButton().addActionListener((ActionEvent event) -> {
             start();
         });
+
+        INSTANCE_COUNT++;
+        System.out.println("GamePanelController initiated" + INSTANCE_COUNT);
     }
 
     public void start() {
-        updateBoardInfo();
+        System.out.println("start function started");
+        isFirstPlayer=true;
+        PLAYER_ONE = 1;
+        PLAYER_ONE = 2;
+        turn = 1;
+        //updateBoardInfo();
         manageTurn();
+        isPlayerCreated=true;
+    }
+
+    public void updateBoardInfo() {
+        System.out.println("updateBoardInfo function started turn : " + turn);
+        this.p1score = 0;
+        this.p2score = 0;
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (board[i][j] == 1) p1score++;
+                if (board[i][j] == 2) p2score++;
+
+                if (BoardHelper.canPlay(board, turn, i, j)) {
+                    cells[i][j].setHighlight(1);
+                } else {
+                    cells[i][j].setHighlight(0);
+                }
+            }
+        }
+
+        notifyObservers();
     }
 
     public void manageTurn() {
+        System.out.println("manageTurn---->BoardHelper.hasAnyMoves(board, PLAYER_ONE) " + BoardHelper.hasAnyMoves(board, PLAYER_ONE));
         if (BoardHelper.hasAnyMoves(board, 1) || BoardHelper.hasAnyMoves(board, 2)) {
             updateBoardInfo();
             if (turn == 1) {
                 if (BoardHelper.hasAnyMoves(board, 1)) {
                     if (player1.isUserPlayer()) {
                         awaitForClick = true;
+                        System.out.println("player1.isUserPlayer() True");
                         //after click this function should be call backed
                     } else {
-                        player1HandlerTimer.start();
+                        System.out.println("player1.isUserPlayer() false");
+                        // player1HandlerTimer.restart();
+                        try {
+                            Thread thread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(1000 * 2);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    handleAI(player1);
+                                }
+                            });
+                            thread.start();
+                        } catch (IllegalStateException il) {
+                            il.printStackTrace();
+                        }
+                        // handleAI(player1);
+                        // timer.schedule(player1HandlerTimer,2*60*1000,2*60*1000);
                     }
                 } else {
                     //forfeit this move and pass the turn
-                    System.out.println("Player 1 has no legal moves !");
+                    System.out.println("forfeit Player 1 has no legal moves !");
                     turn = 2;
                     manageTurn();
                 }
-            } else {
+            } else if (turn == 2) {
                 if (BoardHelper.hasAnyMoves(board, 2)) {
                     if (player2.isUserPlayer()) {
-                        awaitForClick = true;
+                        System.out.println("player2.isUserPlayer() True");
+                        //   awaitForClick = true;
                         //after click this function should be call backed
+                        turn = 2;
                     } else {
-                        player2HandlerTimer.start();
+                        System.out.println("player2.isUserPlayer() false");
+                        // player1HandlerTimer.restart();
+                        try {
+                            Thread thread = new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        Thread.sleep(1000 * 2);
+                                    } catch (InterruptedException e) {
+                                        e.printStackTrace();
+                                    }
+                                    handleAI(player2);
+                                }
+                            });
+                            thread.start();
+                        } catch (IllegalStateException il) {
+                            il.printStackTrace();
+                        }
+
                     }
                 } else {
                     //forfeit this move and pass the turn
-                    System.out.println("Player 2 has no legal moves !");
+                    System.out.println("forfeit Player 2 has no legal moves !");
                     turn = 1;
                     manageTurn();
                 }
@@ -155,26 +256,6 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 
     }
 
-    public void updateBoardInfo() {
-
-        this.p1score = 0;
-        this.p2score = 0;
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                if (board[i][j] == 1) p1score++;
-                if (board[i][j] == 2) p2score++;
-
-                if (BoardHelper.canPlay(board, turn, i, j)) {
-                    cells[i][j].setHighlight(1);
-                } else {
-                    cells[i][j].setHighlight(0);
-                }
-            }
-        }
-
-        notifyObservers();
-    }
 
     @Override
     public void notifyObservers() {
@@ -205,6 +286,8 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     }
 
     public void resetBoard() {
+
+        System.out.println("resetBoard called");
         board = new int[8][8];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -238,8 +321,24 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 //            } else {
 //                moveStoneProxy.moveStone(turn, i, j);
 //            }
-            moveStoneProxy.moveStone(turn, i, j);
+            //moveStoneProxy.moveStone(turn, i, j);
+            board = BoardHelper.getNewBoardAfterMove(board, new Point(i, j), turn);
+            turn = (turn == 1) ? 2 : 1;
+            this.gamePanel.repaint();
+            System.out.println("Got new Board moveStone");
+            for (int a = 0; a < 8; a++) {
+                for (int b = 0; b < 8; b++) {
+
+                    System.out.print(board[a][b] + " | ");
+
+                }
+                System.out.println();
+            }
             manageTurn();
+            System.out.println("Got new Board moveStone --->turn= " + turn);
+            updateBoardInfo();
+            //  manageTurn();
+
             manageArrowTurns();
         } else
             System.out.println(turn + " can not play in: " + i + " - " + j);
@@ -248,34 +347,100 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 
     // added for proxy pattern to count moves
     public void moveStone(int playerNumber, int i, int j) {
-        board = invoker.getNewBoardAfterMove(board, new Point(i, j), turn);
-        turn = (playerNumber == 1) ? 2 : 1;
-        System.out.println("turn= " + turn);
+        /*
+int mark=0;
+        // board = invoker.getNewBoardAfterMove(board, new Point(i, j), turn);
+        if(isFirstPlayer){
+            mark=1;
+        }else
+            mark=2;
+        */
+        board = BoardHelper.getNewBoardAfterMove(board, new Point(i, j), turn);
+
         this.gamePanel.repaint();
+        System.out.println("Player 2 ---> new Board after move:--> i=" + i + " j=" + j);
+        for (int a = 0; a < 8; a++) {
+            for (int b = 0; b < 8; b++) {
+
+                System.out.print(board[a][b] + " | ");
+
+            }
+            System.out.println();
+        }
+        turn = (playerNumber == 1) ? 2 : 1;
+        // System.out.println("Got new Board moveStone --->turn changed to= " + turn);
+        updateBoardInfo();
     }
 
     public void handleAI(GamePlayer ai) {
-        if (connectedUser != null && !connectedUser.isYourTurn()) {
-            return;
+        System.out.println("handleAI Method");
+   /*
+       if (connectedUser != null && !connectedUser.isYourTurn()) {
+            System.out.println("!connectedUser.isYourTurn() Not your turn"+turn);
+          //  return;
         }
+*/
+        System.out.println("Player 1 Move------>>>>>  Handle AI Before  new Board Before move: turn="+turn);
+        for (int a = 0; a < 8; a++) {
+            for (int b = 0; b < 8; b++) {
+
+                System.out.print(board[a][b] + " | ");
+
+            }
+            System.out.println();
+        }
+
         Point aiPlayPoint = ai.play(board);
+
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
+        System.out.println("aiPlayPoint i=" + i + "j=" + j);
+        if (!BoardHelper.canPlay(board, ai.myMark, i, j))
+            System.out.println("aiPlayPoint ---> Invalid Move by AI");
 
+        board = BoardHelper.getNewBoardAfterMove(board, new Point(i, j), ai.myMark);
+        this.gamePanel.repaint();
+
+        //handleMove(i, j);
+        // moveStoneProxy.
+        /*
         if (connectedUser != null) {
-            if (!connectedUser.isYourTurn())
+            if (!connectedUser.isYourTurn()) {
+                System.out.println("Not your turn ai......!connectedUser.isYourTurn() turn:"+turn);
                 return;
+            }
             else
+            { System.out.println("Sending...... i="+i +"j="+j);
                 connectedUser.sendMove(i, j);
+
+            }
+        }*/
+        System.out.println("Sending...... i=" + i + "j=" + j);
+        connectedUser.sendMove(i, j);
+
+        System.out.println("Player 1 Move------>>>>>>>>>>>>>>>>> Got new Board after move --->turn= " + turn);
+        for (int a = 0; a < 8; a++) {
+            for (int b = 0; b < 8; b++) {
+
+                System.out.print(board[a][b] + " | ");
+
+            }
+            System.out.println();
         }
-        handleMove(i, j);
+       // turn = 2;
+        turn = (turn == 1) ? 2 : 1;
+        updateBoardInfo();
+
+        // turn = (turn == 1) ? 2 : 1;
+        //manageTurn();
+        //  manageArrowTurns();
     }
 
     void manageArrowTurns() {
-        if (turn == 1) {
+        if (turn == PLAYER_ONE) {
             gamePanel.getArrowRight().setVisible(false);
             gamePanel.getArrowLeft().setVisible(true);
-        } else {
+        } else if (turn == PLAYER_TWO) {
             gamePanel.getArrowLeft().setVisible(false);
             gamePanel.getArrowRight().setVisible(true);
         }
@@ -307,8 +472,36 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 
     @Override
     public void receivedMove(int i, int j) {
+
+        if(!isFirstPlayer){
+          //  player1.
+                    turn=1;
+                    if(!isPlayerCreated){
+                     //  GamePlayer temp;
+                     //   temp=player1;
+                     //   player1=player2;
+                     //   player2=temp;
+                        System.out.println("Player one: Name:"+player1.myMark+ " Mark"+player1.myMark+ "is User Player"+player1.isUserPlayer());
+                        System.out.println("Player two: Name:"+player2.myMark+ " Mark"+player2.myMark+ "is User Player"+player2.isUserPlayer());
+
+                    }
+        }else
+        turn = 2;
+
+        System.out.println("Player 2 Move------>>>>>  new Board before move turn " + turn +" X="+i+ " Y="+j);
 //        this.handleMove(i, j);
-        if (BoardHelper.canPlay(board, turn, i, j)){
+        for (int a = 0; a < 8; a++) {
+            for (int b = 0; b < 8; b++) {
+
+                System.out.print(board[a][b] + " | ");
+
+            }
+            System.out.println();
+        }
+        if(i>=0 && j>=0) {
+
+
+        if (BoardHelper.canPlay(board, turn, i, j)) {
 //            if (awaitForClick) {
 //                System.out.println("playing with "+i+" - "+j);
 //                moveStoneProxy.moveStone(turn, i, j);
@@ -316,11 +509,21 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 //            } else {
 //                moveStoneProxy.moveStone(turn, i, j);
 //            }
-            moveStoneProxy.moveStone(turn, i, j);
-            manageArrowTurns();
+            moveStone(turn, i, j);
+
             manageTurn();
-        } else
+            //  player1HandlerTimer.start();
+            // manageArrowTurns();
+        }
+        }
+        else {
             System.out.println(turn + " can not play in: " + i + " - " + j);
+            if(i==-1 && j==-1){
+                System.out.println("Player "+turn +"loses");
+            }
+            else
+     manageTurn();
+        }
     }
 
     public GamePlayer getPlayer1() {

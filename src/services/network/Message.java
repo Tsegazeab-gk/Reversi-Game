@@ -12,6 +12,10 @@ public class Message implements Serializable {
     private int j;
     private boolean running = true;
     private JSONObject jsonObject;
+
+//    private static String ROW_FORMAT = "x";
+//    private static String COLUMN_FORMAT = "y";
+
     private static String ROW_FORMAT = "row";
     private static String COLUMN_FORMAT = "col";
 
@@ -26,8 +30,21 @@ public class Message implements Serializable {
     public Message(String jsonString) {
         try {
             jsonObject = new JSONObject(jsonString);
-            i = (int) jsonObject.get(ROW_FORMAT);
-            j = (int) jsonObject.get(COLUMN_FORMAT);
+            Object object = jsonObject.get("homeNewPiece");
+            System.out.println("Received => " + object);
+            if (object != null) {
+                try {
+                    JSONObject j2 = (JSONObject) object;
+                    i = (int) j2.get(ROW_FORMAT);
+                    j = (int) j2.get(COLUMN_FORMAT);
+                } catch (Exception e) {
+                    i = -1;
+                    j = -1;
+                }
+            } else {
+                i = (int) jsonObject.get(ROW_FORMAT);
+                j = (int) jsonObject.get(COLUMN_FORMAT);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -22,6 +22,17 @@ public class HttpConnection extends ConnectedUser {
     }
 
     private void sendPostMessage(String jsonInputString) throws IOException {
+
+        System.out.println("sendPostMessage function  ------> URL: "+url);
+        //if(con!=null)
+        //  con = (HttpURLConnection) url.openConnection();
+        con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json; utf-8");
+        con.setRequestProperty("Accept", "application/json");
+        con.setDoOutput(true);
+        con.setDoInput(true);
+
         try (DataOutputStream out = new DataOutputStream(con.getOutputStream())) {
             byte[] output = jsonInputString.getBytes("utf-8");
             out.write(output, 0, output.length);
