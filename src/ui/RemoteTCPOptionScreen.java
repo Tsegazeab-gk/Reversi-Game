@@ -118,6 +118,7 @@ public class RemoteTCPOptionScreen extends JPanel {
     }
 
     public JLabel getLoading() {
+
         return loading;
     }
 
@@ -146,6 +147,7 @@ public class RemoteTCPOptionScreen extends JPanel {
     }
 
     public RemoteTCPOptionController getController() {
+
         return this.controller;
     }
 

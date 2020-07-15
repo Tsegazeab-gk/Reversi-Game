@@ -201,10 +201,12 @@ public class GamePanel extends JPanel implements Observer {
     }
 
     public JPanel getReversiBoard() {
+
         return reversiBoard;
     }
 
     public JLabel getScore1() {
+
         return this.score1;
     }
 
