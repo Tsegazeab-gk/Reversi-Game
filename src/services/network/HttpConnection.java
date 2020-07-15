@@ -1,5 +1,8 @@
 package services.network;
 
+import org.json.JSONObject;
+import util.Utils;
+
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -23,7 +26,7 @@ public class HttpConnection extends ConnectedUser {
 
     private void sendPostMessage(String jsonInputString) throws IOException {
 
-        System.out.println("sendPostMessage function  ------> URL: "+url);
+        System.out.println("sendPostMessage function  ------> URL: " + url);
         //if(con!=null)
         //  con = (HttpURLConnection) url.openConnection();
         con = (HttpURLConnection) url.openConnection();
@@ -43,7 +46,7 @@ public class HttpConnection extends ConnectedUser {
 
         int code = con.getResponseCode();
         System.out.println(code);
-        if(code != 200){
+        if (code != 200) {
             this.isYourTurn = true;
         }
 
@@ -54,9 +57,10 @@ public class HttpConnection extends ConnectedUser {
                 response.append(responseLine.trim());
             }
             System.out.println("Received -> " + response.toString());
-            Message message = new Message(response.toString());
+            Message message = Utils.receivedMessageParser(response.toString());
+            // Message message = new Message(response.toString());
 
-            if(code == 200){
+            if (code == 200) {
                 receivedMove(message.getI(), message.getJ());
                 this.isYourTurn = true;
             }
@@ -65,11 +69,14 @@ public class HttpConnection extends ConnectedUser {
         con.disconnect();
     }
 
+
+
     @Override
     public void sendMove(int i, int j) {
         try {
             Message message = new Message(i, j);
-            String jsonInputString = message.toString();
+            String jsonInputString = Utils.sendMessageParser(message);
+            //message.toString();
             sendPostMessage(jsonInputString);
         } catch (IOException e) {
             e.printStackTrace();

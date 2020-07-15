@@ -1,5 +1,9 @@
 package util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import services.network.Message;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -43,4 +47,50 @@ public class Utils {
             component.setEnabled(b);
         }
     }
+
+
+    public static Message receivedMessageParser(String jsonString) {
+        int i = -1, j = -1;
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(jsonString);
+            Object object = jsonObject.get("homeNewPiece");
+            System.out.println("Received => " + object);
+            if (object != null) {
+                try {
+                    JSONObject j2 = (JSONObject) object;
+                    i = (int) j2.get(Message.ROW_FORMAT);
+                    j = (int) j2.get(Message.COLUMN_FORMAT);
+                } catch (Exception e) {
+                    i = -1;
+                    j = -1;
+                }
+            } else {
+                i = -1;
+                j = -1;
+            }
+
+        } catch (Exception e) {
+            try {
+                jsonObject = new JSONObject(jsonString);
+                i = (int) jsonObject.get(Message.ROW_FORMAT);
+                j = (int) jsonObject.get(Message.COLUMN_FORMAT);
+            } catch (JSONException ex) {
+                e.printStackTrace();
+            }
+        }
+
+        return new Message(i, j);
+    }
+
+    public static String sendMessageParser(Message message) {
+        String output = String.format("{ \"Point\":{ \"%s\": %s, \"%s\":%s }, \"gameId\":%s }",
+                Message.ROW_FORMAT, message.getI(), message.getJ(), Message.COLUMN_FORMAT, "test");
+
+        if (false)
+            return output;
+        return message.toString();
+    }
+
+
 }

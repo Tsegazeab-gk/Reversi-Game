@@ -39,8 +39,8 @@ public class AIPlayer extends GamePlayer {
 //            level=LevelFactory.getFactory().createMediumLevel(mark, depth);
             level = LevelFactory.getFactory().createDifficultLevel(mark, depth, firstplayer);
         } else {
-            //level=LevelFactory.getFactory().createDifficultLevel(mark,depth,firstplayer);
-            level = LevelFactory.getFactory().createMediumLevel(mark, depth);
+             level=LevelFactory.getFactory().createDifficultLevel(mark,depth,firstplayer);
+           // level = LevelFactory.getFactory().createMediumLevel(mark, depth);
         }
         levelStrategy.setLevelStrategy(level);
 
@@ -68,8 +68,8 @@ evaluator= evaluator=new DynamicEvaluator();
 
     @Override
     public Point play(int[][] board) {
-       return minimax.solve(board,myMark,searchDepth,evaluator);
-       // return levelStrategy.getLevelStrategy().getNextMove(board, myMark, searchDepth);
+      // return minimax.solve(board,myMark,searchDepth,evaluator);
+        return levelStrategy.getLevelStrategy().getNextMove(board, myMark, searchDepth);
 
         // return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }

@@ -81,16 +81,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             }
         }
 
-/*
-        //AI Handler Timer (to unfreeze gui)
-        player1HandlerTimer = new Timer(2000, (ActionEvent e) -> {
-            System.out.println("player1HandlerTimer started");
-            handleAI(player1);
-            player1HandlerTimer.stop();
-            System.out.println("player1HandlerTimer Stopped");
-            //manageTurn();
-        });
-*/
+
         timer = new Timer();
 
         player1HandlerTimer = new TimerTask() {
@@ -101,22 +92,10 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             }
         };
 
-
-
-/*
-       // if(!player2.isUserPlayer()) {
-            player2HandlerTimer = new Timer(2000, (ActionEvent e) -> {
-                handleAI(getPlayer2());
-                player2HandlerTimer.stop();
-            });
-        //}
-*/
         gamePanel.getStartButton().addActionListener((ActionEvent event) -> {
             start();
         });
 
-        INSTANCE_COUNT++;
-        System.out.println("GamePanelController initiated" + INSTANCE_COUNT);
     }
 
     public void start() {
@@ -128,6 +107,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
         //updateBoardInfo();
         manageTurn();
         isPlayerCreated=true;
+        manageArrowTurns();
     }
 
     public void updateBoardInfo() {
@@ -148,10 +128,12 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             }
         }
 
+
         notifyObservers();
     }
 
     public void manageTurn() {
+
         System.out.println("manageTurn---->BoardHelper.hasAnyMoves(board, PLAYER_ONE) " + BoardHelper.hasAnyMoves(board, PLAYER_ONE));
         if (BoardHelper.hasAnyMoves(board, 1) || BoardHelper.hasAnyMoves(board, 2)) {
             updateBoardInfo();
@@ -185,7 +167,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
                     }
                 } else {
                     //forfeit this move and pass the turn
-                    System.out.println("forfeit Player 1 has no legal moves !");
+                    System.out.println("forfeit Player 1 has no legal moves sending -->  i=-1  j= -1");
+                   if(connectedUser!=null)
+                    connectedUser.sendMove(-1, -1);
                     turn = 2;
                     manageTurn();
                 }
@@ -219,7 +203,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
                     }
                 } else {
                     //forfeit this move and pass the turn
-                    System.out.println("forfeit Player 2 has no legal moves !");
+                    System.out.println("forfeit Player 2 has no legal moves!  moves sending -->  i=-1  j= -1");
+                    if(connectedUser!=null)
+                        connectedUser.sendMove(-1, -1);
                     turn = 1;
                     manageTurn();
                 }
@@ -231,9 +217,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             winner = BoardHelper.getWinner(board);
             if (winner == 1) {
                 totalscore1++;
-                this.gamePanel.getWinner().setText("winner is: player 1");
+                this.gamePanel.getWinner().setText("Winner is: "+player1.getPlayerName());
             } else if (winner == 2) {
-                this.gamePanel.getWinner().setText("winner is: player 2");
+                this.gamePanel.getWinner().setText("Winner is: "+player2.getPlayerName());
                 totalscore2++;
             }
             updateTotalScore();
@@ -277,10 +263,12 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     }
 
     public void updateTotalScore() {
-        if (totalscore1 == 1)
+       /* if (totalscore1 == 1)
             this.gamePanel.getWinner().setText("winner is: player 2");
         else
             this.gamePanel.getWinner().setText("winner is: player 1");
+
+        */
         this.gamePanel.getTscore1().setText("" + totalscore1);
         this.gamePanel.getTscore2().setText("" + totalscore2);
     }
@@ -334,12 +322,13 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
                 }
                 System.out.println();
             }
+            manageArrowTurns();
             manageTurn();
             System.out.println("Got new Board moveStone --->turn= " + turn);
             updateBoardInfo();
             //  manageTurn();
 
-            manageArrowTurns();
+           // manageArrowTurns();
         } else
             System.out.println(turn + " can not play in: " + i + " - " + j);
 
@@ -429,6 +418,8 @@ int mark=0;
         }
        // turn = 2;
         turn = (turn == 1) ? 2 : 1;
+
+        manageArrowTurns();
         updateBoardInfo();
 
         // turn = (turn == 1) ? 2 : 1;
@@ -437,10 +428,10 @@ int mark=0;
     }
 
     void manageArrowTurns() {
-        if (turn == PLAYER_ONE) {
+        if (turn == 1) {
             gamePanel.getArrowRight().setVisible(false);
             gamePanel.getArrowLeft().setVisible(true);
-        } else if (turn == PLAYER_TWO) {
+        } else if (turn == 2) {
             gamePanel.getArrowLeft().setVisible(false);
             gamePanel.getArrowRight().setVisible(true);
         }
@@ -517,12 +508,14 @@ int mark=0;
         }
         }
         else {
+
             System.out.println(turn + " can not play in: " + i + " - " + j);
             if(i==-1 && j==-1){
-                System.out.println("Player "+turn +"loses");
+              //  System.out.println("Player "+turn +"loses");
+                turn = (turn == 1) ? 2 : 1;
+               manageTurn();
             }
-            else
-     manageTurn();
+
         }
     }
 

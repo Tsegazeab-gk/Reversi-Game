@@ -13,11 +13,15 @@ public class Message implements Serializable {
     private boolean running = true;
     private JSONObject jsonObject;
 
-//    private static String ROW_FORMAT = "x";
-//    private static String COLUMN_FORMAT = "y";
 
-    private static String ROW_FORMAT = "row";
-    private static String COLUMN_FORMAT = "col";
+//    public static String ROW_FORMAT = "x";
+//    public static String COLUMN_FORMAT = "y";
+
+//    public static String ROW_FORMAT = "X";
+//    public static String COLUMN_FORMAT = "Y";
+
+    public static String ROW_FORMAT = "row";
+    public static String COLUMN_FORMAT = "col";
 
     public Message() {
     }
@@ -28,27 +32,13 @@ public class Message implements Serializable {
     }
 
     public Message(String jsonString) {
-        try {
-            jsonObject = new JSONObject(jsonString);
-            Object object = jsonObject.get("homeNewPiece");
-            System.out.println("Received => " + object);
-            if (object != null) {
-                try {
-                    JSONObject j2 = (JSONObject) object;
-                    i = (int) j2.get(ROW_FORMAT);
-                    j = (int) j2.get(COLUMN_FORMAT);
-                } catch (Exception e) {
-                    i = -1;
-                    j = -1;
-                }
-            } else {
-                i = (int) jsonObject.get(ROW_FORMAT);
-                j = (int) jsonObject.get(COLUMN_FORMAT);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
+//        try {
+//            jsonObject = new JSONObject(jsonString);
+//            i = (int) jsonObject.get(ROW_FORMAT);
+//            j = (int) jsonObject.get(COLUMN_FORMAT);
+//        } catch (JSONException ex) {
+//            ex.printStackTrace();
+//        }
     }
 
     public int getI() {
