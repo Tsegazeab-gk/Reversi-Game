@@ -13,15 +13,17 @@ public class Message implements Serializable {
     private boolean running = true;
     private JSONObject jsonObject;
 
+//Team 6
+    public static String ROW_FORMAT = "x";
+    public static String COLUMN_FORMAT = "y";
 
-//    public static String ROW_FORMAT = "x";
-//    public static String COLUMN_FORMAT = "y";
-
+    //Team 2
 //    public static String ROW_FORMAT = "X";
 //    public static String COLUMN_FORMAT = "Y";
 
-    public static String ROW_FORMAT = "row";
-    public static String COLUMN_FORMAT = "col";
+    //Team 3
+   // public static String ROW_FORMAT = "row";
+   // public static String COLUMN_FORMAT = "col";
 
     public Message() {
     }

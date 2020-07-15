@@ -47,8 +47,8 @@ String level;
 
         searchDepth = depth;
         isFirstPlayer = firstplayer;
-evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
-/*
+//evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
+
         if(mark==1) {
             evaluator = new RealtimeEvaluator(new int[][] {
                     {8, 85, -40, 10, 210, 520},
@@ -76,7 +76,7 @@ evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
                     {8, 500, 77, 0, 36, 299}},
                     new int[] {0, 55, 56, 57, 58, 59, 60, 61, 62, 63});
         }
-        */
+
     }
 
     @Override
@@ -86,7 +86,7 @@ evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
 
     @Override
     public String getPlayerName() {
-        return "Realtime Killer (Depth " + searchDepth + ")";
+        return "AI Team 5 Player ";
     }
 
     @Override
@@ -186,8 +186,8 @@ evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
         }
 
         //if no killer moves availiable do a minimax search
-       // return Minimax.solve(board,myMark,searchDepth,evaluator);
+        return Minimax.solve(board,myMark,searchDepth,evaluator);
 
-        return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
+      //  return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }
 }

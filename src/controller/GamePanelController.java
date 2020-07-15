@@ -127,24 +127,24 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
                 }
             }
         }
-
+        manageArrowTurns();
 
         notifyObservers();
     }
 
     public void manageTurn() {
-
-        System.out.println("manageTurn---->BoardHelper.hasAnyMoves(board, PLAYER_ONE) " + BoardHelper.hasAnyMoves(board, PLAYER_ONE));
+manageArrowTurns();
+      //  System.out.println("manageTurn---->BoardHelper.hasAnyMoves(board, PLAYER_ONE) " + BoardHelper.hasAnyMoves(board, PLAYER_ONE));
         if (BoardHelper.hasAnyMoves(board, 1) || BoardHelper.hasAnyMoves(board, 2)) {
             updateBoardInfo();
             if (turn == 1) {
                 if (BoardHelper.hasAnyMoves(board, 1)) {
                     if (player1.isUserPlayer()) {
                         awaitForClick = true;
-                        System.out.println("player1.isUserPlayer() True");
+                       // System.out.println("player1.isUserPlayer() True");
                         //after click this function should be call backed
                     } else {
-                        System.out.println("player1.isUserPlayer() false");
+                      //  System.out.println("player1.isUserPlayer() false");
                         // player1HandlerTimer.restart();
                         try {
                             Thread thread = new Thread(new Runnable() {
@@ -176,12 +176,12 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
             } else if (turn == 2) {
                 if (BoardHelper.hasAnyMoves(board, 2)) {
                     if (player2.isUserPlayer()) {
-                        System.out.println("player2.isUserPlayer() True");
+                     //   System.out.println("player2.isUserPlayer() True");
                         //   awaitForClick = true;
                         //after click this function should be call backed
                         turn = 2;
                     } else {
-                        System.out.println("player2.isUserPlayer() false");
+                       // System.out.println("player2.isUserPlayer() false");
                         // player1HandlerTimer.restart();
                         try {
                             Thread thread = new Thread(new Runnable() {
@@ -287,6 +287,8 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
         setBoardValue(3, 4, 1);
         setBoardValue(4, 3, 1);
         setBoardValue(4, 4, 2);
+
+        manageArrowTurns();
     }
 
     public void handleClick(int i, int j) {
@@ -362,13 +364,13 @@ int mark=0;
     }
 
     public void handleAI(GamePlayer ai) {
-        System.out.println("handleAI Method");
+      //  System.out.println("handleAI Method");
    /*
        if (connectedUser != null && !connectedUser.isYourTurn()) {
             System.out.println("!connectedUser.isYourTurn() Not your turn"+turn);
           //  return;
         }
-*/
+*//*
         System.out.println("Player 1 Move------>>>>>  Handle AI Before  new Board Before move: turn="+turn);
         for (int a = 0; a < 8; a++) {
             for (int b = 0; b < 8; b++) {
@@ -378,12 +380,12 @@ int mark=0;
             }
             System.out.println();
         }
-
+*/
         Point aiPlayPoint = ai.play(board);
 
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
-        System.out.println("aiPlayPoint i=" + i + "j=" + j);
+      //  System.out.println("aiPlayPoint i=" + i + "j=" + j);
         if (!BoardHelper.canPlay(board, ai.myMark, i, j))
             System.out.println("aiPlayPoint ---> Invalid Move by AI");
 
@@ -431,7 +433,7 @@ int mark=0;
         if (turn == 1) {
             gamePanel.getArrowRight().setVisible(false);
             gamePanel.getArrowLeft().setVisible(true);
-        } else if (turn == 2) {
+        } else {
             gamePanel.getArrowLeft().setVisible(false);
             gamePanel.getArrowRight().setVisible(true);
         }
@@ -468,10 +470,6 @@ int mark=0;
           //  player1.
                     turn=1;
                     if(!isPlayerCreated){
-                     //  GamePlayer temp;
-                     //   temp=player1;
-                     //   player1=player2;
-                     //   player2=temp;
                         System.out.println("Player one: Name:"+player1.myMark+ " Mark"+player1.myMark+ "is User Player"+player1.isUserPlayer());
                         System.out.println("Player two: Name:"+player2.myMark+ " Mark"+player2.myMark+ "is User Player"+player2.isUserPlayer());
 

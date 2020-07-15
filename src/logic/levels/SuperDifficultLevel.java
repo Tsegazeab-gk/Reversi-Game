@@ -1,27 +1,25 @@
-package player.ai;
+package logic.levels;
 
-
-import player.GamePlayer;
-import logic.Minimax;
 import logic.RealtimeEvaluator;
+import logic.StatePattern.Evaluator;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
-import logic.StatePattern.Evaluator;
 
 import java.awt.*;
 
-public class AIPlayerRealtime extends GamePlayer {
+public class SuperDifficultLevel implements ILevelStrategy{
 
+    private int myMark;
     private int searchDepth;
     private Evaluator evaluator;
     private MoveStrategyImpl strategy;
 
-    public AIPlayerRealtime(int mark, int depth) {
-        super(mark);
+    public SuperDifficultLevel(int mark, int depth) {
+myMark=mark;
         searchDepth = depth;
 
-      //  strategy=new MoveStrategyImpl();
-     //   strategy.setMoveStrategy(new MinimaxAlgorithm());
+          strategy=new MoveStrategyImpl();
+           strategy.setMoveStrategy(new MinimaxAlgorithm());
 
 
         if(mark==1) {
@@ -54,23 +52,7 @@ public class AIPlayerRealtime extends GamePlayer {
     }
 
     @Override
-    public boolean isUserPlayer() {
-        return false;
-    }
-
-    @Override
-    public String getPlayerName() {
-        return "AI Team 5 ";
-    }
-
-    @Override
-    public void setPlayerName(String playerName) {
-
-    }
-
-    @Override
-    public Point play(int[][] board) {
-      //  return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
-       return Minimax.solve(board,myMark,searchDepth,evaluator);
+    public Point getNextMove(int[][] board, int player, int dept) {
+        return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }
 }

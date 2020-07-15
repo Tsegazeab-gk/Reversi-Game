@@ -7,6 +7,7 @@ import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayer;
 import player.ai.AIPlayerDynamic;
+import player.ai.AIPlayerRealtime;
 import player.ai.AIPlayerRealtimeKiller;
 
 //this needs to get fixed
@@ -21,20 +22,7 @@ public class LevelFactoryImpl {//implements LevelFactory {
         return factory;
     }
 
-//    @Override
-//    public GamePlayer createPlayer(int mark, int depth, boolean isFirstUser, String option) {
-//
-//        return new AIPlayer(mark,depth,isFirstUser,option);
-////        GamePlayer player = null;
-////        if (option.equals("easy")) {
-////            player = new AIPlayer(mark,depth,isFirstUser,option);// new RandomPlayer(mark);
-////        } else if (option.equals("hard")) {
-////            player = new AIPlayerDynamic(mark, depth);
-////        } else if (option.equals("superhard")) {
-////            player = new AIPlayerRealtimeKiller(mark, depth, isFirstUser);
-////        }
-////        return player;
-//    }
+
 
     public GamePlayer createPlayer(int mark, int depth, boolean isFirstUser, GameOption gameOption) {
 
@@ -50,8 +38,8 @@ public class LevelFactoryImpl {//implements LevelFactory {
                 player = new AIPlayer(mark,depth,isFirstUser,"hard");
                 break;
             case AI:
-                player = new AIPlayer(mark,depth,isFirstUser,"");
-//                player = new AIPlayerRealtimeKiller(mark, depth, isFirstUser);
+                 //player = new AIPlayer(mark,depth,isFirstUser,"");
+                 player = new AIPlayerRealtime(mark, depth); //garanteed win
                 break;
         }
         if (gameOption == null)

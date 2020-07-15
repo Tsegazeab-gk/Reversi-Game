@@ -166,8 +166,8 @@ public class GameWindowController {
                     p1 = new HumanPlayer(1, userFormScreen.getPlay1Name());
                     p2 = new HumanPlayer(2, userFormScreen.getPlay2Name());
                 } else if (optionMap.get(Screen.REMOTE_TCP_OPTION).equals(GameOption.AI)) {
-                    p2 = LevelFactoryImpl.getFactory().createPlayer(2, 6, true, levelOption);
-                    p1 = new HumanPlayer(1, "Player 2");
+                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 8, true, levelOption);
+                    p2 = new HumanPlayer(2, "Remote Player 2");
                 }
                 connectedUser = remoteTCPOptionScreen.getController().getConnectedUser();
 
@@ -179,8 +179,8 @@ public class GameWindowController {
                     p2 = new HumanPlayer(2, userFormScreen.getPlay2Name());
 
                 } else if (optionMap.get(Screen.REMOTE_UDP_OPTION).equals(GameOption.AI)) {
-                    p2 = LevelFactoryImpl.getFactory().createPlayer(2, 6, true, levelOption);
-                    p1 = new HumanPlayer(1, "Player 2");
+                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 8, true, levelOption);
+                    p2 = new HumanPlayer(2, "Remote Player 2");
                 }
                 connectedUser = remoteUDPOptionScreen.getController().getConnectedUser();
 
@@ -191,10 +191,9 @@ public class GameWindowController {
                     p1 = new HumanPlayer(1, "Player 1");
                     p2 = new HumanPlayer(2, "Player 2");
                 } else if (optionMap.get(Screen.REMOTE_HTTP_OPTION).equals(GameOption.AI)) {
-                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 6, true, levelOption);
-                  p2 = new HumanPlayer(2, "Player 2");
-                    //p2 = LevelFactoryImpl.getFactory().createPlayer(2, 6, true, levelOption);
-                   //p1 = new HumanPlayer(1, "Player 2");
+                    p1 = LevelFactoryImpl.getFactory().createPlayer(1, 8, true, levelOption);
+                   p2 = new HumanPlayer(2, "Remote Player 2");
+
                 }
                 connectedUser = remoteHTTPOptionScreen.getController().getConnectedUser();
 

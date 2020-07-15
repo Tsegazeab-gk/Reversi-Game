@@ -14,7 +14,7 @@ import java.awt.*;
 
 public class AIPlayer extends GamePlayer {
 
-    String name = "AI";
+    String name = "AI Team 5 Player";
 
     private int searchDepth;
     private boolean isFirstPlayer;
@@ -23,7 +23,7 @@ public class AIPlayer extends GamePlayer {
 
     private LevelStrategyImpl levelStrategy;
 
-    Minimax minimax;
+   // Minimax minimax;
 
     Evaluator evaluator;
 
@@ -39,15 +39,16 @@ public class AIPlayer extends GamePlayer {
 //            level=LevelFactory.getFactory().createMediumLevel(mark, depth);
             level = LevelFactory.getFactory().createDifficultLevel(mark, depth, firstplayer);
         } else {
-             level=LevelFactory.getFactory().createDifficultLevel(mark,depth,firstplayer);
-           // level = LevelFactory.getFactory().createMediumLevel(mark, depth);
+              level=LevelFactory.getFactory().createSuperDifficultLevel(mark,depth);
+          //  level = LevelFactory.getFactory().createMediumLevel(mark, depth);
+            System.out.println("-------> Difficult level created !");
         }
         levelStrategy.setLevelStrategy(level);
 
-minimax=new Minimax();
+//minimax=new Minimax();
 
         //System.out.println("Strategy created");
-evaluator= evaluator=new DynamicEvaluator();
+//evaluator= evaluator=new DynamicEvaluator();
     }
 
     @Override

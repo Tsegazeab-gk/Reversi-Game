@@ -23,7 +23,7 @@ public class MediumLevel implements ILevelStrategy{
         myMark=mark;
 
         searchDepth = depth;
-        evaluator = EvaluatorFactoryImpl.getFactory().createEvaluator("Dynamic",0);
+        evaluator = EvaluatorFactoryImpl.getFactory().createEvaluator("Realtime",0);
         //new DynamicEvaluator();
         strategy=new MoveStrategyImpl();
         strategy.setMoveStrategy(new MinimaxAlgorithm());

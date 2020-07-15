@@ -26,5 +26,9 @@ public class LevelFactory {
 		
 	return new DifficultLevel(mark,depth,isFirstUser);
 	}
-	
+
+	public  ILevelStrategy  createSuperDifficultLevel(int mark, int depth) {
+
+		return new SuperDifficultLevel(mark,depth);
+	}
 }
