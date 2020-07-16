@@ -13,7 +13,7 @@ public class HighlightHandlerWithOne extends HighlightHandler {
 
     @Override
     public void handle(int highlight, BoardCell boardCell, JPanel parent, Graphics g) {
-        if(highlight == 1) {
+        if(highlight ==1) {
             g.setColor(new Color(255, 255, 255));
             g.fillRect(0,0, boardCell.getWidth(), boardCell.getHeight());
             g.setColor(parent.getBackground());

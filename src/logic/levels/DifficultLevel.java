@@ -4,7 +4,7 @@ import logic.OpeningBook;
 import logic.StatePattern.Evaluator;
 import logic.evaluatorfactory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
-import logic.strategy.MoveStrategyImpl;
+import logic.strategy.MoveStrategy;
 import util.ReversiBoardHelper;
 
 import java.awt.*;
@@ -22,15 +22,13 @@ public class DifficultLevel implements ILevelStrategy{
 
     OpeningBook OB;
     private boolean isOpeningActive = true;
-    private MoveStrategyImpl strategy;
+    private MoveStrategy strategy;
 
     int myMark;
     public DifficultLevel(int mark, int depth, boolean firstplayer) {
         myMark=mark;
-        strategy=new MoveStrategyImpl();
-        //attaching minimax algorithm
+        strategy=new MoveStrategy();
         strategy.setMoveStrategy(new MinimaxAlgorithm());
-        //init OpeningBook
         OB = new OpeningBook();
         OB.initOpening();
         moveHistory = new ArrayList<>();
@@ -70,7 +68,6 @@ public class DifficultLevel implements ILevelStrategy{
         Point bestToPlay = null;
         int bestValue = Integer.MIN_VALUE;
 
-        //Corner Detection
         ArrayList<Point> corners = new ArrayList<>();
         corners.add(new Point(0,0));
         corners.add(new Point(0,7));
@@ -95,13 +92,11 @@ public class DifficultLevel implements ILevelStrategy{
         bestToPlay = null;
         bestValue = Integer.MIN_VALUE;
 
-        //Blocking Move Detection
         for(Point move : moves){
             int[][] resBoard = ReversiBoardHelper.getNewBoardAfterMove(board,move,myMark);
             if(ReversiBoardHelper.getAllPossibleMoves(resBoard,opMark).size() == 0){ //if opponent has no moves
                 int mval = evaluator.eval(resBoard,myMark);
                 if(mval > bestValue) {
-                    //update best corner
                     bestToPlay = move;
                     bestValue = mval;
                 }
@@ -113,11 +108,9 @@ public class DifficultLevel implements ILevelStrategy{
         if(isOpeningActive) {
             Point opmove = OB.getMoveFromOpeningBook(moveHistory);
             if (opmove != null) {
-                System.out.println("\033[1;30;34m OPENING MOVE \033[0m\n");
-                return opmove;
             }
             isOpeningActive = false;
-            System.out.println("\033[1;30;44m OPENING DEACTIVATED \033[0m\n");
+
         }
 
         return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);

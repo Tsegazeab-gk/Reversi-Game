@@ -3,7 +3,7 @@ package logic.levels;
 import logic.StatePattern.Evaluator;
 import logic.evaluatorfactory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
-import logic.strategy.MoveStrategyImpl;
+import logic.strategy.MoveStrategy;
 
 import java.awt.*;
 
@@ -11,14 +11,14 @@ public class MediumLevel implements ILevelStrategy {
 
     private int searchDepth;
     private Evaluator evaluator;
-    private MoveStrategyImpl strategy;
+    private MoveStrategy strategy;
     private int myMark;
 
     public MediumLevel(int mark, int depth) {
         myMark = mark;
         searchDepth = depth;
         evaluator = EvaluatorFactoryImpl.getFactory().createDynamicEvaluator( mark);
-        strategy = new MoveStrategyImpl();
+        strategy = new MoveStrategy();
         strategy.setMoveStrategy(new MinimaxAlgorithm());
         System.out.println("Strategy created");
 

@@ -1,6 +1,6 @@
 package logic.strategy;
 
-public class MoveStrategyImpl {
+public class MoveStrategy {
 
     IMoveStrategy moveStrategy;
 

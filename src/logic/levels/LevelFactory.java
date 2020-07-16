@@ -1,15 +1,15 @@
 package logic.levels;
 
-public class LevelFactory {
+public class LevelFactory implements ILevelFactory{
 
 
-	static LevelFactory factory=new LevelFactory();
+	static ILevelFactory factory=new LevelFactory();
 	
 	private LevelFactory() {
 		
 	}
 	
-	public static LevelFactory getFactory() {
+	public static ILevelFactory getFactory() {
 		
 		 return factory;
 	}
