@@ -2,11 +2,11 @@ package player;
 
 import java.awt.*;
 
-public abstract class GamePlayer {
+public abstract class Player {
 
     public int myMark;
 
-    public GamePlayer(int mark){
+    public Player(int mark){
         myMark = mark;
     }
 

@@ -1,10 +1,11 @@
 package logic.StatePattern;
-import static logic.StaticEvaluator.*;
+
+import static logic.evaluatorfactory.StaticEvaluator.*;
 
 public class LatePhase implements Evaluator {
-    private DynamicEvaluator gameEvaluator;
+    private EarlyPhase.DynamicEvaluator gameEvaluator;
 
-    public LatePhase(DynamicEvaluator gameEvaluator) {
+    public LatePhase(EarlyPhase.DynamicEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
     }
 

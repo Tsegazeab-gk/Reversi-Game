@@ -1,7 +1,7 @@
 package controller.command;
 
 
-import util.BoardHelper;
+import util.ReversiBoardHelper;
 
 import java.awt.*;
 
@@ -19,7 +19,7 @@ public class BoardCommand implements Command{
 
     @Override
     public void execute() {
-        this.board=BoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
+        this.board= ReversiBoardHelper.getNewBoardAfterMove(board,aiPlayPoint,turn);
     }
 
     @Override

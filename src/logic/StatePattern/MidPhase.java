@@ -1,21 +1,21 @@
 package logic.StatePattern;
 
-import util.BoardHelper;
+import util.ReversiBoardHelper;
 
-import static logic.StaticEvaluator.*;
+import static logic.evaluatorfactory.StaticEvaluator.*;
 
 public class MidPhase  implements Evaluator {
 
-    private DynamicEvaluator gameEvaluator;
+    private EarlyPhase.DynamicEvaluator gameEvaluator;
 
-    public MidPhase(DynamicEvaluator gameEvaluator) {
+    public MidPhase(EarlyPhase.DynamicEvaluator gameEvaluator) {
         this.gameEvaluator = gameEvaluator;
     }
 
 
     @Override
     public int eval(int[][] board, int player) {
-        int sc = BoardHelper.getTotalStoneCount(board);
+        int sc = ReversiBoardHelper.getTotalStoneCount(board);
         if(sc > 58) {
             gameEvaluator.setGamePhase(new LatePhase(gameEvaluator));
             return gameEvaluator.eval(board, player);

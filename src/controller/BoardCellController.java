@@ -39,20 +39,6 @@ public class BoardCellController{
         highlightHandler.handle(highlight, boardCell, parent, g);
 
 
-//        if(highlight == 1) {
-//            g.setColor(new Color(138, 177, 62));
-//            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
-//            g.setColor(parent.getBackground());
-//            g.fillRect(4,4,this.boardCell.getWidth()-8,this.boardCell.getHeight()-8);
-//        }else if(highlight == 2){
-//            g.setColor(new Color(177, 158, 70));
-//            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
-//            g.setColor(parent.getBackground());
-//            g.fillRect(4,4,this.boardCell.getWidth()-8,this.boardCell.getHeight()-8);
-//        }else if(highlight == 10){
-//            g.setColor(new Color(177, 43, 71));
-//            g.fillRect(0,0,this.boardCell.getWidth(),this.boardCell.getHeight());
-//        }
 
         //draw border
         g.setColor(Color.BLACK);
@@ -78,13 +64,8 @@ public class BoardCellController{
             drawStringInCenterOfRectangle(g,0,0,this.boardCell.getWidth(),this.boardCell.getHeight(),text);
         }
 
-
-        //g.setColor(new Color(100,100,100));
-        //g.drawOval(10,10,this.getWidth()-20,this.getHeight()-20);
     }
 
-
-    //Extension function to ease drawing text
     public void drawStringInCenterOfRectangle(Graphics g,int x,int y,int w,int h,String text){
         Graphics2D g2 = (Graphics2D) g;
         Font bfont = g2.getFont();

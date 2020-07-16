@@ -1,7 +1,7 @@
-package logic;
+package logic.evaluatorfactory;
 
 import logic.StatePattern.Evaluator;
-import util.BoardHelper;
+import util.ReversiBoardHelper;
 
 public class StaticEvaluator implements Evaluator {
 
@@ -14,8 +14,8 @@ public class StaticEvaluator implements Evaluator {
     public static int evalDiscDiff(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
-        int mySC = BoardHelper.getPlayerStoneCount(board,player);
-        int opSC = BoardHelper.getPlayerStoneCount(board,oplayer);
+        int mySC = ReversiBoardHelper.getPlayerStoneCount(board,player);
+        int opSC = ReversiBoardHelper.getPlayerStoneCount(board,oplayer);
 
         return 100 * (mySC - opSC) / (mySC + opSC);
     }
@@ -23,8 +23,8 @@ public class StaticEvaluator implements Evaluator {
     public static int evalMobility(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
-        int myMoveCount = BoardHelper.getAllPossibleMoves(board,player).size();
-        int opMoveCount = BoardHelper.getAllPossibleMoves(board,oplayer).size();
+        int myMoveCount = ReversiBoardHelper.getAllPossibleMoves(board,player).size();
+        int opMoveCount = ReversiBoardHelper.getAllPossibleMoves(board,oplayer).size();
 
         return 100 * (myMoveCount - opMoveCount) / (myMoveCount + opMoveCount + 1);
     }
@@ -108,7 +108,7 @@ public class StaticEvaluator implements Evaluator {
     }
 
     public static int evalParity(int[][] board){
-        int remDiscs = 64 - BoardHelper.getTotalStoneCount(board);
+        int remDiscs = 64 - ReversiBoardHelper.getTotalStoneCount(board);
         return remDiscs % 2 == 0 ? -1 : 1;
     }
 

@@ -100,7 +100,7 @@ public class OpeningBook {
                     char c2 = oseq.charAt(i+1);
                     int col = c1 - 'a';
                     int row = c2 - '1';
-                    System.out.print(row + " , " + col + "  ");
+                 //   System.out.print(row + " , " + col + "  ");
                     moveSequence.add(new Point(row,col));
                 }
                 System.out.println("");
@@ -111,7 +111,7 @@ public class OpeningBook {
         public Point getMoveFromOpeningBook(ArrayList<Point> history){
             ArrayList<ArrayList<Point>> expiredSequences = new ArrayList<>();
             ArrayList<Point> availableMoves = new ArrayList<>();
-            System.out.println("Checking with " + openingList.size() + " Opening Sequences ..." );
+          //  System.out.println("Checking with " + openingList.size() + " Opening Sequences ..." );
             for(ArrayList<Point> sequence : openingList){
                 if(sequence.size() <= history.size()){
                     //sequence is no more used and considered expired
@@ -132,11 +132,8 @@ public class OpeningBook {
                     availableMoves.add(sequence.get(i));
                 }
             }
-            //dispose expired sequences
             openingList.removeAll(expiredSequences);
-
             if(availableMoves.size()>0) {
-                //choose randomly between available moves
                 return availableMoves.get(rnd.nextInt(availableMoves.size()));
             }else return null;
         }

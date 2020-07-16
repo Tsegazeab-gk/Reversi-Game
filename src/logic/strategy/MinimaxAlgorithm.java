@@ -2,7 +2,7 @@ package logic.strategy;
 
 
 import logic.StatePattern.Evaluator;
-import util.BoardHelper;
+import util.ReversiBoardHelper;
 
 import java.awt.*;
 
@@ -15,9 +15,9 @@ public class MinimaxAlgorithm implements IMoveStrategy{
         nodesExplored = 0;
         int bestScore = Integer.MIN_VALUE;
         Point bestMove = null;
-        for(Point move : BoardHelper.getAllPossibleMoves(board,player)){
+        for(Point move : ReversiBoardHelper.getAllPossibleMoves(board,player)){
             //create new node
-            int[][] newNode = BoardHelper.getNewBoardAfterMove(board,move,player);
+            int[][] newNode = ReversiBoardHelper.getNewBoardAfterMove(board,move,player);
             //recursive call
             int childScore = MMAB(newNode,player,depth-1,false,Integer.MIN_VALUE,Integer.MAX_VALUE,e);
                 if(childScore > bestScore) {
@@ -34,13 +34,13 @@ public class MinimaxAlgorithm implements IMoveStrategy{
     private  int MMAB(int[][] node,int player,int depth,boolean max,int alpha,int beta,Evaluator e){
         nodesExplored++;
         //if terminal reached or depth limit reached evaluate
-        if(depth == 0 || BoardHelper.isGameFinished(node)){
+        if(depth == 0 || ReversiBoardHelper.isGameFinished(node)){
             //BoardPrinter bpe = new BoardPrinter(node,"Depth : " + depth);
             return e.eval(node,player);
         }
         int oplayer = (player==1) ? 2 : 1;
         //if no moves available then forfeit turn
-        if((max && !BoardHelper.hasAnyMoves(node,player)) || (!max && !BoardHelper.hasAnyMoves(node,oplayer))){
+        if((max && !ReversiBoardHelper.hasAnyMoves(node,player)) || (!max && !ReversiBoardHelper.hasAnyMoves(node,oplayer))){
             //System.out.println("Forfeit State Reached !");
             return MMAB(node,player,depth-1,!max,alpha,beta,e);
         }
@@ -48,9 +48,9 @@ public class MinimaxAlgorithm implements IMoveStrategy{
         if(max){
             //maximizing
             score = Integer.MIN_VALUE;
-            for(Point move : BoardHelper.getAllPossibleMoves(node,player)){ //my turn
+            for(Point move : ReversiBoardHelper.getAllPossibleMoves(node,player)){ //my turn
                 //create new node
-                int[][] newNode = BoardHelper.getNewBoardAfterMove(node,move,player);
+                int[][] newNode = ReversiBoardHelper.getNewBoardAfterMove(node,move,player);
                 //recursive call
                 int childScore = MMAB(newNode,player,depth-1,false,alpha,beta,e);
                 if(childScore > score) score = childScore;
@@ -61,9 +61,9 @@ public class MinimaxAlgorithm implements IMoveStrategy{
         }else{
             //minimizing
             score = Integer.MAX_VALUE;
-            for(Point move : BoardHelper.getAllPossibleMoves(node,oplayer)){ //opponent turn
+            for(Point move : ReversiBoardHelper.getAllPossibleMoves(node,oplayer)){ //opponent turn
                 //create new node
-                int[][] newNode = BoardHelper.getNewBoardAfterMove(node,move,oplayer);
+                int[][] newNode = ReversiBoardHelper.getNewBoardAfterMove(node,move,oplayer);
                 //recursive call
                 int childScore = MMAB(newNode,player,depth-1,true,alpha,beta,e);
                 if(childScore < score) score = childScore;

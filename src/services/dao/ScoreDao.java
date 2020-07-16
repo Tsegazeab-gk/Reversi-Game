@@ -1,7 +1,6 @@
 package services.dao;
 
 import models.Score;
-import services.dao.IScore;
 import services.db.IDatabase;
 
 import java.sql.Connection;

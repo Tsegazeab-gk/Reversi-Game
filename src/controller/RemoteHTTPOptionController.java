@@ -3,9 +3,7 @@ package controller;
 import services.network.ConnectedUser;
 import services.network.HttpConnection;
 import services.network.IConnection;
-import services.network.UDPConnection;
 import ui.RemoteHTTPOptionScreen;
-import ui.RemoteTCPOptionScreen;
 import util.Utils;
 
 import java.awt.*;

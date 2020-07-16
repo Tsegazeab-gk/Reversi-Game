@@ -1,7 +1,10 @@
 package services.network;
 
 import java.io.IOException;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
+import java.net.SocketException;
 
 public class UDPConnection extends ConnectedUser {
     private DatagramSocket socket;
