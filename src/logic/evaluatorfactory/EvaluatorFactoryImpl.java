@@ -3,14 +3,14 @@ package logic.evaluatorfactory;
 import logic.StatePattern.EarlyPhase;
 import logic.StatePattern.Evaluator;
 
-public class EvaluatorFactoryImpl  {
+public class EvaluatorFactoryImpl  implements  IEvaluatorFactory{
 
-    private static EvaluatorFactoryImpl factory=new EvaluatorFactoryImpl();
+    private static IEvaluatorFactory factory=new EvaluatorFactoryImpl();
 
     private EvaluatorFactoryImpl() {
     }
 
-    public static EvaluatorFactoryImpl getFactory() {
+    public static IEvaluatorFactory getFactory() {
         return factory;
     }
 
