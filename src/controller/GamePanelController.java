@@ -134,11 +134,6 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
                 this.gamePanel.getWinner().setText("winner is: player 2");
                  totalscore2++;
             }
-//            updateTotalScore();
-            //restart
-            //resetBoard();
-            //turn=1;
-            //manageTurn();
             updateTotalScore();
             moveStoneProxy.getNumberOfMoves(winner);
 
