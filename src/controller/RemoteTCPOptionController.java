@@ -43,7 +43,8 @@ public class RemoteTCPOptionController implements IConnection {
     }
 
 
-    public ConnectedUser getConnectedUser() {
+    public ConnectedUser getConnectedUser()
+    {
         return connectedUser;
     }
 

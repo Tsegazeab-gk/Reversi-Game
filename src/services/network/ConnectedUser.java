@@ -28,6 +28,7 @@ public abstract class ConnectedUser {
     }
 
     public ConnectedUser(String url){
+
         this.httpUrl = url;
     }
 
