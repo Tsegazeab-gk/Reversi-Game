@@ -18,7 +18,7 @@ public class BoardCellController{
 
     private GameEngine ge;
     private JPanel parent;
-    public int highlight = 0;
+    public int highlight = 2;
     public String text = "";
 
     private HighlightHandler highlightHandler = HighlightHandlerFactory.getHighlightHandler();
@@ -35,9 +35,10 @@ public class BoardCellController{
         int margin_left = this.boardCell.getWidth() / 10;
         int margin_top = this.boardCell.getHeight() / 10;
 
+
+
         //draw highlight
         highlightHandler.handle(highlight, boardCell, parent, g);
-
 
 
         //draw border
@@ -46,11 +47,16 @@ public class BoardCellController{
 
         //draw piece
         int value = ge.getBoardValue(i,j);
+
+        //    highlight=value;
+
         if(value == 1){
+
             g.setColor(Color.BLACK);
             g.fillOval(margin_left,margin_top,this.boardCell.getWidth()-2*margin_left,this.boardCell.getHeight()-2*margin_top);
         }
         else if(value == 2) {
+
             g.setColor(Color.WHITE);
             g.fillOval(margin_left,margin_top,this.boardCell.getWidth()-2*margin_left,this.boardCell.getHeight()-2*margin_top);
         }
@@ -63,6 +69,8 @@ public class BoardCellController{
 
             drawStringInCenterOfRectangle(g,0,0,this.boardCell.getWidth(),this.boardCell.getHeight(),text);
         }
+
+
 
     }
 
