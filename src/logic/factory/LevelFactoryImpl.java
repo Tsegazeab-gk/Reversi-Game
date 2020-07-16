@@ -38,8 +38,8 @@ public class LevelFactoryImpl {//implements LevelFactory {
                 player = new AIPlayer(mark,depth,isFirstUser,"hard");
                 break;
             case AI:
-                 //player = new AIPlayer(mark,depth,isFirstUser,"");
-                 player = new AIPlayerRealtime(mark, depth); //garanteed win
+                 player = new AIPlayer(mark,depth,isFirstUser,"");
+                // player = new AIPlayerRealtime(mark, depth); //garanteed win
                 break;
         }
         if (gameOption == null)

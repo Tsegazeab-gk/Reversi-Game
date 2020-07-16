@@ -39,8 +39,8 @@ public class AIPlayer extends GamePlayer {
 //            level=LevelFactory.getFactory().createMediumLevel(mark, depth);
             level = LevelFactory.getFactory().createDifficultLevel(mark, depth, firstplayer);
         } else {
-              level=LevelFactory.getFactory().createSuperDifficultLevel(mark,depth);
-          //  level = LevelFactory.getFactory().createMediumLevel(mark, depth);
+             // level=LevelFactory.getFactory().createSuperDifficultLevel(mark,depth);
+            level = LevelFactory.getFactory().createMediumLevel(mark, depth);
             System.out.println("-------> Difficult level created !");
         }
         levelStrategy.setLevelStrategy(level);
