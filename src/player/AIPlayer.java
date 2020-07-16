@@ -9,7 +9,7 @@ import java.awt.*;
 
 public class AIPlayer extends Player {
 
-    String name="AI";
+    String name="AI Team 5 Player";
 
     private int searchDepth;
     private boolean isFirstPlayer;

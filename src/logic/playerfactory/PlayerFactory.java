@@ -3,6 +3,7 @@ package logic.playerfactory;
 
 import models.GameOption;
 import player.AIPlayer;
+import player.HumanPlayer;
 import player.Player;
 
 public class PlayerFactory {
@@ -16,7 +17,7 @@ public class PlayerFactory {
         return factory;
     }
 
-    public Player createPlayer(int mark, int depth, boolean isFirstUser, GameOption gameOption) {
+    public Player createAIPlayer(int mark, int depth, boolean isFirstUser, GameOption gameOption) {
 
         Player player = null;
         if(gameOption==null){
@@ -40,5 +41,9 @@ public class PlayerFactory {
             player = new AIPlayer(mark,depth,isFirstUser,"hard");
 
         return player;
+    }
+
+    public Player createHumanPlayer(int mark, String name){
+        return new HumanPlayer(1,name);
     }
 }

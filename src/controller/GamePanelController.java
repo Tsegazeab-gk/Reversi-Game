@@ -23,15 +23,16 @@ import java.util.ArrayList;
 import util.vistorInterface;
 import util.vistorInterfaceImpl;
 
+
 public class GamePanelController implements GameEngine, GameConnection, IMoveStone {
 
     private GamePanel gamePanel;
     private BoardCell[][] cells;
 
-    private int turn;//= 1;
+    private int turn;
     private int[][] board;
-    private GamePlayer player1;
-    private GamePlayer player2;    //new AIPlayerDynamic(2,6);
+    private Player player1;
+    private Player player2;
     private Invoker invoker=Invoker.INSTANCE;
 
     private boolean awaitForClick = false;
@@ -48,6 +49,8 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     private ConnectedUser connectedUser;
 
     IMoveStone moveStoneProxy;
+
+    private vistorInterface vistor;
 
     public GamePanelController(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
