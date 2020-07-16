@@ -6,8 +6,7 @@ import models.GameOption;
 import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayer;
-import player.ai.AIPlayerDynamic;
-import player.ai.AIPlayerRealtimeKiller;
+
 
 //this needs to get fixed
 public class LevelFactoryImpl {//implements LevelFactory {

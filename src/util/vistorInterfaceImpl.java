@@ -5,6 +5,7 @@ import controller.GamePanelController;
 public class vistorInterfaceImpl implements vistorInterface{
     @Override
     public boolean canPlay(GamePanelController gamecontroler,int[][] board, int player, int i, int j) {
+        System.out.println("vistorInterfaceImpl");
         if(board[i][j] != 0) return false;
 
             int mi , mj , c;
