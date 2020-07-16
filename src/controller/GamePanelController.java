@@ -21,6 +21,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import util.vistorInterface;
+import util.vistorInterfaceImpl;
 
 public class GamePanelController implements GameEngine, GameConnection, IMoveStone {
 
@@ -29,7 +31,9 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     private int turn;//= 1;
     private int[][] board;
     private GamePlayer player1;
-    private GamePlayer player2;    //new AIPlayerDynamic(2,6);
+    private GamePlayer player2;
+    private vistorInterface vistor;
+    //new AIPlayerDynamic(2,6);
     private Invoker invoker=Invoker.INSTANCE;
     //    private GamePlayer player1 = new AIPlayerRealtimeKiller(1,6,true);
 //    private GamePlayer player2 = new AIPlayerDynamic(2,6);
@@ -52,7 +56,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
         this.gamePanel = gamePanel;
 
         observers = new ArrayList<Observer>();
-
+        vistor=new vistorInterfaceImpl();
         // setting for proxy pattern
         moveStoneProxy = new MoveCounterProxy(this);
 
@@ -171,7 +175,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
                 if (board[i][j] == 1) p1score++;
                 if (board[i][j] == 2) p2score++;
 
-                if (BoardHelper.canPlay(board, turn, i, j)) {
+                if (canPlay(vistor,board, turn, i, j)) {
                     cells[i][j].setHighlight(1);
                 } else {
                     cells[i][j].setHighlight(0);
@@ -239,7 +243,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
     }
 
     private void handleMove(int i, int j) {
-        if (awaitForClick && BoardHelper.canPlay(board, turn, i, j)) {
+        if (awaitForClick && canPlay(vistor,board, turn, i, j)) {
             System.out.println("User Played in : " + i + " , " + j);
 
             // System.out.println("Calling proxy turn Number: " + turn);
@@ -288,7 +292,7 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
         int i = aiPlayPoint.x;
         int j = aiPlayPoint.y;
 
-        if (!BoardHelper.canPlay(board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
+        if (!canPlay(vistor,board, ai.myMark, i, j)) System.err.println("FATAL : AI Invalid Move !");
 //        System.out.println(ai.playerName() + " Played in : " + i + " , " + j);
 
         // if (connectedUser != null) {
@@ -364,6 +368,10 @@ public class GamePanelController implements GameEngine, GameConnection, IMoveSto
 //        this.handleClick(i,j);
         this.handleMove(i,j);
 
+    }
+    public  boolean canPlay(vistorInterface vistor,int[][] board, int player, int i, int j){
+
+        return vistor.canPlay(this,board,  player,  i,  j);
     }
 
     public GamePlayer getPlayer1() {

@@ -54,7 +54,6 @@ public abstract class ConnectedUser {
             e.printStackTrace();
         }
     }
-
     public abstract void sendMove(int x, int y);
 
     public abstract void receivedMove(int x, int y);
