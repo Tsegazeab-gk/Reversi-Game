@@ -6,7 +6,8 @@ import java.util.ArrayList;
 public class BoardHelper {
 
     public static boolean isGameFinished(int[][] board){
-       return !(hasAnyMoves(board,1) || hasAnyMoves(board,2));
+
+        return !(hasAnyMoves(board,1) || hasAnyMoves(board,2));
     }
 
 
