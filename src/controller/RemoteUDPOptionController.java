@@ -1,6 +1,7 @@
 package controller;
 
 import services.network.ConnectedUser;
+import services.network.FactoryConnection;
 import services.network.IConnection;
 import services.network.UDPConnection;
 import ui.RemoteUDPOptionScreen;
@@ -35,7 +36,7 @@ public class RemoteUDPOptionController implements IConnection {
                 remoteUDPOptionScreen.getLblErrorMsg().setText("Invalid Port Format");
                 return;
             }
-            connectedUser = new UDPConnection(addr, sourcePortInt, destPortInt, this);
+            connectedUser = FactoryConnection.createUDPConnection(addr, sourcePortInt, destPortInt, this);
             connectedUser.startConnection();
 
         });
