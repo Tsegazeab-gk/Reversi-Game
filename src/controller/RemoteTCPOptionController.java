@@ -1,9 +1,6 @@
 package controller;
 
-import services.network.Client;
-import services.network.ConnectedUser;
-import services.network.IConnection;
-import services.network.Server;
+import services.network.*;
 import ui.RemoteTCPOptionScreen;
 import util.Utils;
 
@@ -23,7 +20,7 @@ public class RemoteTCPOptionController implements IConnection {
                 return;
             }
             String ipAddr = remoteTCPOptionScreen.getiPAddressTextField().getText();
-            connectedUser = new Server(ipAddr, 5000, this);
+            connectedUser = FactoryConnection.createTCPServerConnection(ipAddr, 5000, this);
             connectedUser.startConnection();
         });
 
@@ -33,7 +30,7 @@ public class RemoteTCPOptionController implements IConnection {
                 return;
             }
             String ipAddr = remoteTCPOptionScreen.getiPAddressTextField().getText();
-            connectedUser = new Client(ipAddr, 5000, this);
+            connectedUser = FactoryConnection.createTCPClientConnection(ipAddr, 5000, this);
             connectedUser.startConnection();
         });
         remoteTCPOptionScreen.getBtnCancel().addActionListener((ActionEvent event) -> {
@@ -43,8 +40,7 @@ public class RemoteTCPOptionController implements IConnection {
     }
 
 
-    public ConnectedUser getConnectedUser()
-    {
+    public ConnectedUser getConnectedUser() {
         return connectedUser;
     }
 

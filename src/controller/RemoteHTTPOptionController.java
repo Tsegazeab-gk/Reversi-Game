@@ -1,9 +1,6 @@
 package controller;
 
-import services.network.ConnectedUser;
-import services.network.HttpConnection;
-import services.network.IConnection;
-import services.network.UDPConnection;
+import services.network.*;
 import ui.RemoteHTTPOptionScreen;
 import ui.RemoteTCPOptionScreen;
 import util.Utils;
@@ -31,7 +28,7 @@ public class RemoteHTTPOptionController implements IConnection {
 
             String addr = remoteHTTPOptionScreen.getAddressTextField().getText();
 
-            connectedUser = new HttpConnection(addr, this);
+            connectedUser = FactoryConnection.createHTTPConnection(addr, this);
             connectedUser.startConnection();
 
         });
@@ -88,7 +85,7 @@ public class RemoteHTTPOptionController implements IConnection {
         }
     }
 
-   private boolean validateHTTPUrl(final String urlString) {
+    private boolean validateHTTPUrl(final String urlString) {
         try {
             URL url = new URL(urlString);
             URLConnection conn = url.openConnection();

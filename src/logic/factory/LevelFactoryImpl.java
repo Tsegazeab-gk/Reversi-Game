@@ -7,7 +7,6 @@ import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayer;
 
-
 //this needs to get fixed
 public class LevelFactoryImpl {//implements LevelFactory {
 
