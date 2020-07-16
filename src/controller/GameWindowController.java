@@ -9,8 +9,6 @@ import models.Screen;
 import player.GamePlayer;
 import player.HumanPlayer;
 import player.ai.AIPlayer;
-import player.ai.AIPlayerDynamic;
-import player.ai.AIPlayerRealtimeKiller;
 import services.network.ConnectedUser;
 import ui.*;
 

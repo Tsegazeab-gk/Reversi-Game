@@ -3,7 +3,6 @@ package logic.factory;
 import logic.RealtimeEvaluator;
 import logic.StatePattern.DynamicEvaluator;
 import logic.StatePattern.Evaluator;
-import player.ai.AIPlayerRealtimeKiller;
 
 public class EvaluatorFactoryImpl implements EvaluatorFactory{
 
