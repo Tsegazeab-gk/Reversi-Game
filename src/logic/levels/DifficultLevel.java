@@ -2,10 +2,10 @@ package logic.levels;
 
 import logic.OpeningBook;
 import logic.StatePattern.Evaluator;
-import logic.factory.EvaluatorFactoryImpl;
+import logic.evaluatorfactory.EvaluatorFactoryImpl;
 import logic.strategy.MinimaxAlgorithm;
 import logic.strategy.MoveStrategyImpl;
-import util.BoardHelper;
+import util.ReversiBoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -22,65 +22,49 @@ public class DifficultLevel implements ILevelStrategy{
 
     OpeningBook OB;
     private boolean isOpeningActive = true;
-//    private boolean isOpeningActive = false;
-
     private MoveStrategyImpl strategy;
-
-    String level;
 
     int myMark;
     public DifficultLevel(int mark, int depth, boolean firstplayer) {
         myMark=mark;
-      //  super(mark);
-//creating move strategy
         strategy=new MoveStrategyImpl();
         //attaching minimax algorithm
         strategy.setMoveStrategy(new MinimaxAlgorithm());
-
         //init OpeningBook
         OB = new OpeningBook();
         OB.initOpening();
-
         moveHistory = new ArrayList<>();
-
         searchDepth = depth;
         isFirstPlayer = firstplayer;
-        evaluator= EvaluatorFactoryImpl.getFactory().createEvaluator("Killer",mark);
+
+        evaluator= EvaluatorFactoryImpl.getFactory().createKillerEvaluator(mark);
     }
 
 
     @Override
     public Point getNextMove(int[][] board, int player, int depth){
 
-        //Add Opponents Move to History (null means opponent was not able to play)
-        //Opening loses effect when Move Sequence is out of 1-1 sync
         if(firstRun){
             if(!isFirstPlayer){
-                Point opMove = BoardHelper.getMove(BoardHelper.getStartBoard(),board);
+                Point opMove = ReversiBoardHelper.getMove(ReversiBoardHelper.getStartBoard(),board);
                 if(opMove != null) moveHistory.add(opMove);
                 else isOpeningActive = false;
             }
             firstRun = false;
         }else{
-            Point opMove = BoardHelper.getMove(lastboard,board);
+            Point opMove = ReversiBoardHelper.getMove(lastboard,board);
             if(opMove != null) moveHistory.add(opMove);
             else isOpeningActive = false;
         }
 
         Point myMove = playUtil(board);
-        lastboard = BoardHelper.getNewBoardAfterMove(board,myMove,myMark);
+        lastboard = ReversiBoardHelper.getNewBoardAfterMove(board,myMove,myMark);
         moveHistory.add(myMove);
-
-        //print history till now
-        /*for(Point m : moveHistory){
-            System.out.print("(" + m.x + "," + m.y + ") -> ");
-        }*/
-
         return myMove;
     }
 
     public Point playUtil(int[][] board) {
-        ArrayList<Point> moves = BoardHelper.getAllPossibleMoves(board,myMark);
+        ArrayList<Point> moves = ReversiBoardHelper.getAllPossibleMoves(board,myMark);
         int opMark = ((myMark == 1) ? 2 : 1);
 
         Point bestToPlay = null;
@@ -95,7 +79,7 @@ public class DifficultLevel implements ILevelStrategy{
         for(Point move : moves){
             for(Point corner : corners){
                 if(corner.equals(move)){
-                    int mval = evaluator.eval(BoardHelper.getNewBoardAfterMove(board,move,myMark),myMark);
+                    int mval = evaluator.eval(ReversiBoardHelper.getNewBoardAfterMove(board,move,myMark),myMark);
                     if(mval > bestValue) {
                         //update best corner
                         bestToPlay = move;
@@ -105,7 +89,6 @@ public class DifficultLevel implements ILevelStrategy{
             }
         }
         if(bestToPlay != null){
-            System.out.println("\033[1;30;34m KILLER MOVE : CORNER \033[0m\n");
             return bestToPlay;
         }
 
@@ -114,8 +97,8 @@ public class DifficultLevel implements ILevelStrategy{
 
         //Blocking Move Detection
         for(Point move : moves){
-            int[][] resBoard = BoardHelper.getNewBoardAfterMove(board,move,myMark);
-            if(BoardHelper.getAllPossibleMoves(resBoard,opMark).size() == 0){ //if opponent has no moves
+            int[][] resBoard = ReversiBoardHelper.getNewBoardAfterMove(board,move,myMark);
+            if(ReversiBoardHelper.getAllPossibleMoves(resBoard,opMark).size() == 0){ //if opponent has no moves
                 int mval = evaluator.eval(resBoard,myMark);
                 if(mval > bestValue) {
                     //update best corner
@@ -125,11 +108,8 @@ public class DifficultLevel implements ILevelStrategy{
             }
         }
         if(bestToPlay != null){
-            System.out.println("\033[1;30;34m KILLER MOVE : BLOCKING MOVE \033[0m\n");
             return bestToPlay;
         }
-
-        //Opening Moves (if fails then stop opening)
         if(isOpeningActive) {
             Point opmove = OB.getMoveFromOpeningBook(moveHistory);
             if (opmove != null) {
@@ -139,9 +119,6 @@ public class DifficultLevel implements ILevelStrategy{
             isOpeningActive = false;
             System.out.println("\033[1;30;44m OPENING DEACTIVATED \033[0m\n");
         }
-
-        //if no killer moves availiable do a minimax search
-        // return Minimax.solve(board,myMark,searchDepth,evaluator);
 
         return strategy.getMoveStrategy().solve(board,myMark,searchDepth,evaluator);
     }

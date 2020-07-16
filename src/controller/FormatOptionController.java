@@ -1,8 +1,6 @@
 package controller;
 
-import models.Screen;
 import ui.FormatOptionScreen;
-import ui.ScreenPanel;
 
 import java.awt.event.ActionEvent;
 

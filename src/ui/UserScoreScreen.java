@@ -1,17 +1,14 @@
 package ui;
 
-import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
 import models.Score;
 import services.dao.IScoreService;
 import services.dao.ScoreService;
 import ui.viewmodel.ScoreTableModel;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
 
 
 public class UserScoreScreen extends JPanel {

@@ -1,26 +1,26 @@
 package controller.builder;
 
 import game.GamePanel;
-import player.GamePlayer;
+import player.Player;
 import services.network.ConnectedUser;
 import services.network.Message;
 
 public class GamePanelBuilder {
     public static class Builder {
-        private GamePlayer playerOne;
-        private GamePlayer playerTwo;
+        private Player playerOne;
+        private Player playerTwo;
         private ConnectedUser connectedUser;
 
         public Builder() {
 
         }
 
-        public Builder setPlayerOne(GamePlayer playerOne) {
+        public Builder setPlayerOne(Player playerOne) {
             this.playerOne = playerOne;
             return this;
         }
 
-        public Builder setPlayerTwo(GamePlayer playerTwo) {
+        public Builder setPlayerTwo(Player playerTwo) {
             this.playerTwo = playerTwo;
             return this;
         }

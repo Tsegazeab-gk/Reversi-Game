@@ -1,12 +1,12 @@
-package logic;
+package logic.evaluatorfactory;
 
 import logic.StatePattern.Evaluator;
-import util.BoardHelper;
+import util.ReversiBoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-import static util.BoardHelper.getAllPossibleMoves;
+import static util.ReversiBoardHelper.getAllPossibleMoves;
 
 public class RealtimeEvaluator implements Evaluator {
 
@@ -16,7 +16,7 @@ public class RealtimeEvaluator implements Evaluator {
     public int eval(int[][] board , int player){
         int score = 0;
 
-        int[] weights = weightSetForDiscCount[BoardHelper.getTotalStoneCount(board)];
+        int[] weights = weightSetForDiscCount[ReversiBoardHelper.getTotalStoneCount(board)];
 
         if(weights[0] != 0) {
             score += weights[0] * mobility(board,player);
@@ -60,9 +60,6 @@ public class RealtimeEvaluator implements Evaluator {
                 weightSetForDiscCount[dc] = weightSet[0];
                 continue;
             }
-
-            // linearly interpolate between the set of weights given for the
-            // current number of moves and the previous set of weights
             double factor = ((double)dc - timingSet[w - 1]) / (timingSet[w] - timingSet[w - 1]);
             for(int i = 0; i < weightSet[w].length; i++) {
                 weightSetForDiscCount[dc][i] = (int)Math.rint(factor * weightSet[w][i] + (1 - factor) * weightSet[w - 1][i]);
@@ -73,8 +70,8 @@ public class RealtimeEvaluator implements Evaluator {
     public static int pieces(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
-        int mySC = BoardHelper.getPlayerStoneCount(board,player);
-        int opSC = BoardHelper.getPlayerStoneCount(board,oplayer);
+        int mySC = ReversiBoardHelper.getPlayerStoneCount(board,player);
+        int opSC = ReversiBoardHelper.getPlayerStoneCount(board,oplayer);
 
         return 100 * (mySC - opSC) / (mySC + opSC + 1);
     }
@@ -111,15 +108,15 @@ public class RealtimeEvaluator implements Evaluator {
         int myS = 0;
         int opS = 0;
 
-        if(board[0][0] == player) myS += BoardHelper.getStableDisks(board,player,0,0).size();
-        if(board[0][7] == player) myS += BoardHelper.getStableDisks(board,player,0,7).size();
-        if(board[7][0] == player) myS += BoardHelper.getStableDisks(board,player,7,0).size();
-        if(board[7][7] == player) myS += BoardHelper.getStableDisks(board,player,7,7).size();
+        if(board[0][0] == player) myS += ReversiBoardHelper.getStableDisks(board,player,0,0).size();
+        if(board[0][7] == player) myS += ReversiBoardHelper.getStableDisks(board,player,0,7).size();
+        if(board[7][0] == player) myS += ReversiBoardHelper.getStableDisks(board,player,7,0).size();
+        if(board[7][7] == player) myS += ReversiBoardHelper.getStableDisks(board,player,7,7).size();
 
-        if(board[0][0] == oplayer) opS += BoardHelper.getStableDisks(board,oplayer,0,0).size();
-        if(board[0][7] == oplayer) opS += BoardHelper.getStableDisks(board,oplayer,0,7).size();
-        if(board[7][0] == oplayer) opS += BoardHelper.getStableDisks(board,oplayer,7,0).size();
-        if(board[7][7] == oplayer) opS += BoardHelper.getStableDisks(board,oplayer,7,7).size();
+        if(board[0][0] == oplayer) opS += ReversiBoardHelper.getStableDisks(board,oplayer,0,0).size();
+        if(board[0][7] == oplayer) opS += ReversiBoardHelper.getStableDisks(board,oplayer,0,7).size();
+        if(board[7][0] == oplayer) opS += ReversiBoardHelper.getStableDisks(board,oplayer,7,0).size();
+        if(board[7][7] == oplayer) opS += ReversiBoardHelper.getStableDisks(board,oplayer,7,7).size();
 
         return 100 * (myS - opS) / (myS + opS + 1);
     }
@@ -136,14 +133,14 @@ public class RealtimeEvaluator implements Evaluator {
     public static int frontier(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
-        int myF = BoardHelper.getFrontierSquares(board,player).size();
-        int opF = BoardHelper.getFrontierSquares(board,oplayer).size();
+        int myF = ReversiBoardHelper.getFrontierSquares(board,player).size();
+        int opF = ReversiBoardHelper.getFrontierSquares(board,oplayer).size();
 
         return 100 * (myF - opF) / (myF + opF + 1);
     }
 
     public static int cornerGrab(int[][] board , int player){
-        ArrayList<Point> moves = BoardHelper.getAllPossibleMoves(board,player);
+        ArrayList<Point> moves = ReversiBoardHelper.getAllPossibleMoves(board,player);
 
         for(Point m : moves){
             //if player have corner move return 1

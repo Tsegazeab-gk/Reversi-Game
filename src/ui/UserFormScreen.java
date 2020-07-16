@@ -6,12 +6,9 @@ import ui.widgets.DefaultButton;
 import ui.widgets.RoundJTextField;
 import util.Utils;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JButton;
 
 public class UserFormScreen extends ScreenPanel {
     private JTextField textField;

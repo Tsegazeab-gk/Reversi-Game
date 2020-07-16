@@ -3,7 +3,7 @@ package util;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class BoardHelper {
+public class ReversiBoardHelper {
 
     public static boolean isGameFinished(int[][] board){
 
@@ -38,21 +38,15 @@ public class BoardHelper {
 
     public static int getWinner(int[][] board){
         if(!isGameFinished(board))
-            //game not finished
             return -1;
         else{
-            //count stones
             int p1s = getPlayerStoneCount(board,1);
             int p2s = getPlayerStoneCount(board,2);
-
             if(p1s == p2s){
-                //tie
                 return 0;
             }else if(p1s > p2s){
-                //p1 wins
                 return 1;
             }else{
-                //p2 wins
                 return 2;
             }
         }
@@ -314,7 +308,7 @@ public class BoardHelper {
         //place piece
         newboard[move.x][move.y] = player;
         //reverse pieces
-        ArrayList<Point> rev = BoardHelper.getReversePoints(newboard,player,move.x,move.y);
+        ArrayList<Point> rev = ReversiBoardHelper.getReversePoints(newboard,player,move.x,move.y);
         for(Point pt : rev){
             newboard[pt.x][pt.y] = player;
         }

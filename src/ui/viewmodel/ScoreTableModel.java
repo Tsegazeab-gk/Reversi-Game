@@ -1,12 +1,9 @@
 package ui.viewmodel;
 
-import java.util.List;
+import models.Score;
 
 import javax.swing.table.AbstractTableModel;
-
-import models.Score;
-import services.dao.IScoreService;
-import services.dao.ScoreService;
+import java.util.List;
 
 public class ScoreTableModel extends AbstractTableModel {
 

@@ -7,7 +7,6 @@ import util.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 public class GamePanel extends JPanel implements Observer {
 

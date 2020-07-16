@@ -1,9 +1,6 @@
 package logic.levels;
 
 
-
-import logic.StatePattern.Evaluator;
-
 import java.awt.*;
 
 public interface ILevelStrategy {

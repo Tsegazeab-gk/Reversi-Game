@@ -1,30 +1,26 @@
-package logic.factory;
+package logic.evaluatorfactory;
 
-import logic.RealtimeEvaluator;
-import logic.StatePattern.DynamicEvaluator;
+import logic.StatePattern.EarlyPhase;
 import logic.StatePattern.Evaluator;
 
+public class EvaluatorFactoryImpl  {
 
+    private static EvaluatorFactoryImpl factory=new EvaluatorFactoryImpl();
 
-public class EvaluatorFactoryImpl implements EvaluatorFactory{
-
-    private static EvaluatorFactory factory=new EvaluatorFactoryImpl();
-
-    public EvaluatorFactoryImpl() {
+    private EvaluatorFactoryImpl() {
     }
 
-    public static EvaluatorFactory getFactory() {
+    public static EvaluatorFactoryImpl getFactory() {
         return factory;
     }
 
-    @Override
-    public Evaluator createEvaluator(String name, int mark) {
+    public Evaluator createDynamicEvaluator( int mark) {
+  return new EarlyPhase.DynamicEvaluator();
+    }
 
+    public Evaluator createKillerEvaluator( int mark) {
         Evaluator evaluator=null;
 
-        if(name.equals("Dynamic")){
-            evaluator=new DynamicEvaluator();
-        }else if(name.equals("Killer")){
             if(mark==1) {
                 evaluator = new RealtimeEvaluator(new int[][] {
                         {8, 85, -40, 10, 210, 520},
@@ -52,7 +48,7 @@ public class EvaluatorFactoryImpl implements EvaluatorFactory{
                         {8, 500, 77, 0, 36, 299}},
                         new int[] {0, 55, 56, 57, 58, 59, 60, 61, 62, 63});
             }
-        }
+
         return evaluator;
     }
 }

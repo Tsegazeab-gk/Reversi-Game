@@ -6,8 +6,7 @@ import models.Screen;
 import ui.widgets.DefaultButton;
 import util.Utils;
 
-import javax.swing.JPanel;
-import javax.swing.JButton;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
