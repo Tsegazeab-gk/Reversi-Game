@@ -22,7 +22,7 @@ public class MinimaxAlgorithm implements IMoveStrategy{
                 bestMove = move;
             }
         }
-        System.out.println("Nodes Explored : " + nodesExplored);
+
         return bestMove;
     }
 
@@ -66,7 +66,7 @@ public class MinimaxAlgorithm implements IMoveStrategy{
                 if(childScore < score) score = childScore;
                 //update beta
                 if(score < beta) beta = score;
-                if(beta <= alpha) break; //Alpha Cutoff
+                if(beta <= alpha) break;
             }
         }
         return score;

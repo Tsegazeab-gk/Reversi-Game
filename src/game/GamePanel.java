@@ -176,7 +176,7 @@ public class GamePanel extends JPanel implements Observer {
         gbc_btnNewButton.gridx = 2;
         gbc_btnNewButton.gridy = 1;
         bottomPanel.add(btnNewButton, gbc_btnNewButton);
-
+/*
         JButton btnNewButton_1 = new DefaultButton("Pause");
         GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
         gbc_btnNewButton_1.insets = new Insets(0, 0, 5, 0);
@@ -190,7 +190,7 @@ public class GamePanel extends JPanel implements Observer {
         gbc_btnNewButton_2.gridx = 10;
         gbc_btnNewButton_2.gridy = 1;
         bottomPanel.add(btnNewButton_2, gbc_btnNewButton_2);
-
+*/
         reversiBoard = new JPanel();
         reversiBoard.setLayout(new GridLayout(8, 8));
         reversiBoard.setBackground(new Color(41, 100, 59));
